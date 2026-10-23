@@ -7,7 +7,7 @@ FinSuraksha is a financial-security awareness website for **students, first-time
 | **Suraksha-Dost** (AI scam-check chatbot, on the website, no WhatsApp needed) | Paste a tip, link, UPI ID or SEBI number, drop a screenshot or QR code, or speak. You get a risk score, each red flag explained in plain words, SEBI-register / @valid-UPI / link / community checks, the next steps to take, and a ~15-second spoken summary. With AI mode on it replies in 10 Indian languages. |
 | **FinScam Hunter** (crowd-sourced takedown portal) | Members report dabba-trading apps, illegal F&O tip groups, unregistered finfluencers and fake trading apps. An automated check looks for a disclosed SEBI registration number and for fixed or guaranteed return promises. Three matching community votes verify a report and put it on the public Alert Wall. Members earn points, badges, a college leaderboard rank and a verifiable volunteer certificate. |
 
-Also included: **Quick Check** (one search box, a payment-QR scanner and a ScamSmart-style "opportunity or trap?" questionnaire), **Learn** (10 scam guides and a Spot-the-Scam quiz), **Get Help** (a 1930 emergency card, a recovery checklist, a complaint-draft builder and official channels), **sign-up and login**, a profile page with privacy controls, and an English/Hindi interface with text-size, dark-mode and high-contrast options.
+Also included: **Quick Check** (one search box, a payment-QR scanner and a ScamSmart-style "opportunity or trap?" questionnaire), **Learn** (10 scam guides and **Spot the Scam**, a phone-simulator game: swipe each real-style WhatsApp, SMS, UPI, call or ad message as scam or safe, then tap the hidden red flags for bonus points; Relaxed mode has no timer, Challenge mode has a timer, lives and combos), **Get Help** (a 1930 emergency card, a recovery checklist, a complaint-draft builder and official channels), **sign-up and login**, a profile page with privacy controls, and an English/Hindi interface with text-size, dark-mode and high-contrast options.
 
 ---
 
@@ -15,18 +15,26 @@ Also included: **Quick Check** (one search box, a payment-QR scanner and a ScamS
 
 Requires **Node.js 18.18 or newer** (tested on Node 22).
 
+**Windows:** double-click **`run.bat`**. It installs dependencies on the first run, starts the server and opens the browser. If FinSuraksha is already running, it just opens the browser.
+
+**Any OS:**
+
 ```bash
 cd finsuraksha
 npm install
 npm start
 ```
 
-Open **http://localhost:3000**.
+Open **http://localhost:3000**. The console also prints a "same Wi-Fi" address that other devices on your network can open.
+
+**Keep the server window open** while you use the site. Closing it stops FinSuraksha. If that happens, the page shows a "Server not reachable" banner and reconnects by itself once you start it again.
+
+**Accounts:** anyone can create an account on the **Sign up** tab (18+, with consent), then **sign in** with that email and password. Accounts are stored on the computer running the server (`data/db.json`).
 
 On the first run the console prints a **moderator login**, which is also saved to `data/FIRST_RUN_CREDENTIALS.txt`. Sample hunters and reports are loaded so the Alert Wall, leaderboard and charts aren't empty. The UI labels all of them **"Sample"**. To start with an empty site, set `SEED_DEMO=false` before the first run, or delete the `data/` folder.
 
 ```bash
-npm test     # 17 automated tests: API, security, analyzer accuracy, AI request format
+npm test     # 20 automated tests: API, security, analyzer accuracy, AI request format, game content
 ```
 
 ### Do I need any API keys?
@@ -121,6 +129,7 @@ src/sebi.js            SEBI numbers + @valid UPI      src/redact.js     PII mask
 src/routes/*.js        auth, dost, check, hunt, me, public
 src/db.js              JSON-file store (swap for SQLite/Postgres in production)
 public/                single-page app (vanilla JS modules, no build step)
+public/js/quiz-*.js    Spot the Scam game + its 18-message bilingual question bank
 seed/sebi_register_snapshot.json   50 real SEBI entries (IA + RA, first page of each list, 22 Oct 2026)
 scripts/               build-sebi-snapshot.mjs, import-register.mjs
 test/                  node:test suites
@@ -129,7 +138,7 @@ test/                  node:test suites
 ## Known limits and next steps
 
 - **SEBI register**: SEBI's website blocks automated queries, so we don't scrape it. The bundled snapshot is partial, and the UI says so and links to SEBI's official search. `npm run import-register -- file.csv` merges a CSV you are allowed to use. A production version needs an official data feed (SEBI/CDSL).
-- **Storage**: a JSON file is fine for a prototype on one server. Move to Postgres for production.
+- **Storage**: a JSON file is fine for a prototype on one server. Each computer that runs FinSuraksha has its own accounts and reports. To share one set of accounts across devices, deploy one server (or move to Postgres, e.g. Supabase) and have everyone open that address.
 - **Not built yet**: email verification on sign-up, moderator tooling beyond verify/reject/appeals, and platform takedown APIs. The site gives copy-ready escalation text instead.
 - **Device dependencies**: OCR needs an internet connection the first time, to download tesseract.js and language data from jsDelivr. Spoken replies need a voice for the language on the device.
 - **Accuracy**: rule-based checks can miss scams or flag genuine messages. The UI always says "shows signs of" and links to official verification.

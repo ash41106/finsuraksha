@@ -39,13 +39,12 @@ export async function createApp(overrides = {}) {
   app.use("/api", (_req, res) => res.status(404).json({ error: "Not found." }));
 
   const pub = path.join(cfg.root, "public");
+  // no-cache = the browser re-checks each file (cheap 304s), so an updated
+  // page or script shows up right away instead of after an hour.
   app.use(
     express.static(pub, {
       index: "index.html",
-      maxAge: "1h",
-      setHeaders: (res, file) => {
-        if (file.endsWith(".html")) res.setHeader("Cache-Control", "no-cache");
-      },
+      setHeaders: (res) => res.setHeader("Cache-Control", "no-cache"),
     }),
   );
   // SPA fallback (hash routing makes this rare, but keep deep links working).

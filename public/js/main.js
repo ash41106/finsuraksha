@@ -1,7 +1,7 @@
 import { state, loadPrefs, savePrefs, applyPrefs, emit, go } from "./state.js";
-import { api } from "./api.js";
+import { api, networkMessage } from "./api.js";
 import { t } from "./i18n.js";
-import { html, mount, icon, $, $$, initials, toast } from "./ui.js";
+import { html, mount, icon, $, $$, el, initials, toast } from "./ui.js";
 
 const routes = {
   "": () => import("./pages/home.js"),
@@ -189,6 +189,49 @@ async function navigate() {
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   if (document.activeElement === document.body || document.activeElement?.closest?.("#site-header") === null) app.focus({ preventScroll: true });
 }
+
+// ---- Connection banner: shown when the server can't be reached, polls
+// /api/health and disappears (with a toast) as soon as it answers again.
+let netTimer = null;
+function showNetBanner() {
+  let bar = $("#net-banner");
+  if (!bar) {
+    bar = el(html`<div class="net-banner" id="net-banner" role="alert">
+      <span class="nb-ico">${icon("alert")}</span>
+      <div class="nb-text"><b>${t("net.bannerTitle")}</b><span id="net-msg"></span></div>
+      <button class="btn btn-sm btn-light" type="button" id="net-retry">${icon("refresh")}${t("net.retry")}</button></div>`);
+    document.body.appendChild(bar);
+    bar.querySelector("#net-retry").addEventListener("click", () => checkServer(true));
+  }
+  $("#net-msg").textContent = networkMessage();
+  if (!netTimer) netTimer = setInterval(checkServer, 4000);
+}
+async function checkServer(manual = false) {
+  try {
+    const r = await fetch("/api/health", { cache: "no-store" });
+    if (!r.ok) throw new Error(String(r.status));
+  } catch {
+    if ($("#net-banner")) $("#net-msg").textContent = networkMessage();
+    if (manual) toast(t("net.stillDown"), "err");
+    return;
+  }
+  if (!$("#net-banner")) return;
+  $("#net-banner").remove();
+  clearInterval(netTimer);
+  netTimer = null;
+  toast(t("net.back"));
+  // The server may have restarted: refresh config and who is signed in.
+  try {
+    const [cfg, me] = await Promise.all([api.get("/api/config"), api.get("/api/auth/me")]);
+    state.config = cfg;
+    state.user = me.user;
+    renderHeader();
+  } catch {
+    /* banner comes back on the next failed request */
+  }
+}
+document.addEventListener("fs:net-down", showNetBanner);
+window.addEventListener("online", () => checkServer());
 
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".menu")) {

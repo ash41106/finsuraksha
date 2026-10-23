@@ -49,8 +49,8 @@ export function authRoutes({ store, cfg, limit }) {
       };
       store.data.users.push(user);
       store.save();
-      setSessionCookie(res, createSession(store, user.id), cfg);
-      res.status(201).json({ user: publicUser(user) });
+      // Sign-up only creates the account; the person then signs in with it.
+      res.status(201).json({ created: true, user: publicUser(user) });
     }),
   );
 

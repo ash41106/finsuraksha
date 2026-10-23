@@ -54,8 +54,11 @@ const signupBody = (n, extra = {}) => ({ name: `Tester ${n}`, email: `t${n}@test
 
 async function newUser(n, extra) {
   const c = client();
-  const r = await c.post("/api/auth/signup", signupBody(n, extra));
+  const body = signupBody(n, extra);
+  const r = await c.post("/api/auth/signup", body);
   assert.equal(r.status, 201, JSON.stringify(r.body));
+  const login = await c.post("/api/auth/login", { email: body.email, password: body.password });
+  assert.equal(login.status, 200, JSON.stringify(login.body));
   return c;
 }
 
@@ -78,7 +81,7 @@ test("CSRF guard rejects cross-origin and non-JSON writes", async () => {
   assert.equal(r2.status, 415);
 });
 
-test("signup validation, session cookie, login and lockout", async () => {
+test("signup validation, then sign in, session cookie and lockout", async () => {
   const c = client();
   assert.equal((await c.post("/api/auth/signup", signupBody(1, { ageOk: false }))).status, 400);
   assert.equal((await c.post("/api/auth/signup", signupBody(1, { consent: false }))).status, 400);
@@ -86,10 +89,14 @@ test("signup validation, session cookie, login and lockout", async () => {
   assert.equal((await c.post("/api/auth/signup", signupBody(1, { name: "<script>" }))).status, 400);
   const ok = await c.post("/api/auth/signup", signupBody(1));
   assert.equal(ok.status, 201);
+  assert.equal(ok.body.created, true);
+  assert.equal(ok.body.user.passHash, undefined, "password hash must never be sent");
+  assert.equal(c.cookie, "", "sign-up does not sign in - the person signs in next");
+  assert.equal((await c.get("/api/auth/me")).body.user, null);
+  assert.equal((await c.post("/api/auth/login", { email: "T1@test.local", password: "Passw0rd!" })).status, 200, "email is case-insensitive");
   assert.ok(c.cookie.startsWith("fs_sid="));
   const rawToken = c.cookie.replace("fs_sid=", "");
   assert.ok(rawToken.length > 20);
-  assert.equal(ok.body.user.passHash, undefined, "password hash must never be sent");
   assert.equal((await c.get("/api/auth/me")).body.user.email, "t1@test.local");
   assert.equal((await c.post("/api/auth/signup", signupBody(1))).status, 409);
 
@@ -257,6 +264,7 @@ test("FinScam Hunter: report, dedupe, community verification, points, badges", a
 test("moderation, certificate, export and account deletion", async () => {
   const mod = client();
   assert.equal((await mod.post("/api/auth/signup", signupBody(20, { email: "mod@test.local" }))).body.user.isModerator, true);
+  assert.equal((await mod.post("/api/auth/login", { email: "mod@test.local", password: "Passw0rd!" })).status, 200);
   const user = await newUser(21);
   const rep = await user.post("/api/hunt/reports", {
     category: "dabba",

@@ -13,6 +13,9 @@ function isoWeekStart(d) {
 export function publicRoutes({ store, cfg, ai }) {
   const r = express.Router();
 
+  // Lightweight liveness check used by the page's reconnect banner and run.bat.
+  r.get("/health", (_req, res) => res.json({ ok: true, app: "finsuraksha" }));
+
   r.get("/config", (_req, res) => {
     res.json({
       brand: "FinSuraksha",

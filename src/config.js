@@ -26,7 +26,8 @@ const bool = (v, d = false) => (v === undefined || v === "" ? d : /^(1|true|yes|
 export function buildConfig(overrides = {}) {
   const cfg = {
     root: ROOT,
-    host: env.HOST || "0.0.0.0",
+    // Unset = all interfaces, IPv4 and IPv6 (so "localhost" answers either way).
+    host: env.HOST || undefined,
     port: Number(env.PORT) || 3000,
     dataDir: env.DATA_DIR ? path.resolve(env.DATA_DIR) : path.join(ROOT, "data"),
     // AI mode (Groq) is on when GROQ_API_KEY is set. App settings use an FS_

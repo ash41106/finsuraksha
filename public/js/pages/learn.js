@@ -1,8 +1,9 @@
 import { state, emit } from "../state.js";
 import { api } from "../api.js";
 import { t, L } from "../i18n.js";
-import { html, mount, icon, $, $$, modal, el, toast } from "../ui.js";
-import { MODULES, QUIZ } from "../content.js";
+import { html, mount, icon, $, modal, el, toast } from "../ui.js";
+import { MODULES } from "../content.js";
+import { mountQuiz } from "../quiz-game.js";
 
 export async function render(root) {
   let learned = new Set();
@@ -25,7 +26,7 @@ export async function render(root) {
     <section class="container">
       <div class="grid grid-4" id="mods"></div>
     </section>
-    <section class="section tight" id="quiz"><div class="container"><div class="card pad-lg quiz-card" id="quiz-card"></div></div></section>`,
+    <section class="section tight" id="quiz"><div class="container"><div class="qg-card" id="quiz-card"></div></div></section>`,
   );
 
   const mods = $("#mods", root);
@@ -38,10 +39,9 @@ export async function render(root) {
     );
   drawMods();
 
-  mods.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-mod]");
-    if (!b) return;
-    const m = MODULES.find((x) => x.id === b.dataset.mod);
+  const openModule = (id) => {
+    const m = MODULES.find((x) => x.id === id);
+    if (!m) return;
     const body = el(html`<div class="stack lg prose">
       <p class="lead" style="margin:0">${L(m.blurb)}</p>
       <div><h3>${icon("refresh")} ${t("learn.how")}</h3><ol>${L(m.how).map((s) => html`<li>${s}</li>`)}</ol></div>
@@ -67,84 +67,17 @@ export async function render(root) {
       drawMods();
       dlg.close();
     });
+  };
+  mods.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-mod]");
+    if (b) openModule(b.dataset.mod);
   });
 
-  // ---- Quiz ----
-  const card = $("#quiz-card", root);
-  let order = [];
-  let idx = 0;
-  let score = 0;
-  const intro = () =>
-    mount(card, html`<div class="center"><div style="font-size:2.6rem">🕵️</div><h2 class="h-section" style="font-size:2rem;margin:8px 0">${t("learn.quizTitle")}</h2><p class="muted">${t("learn.quizText")}</p><button class="btn btn-primary btn-lg" id="q-start">${t("learn.quizStart")}</button></div>`);
-  const start = () => {
-    order = [...QUIZ].sort(() => Math.random() - 0.5);
-    idx = 0;
-    score = 0;
-    ask();
-  };
-  const ask = () => {
-    const q = order[idx];
-    mount(
-      card,
-      html`<div class="row between"><b>${t("learn.quizTitle")}</b><span class="small muted">${idx + 1}/${order.length}</span></div>
-      <div class="q-progress" style="margin:10px 0">${order.map((_, k) => html`<i class="${k < idx ? "done" : k === idx ? "cur" : ""}"></i>`)}</div>
-      <div class="quiz-msg"><div class="from">${t("learn.from")}: ${L(q.from)}</div>${L(q.msg)}</div>
-      <div class="quiz-opts"><button class="btn btn-outline" data-ans="scam">${t("learn.scam")}</button><button class="btn btn-outline" data-ans="safe">${t("learn.safe")}</button></div>
-      <div id="q-feedback" aria-live="polite"></div>`,
-    );
-    $$("[data-ans]", card).forEach((b) =>
-      b.addEventListener("click", () => {
-        const pickedScam = b.dataset.ans === "scam";
-        const right = pickedScam === q.scam;
-        if (right) score += 1;
-        $$("[data-ans]", card).forEach((x) => {
-          x.disabled = true;
-          if ((x.dataset.ans === "scam") === q.scam) x.classList.add("correct");
-          else if (x === b) x.classList.add("wrong");
-        });
-        mount(
-          $("#q-feedback", card),
-          html`<div class="${right ? "form-ok" : "form-error"}" style="margin-top:14px"><b>${right ? t("learn.correct") : t("learn.wrong")}</b> ${L(q.why)}</div>
-          <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-primary" id="q-next">${idx + 1 < order.length ? t("learn.next") : t("learn.finish")} ${icon("arrowRight")}</button></div>`,
-        );
-        $("#q-next", card).addEventListener("click", () => {
-          idx += 1;
-          if (idx < order.length) ask();
-          else finish();
-        });
-        $("#q-next", card).focus();
-      }),
-    );
-  };
-  const finish = async () => {
-    let extra = "";
-    if (state.user) {
-      try {
-        const out = await api.post("/api/me/quiz", { score, total: order.length });
-        state.user.points = out.points;
-        emit("fs:auth");
-        if (out.gained) extra = t("learn.earned", { n: out.gained });
-        if (out.badges?.length) toast(`🏅 ${out.badges.join(", ")}`);
-      } catch {
-        /* points are a bonus */
-      }
-    }
-    mount(
-      card,
-      html`<div class="center"><div style="font-size:2.6rem">${score === order.length ? "🏆" : score >= order.length * 0.7 ? "🎉" : "💪"}</div>
-      <h2 class="h-section" style="font-size:2rem;margin:8px 0">${t("learn.score", { s: score, t: order.length })}</h2>
-      ${extra ? html`<p class="chip brand">${extra}</p>` : ""}
-      ${!state.user ? html`<p class="small muted">${t("common.signinText")}</p>` : ""}
-      <div class="row" style="justify-content:center"><button class="btn btn-primary" id="q-again">${t("learn.again")}</button><a class="btn btn-outline" href="#/dost">${t("nav.dost")}</a></div></div>`,
-    );
-    $("#q-again", card).addEventListener("click", start);
-  };
-  card.addEventListener("click", (e) => {
-    if (e.target.closest("#q-start")) start();
-  });
-  intro();
+  // ---- Spot the Scam game ----
+  const cleanupQuiz = mountQuiz($("#quiz-card", root), { openModule });
   $("#jump-quiz", root).addEventListener("click", (e) => {
     e.preventDefault();
     $("#quiz", root).scrollIntoView({ behavior: "smooth" });
   });
+  return cleanupQuiz;
 }

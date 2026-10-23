@@ -16,6 +16,7 @@ function strength(pw) {
 export async function render(root, { query }) {
   const next = query.get("next") || "me";
   let mode = query.get("mode") === "signup" ? "signup" : "login";
+  let created = null; // { email } right after a successful sign-up
   if (state.user) {
     go(next);
     return;
@@ -41,6 +42,7 @@ export async function render(root, { query }) {
               <button role="tab" aria-selected="${mode === "signup"}" data-mode="signup">${t("auth.tabSignup")}</button>
             </div>
             <h1>${mode === "login" ? t("auth.welcome") : t("auth.create")}</h1>
+            ${created && mode === "login" ? html`<div class="form-ok auth-created" role="status">${icon("check")}<span><b>${t("auth.createdTitle")}</b> ${t("auth.created")}</span></div>` : ""}
             <form class="stack lg" id="auth-form" novalidate>
               ${mode === "signup"
                 ? html`<div class="field"><label for="a-name">${t("auth.name")}</label><input class="input" id="a-name" autocomplete="nickname" required minlength="2" maxlength="40" /><span class="hint">${t("auth.nameHint")}</span></div>`
@@ -61,6 +63,7 @@ export async function render(root, { query }) {
                 : ""}
               <div id="a-msg" role="alert"></div>
               <button class="btn btn-primary btn-lg btn-block" type="submit" id="a-submit">${mode === "login" ? t("auth.loginBtn") : t("auth.signupBtn")}</button>
+              <p class="auth-switch small">${mode === "login" ? t("auth.noAccount") : t("auth.haveAccount")} <button type="button" class="link-btn" data-mode="${mode === "login" ? "signup" : "login"}">${mode === "login" ? t("auth.createLink") : t("auth.tabLogin")}</button></p>
               <a class="btn btn-ghost btn-block" href="#/dost">${t("auth.guest")} ${icon("arrowRight")}</a>
             </form>
           </div>
@@ -71,6 +74,7 @@ export async function render(root, { query }) {
     $$("[data-mode]", root).forEach((b) =>
       b.addEventListener("click", () => {
         mode = b.dataset.mode;
+        created = null;
         draw();
       }),
     );
@@ -88,7 +92,10 @@ export async function render(root, { query }) {
         $("#pw-hint", root).textContent = e.target.value ? t("auth.strength")[s] : t("auth.pwHint");
       });
     }
-    $("#a-email", root).focus();
+    if (created && mode === "login") {
+      $("#a-email", root).value = created.email;
+      $("#a-pw", root).focus();
+    } else $("#a-email", root).focus();
 
     $("#auth-form", root).addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -98,10 +105,9 @@ export async function render(root, { query }) {
       mount(msg, "");
       try {
         const body = { email: $("#a-email", root).value.trim(), password: $("#a-pw", root).value };
-        let out;
-        if (mode === "login") out = await api.post("/api/auth/login", body);
-        else {
-          out = await api.post("/api/auth/signup", {
+        if (mode === "signup") {
+          // Create the account, then the person signs in with it.
+          await api.post("/api/auth/signup", {
             ...body,
             name: $("#a-name", root).value.trim(),
             role: $("#a-role", root).value,
@@ -110,7 +116,12 @@ export async function render(root, { query }) {
             consent: $("#a-consent", root).checked,
             leaderboard: $("#a-board", root).checked,
           });
+          created = { email: body.email };
+          mode = "login";
+          draw();
+          return;
         }
+        const out = await api.post("/api/auth/login", body);
         state.user = out.user;
         emit("fs:auth");
         toast(state.lang === "hi" ? `स्वागत है, ${out.user.name}!` : `Welcome, ${out.user.name}!`);
