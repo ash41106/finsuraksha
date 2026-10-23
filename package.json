@@ -1,0 +1,20 @@
+{
+  "name": "finsuraksha",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FinSuraksha - investor safety hub: Suraksha-Dost scam-check assistant + FinScam Hunter community reporting portal",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "import-register": "node scripts/import-register.mjs"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "dependencies": {
+    "express": "^4.22.3"
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "source": "SEBI - Recognised intermediaries (public list, first page of each category)",
+  "sourceUrls": [
+    "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=13",
+    "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=14"
+  ],
+  "asOf": "Oct 22, 2026",
+  "partial": true,
+  "note": "Partial snapshot for demonstration. A number missing here is NOT proof of a fake - always confirm on sebi.gov.in.",
+  "entries": [
+    {
+      "regNo": "INA000000888",
+      "name": "360 ONE Investment Adviser and Trustee Services Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003957",
+      "name": "ACUITAS CAPITAL ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000006703",
+      "name": "Abhijit Talukdar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015729",
+      "name": "Abakkus Asset Manager Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015774",
+      "name": "Accelpru Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016454",
+      "name": "Aarti Mohan (Proprietor : Aurion Advisors)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017231",
+      "name": "21G INVESTMENT ADVISERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017523",
+      "name": "1 Finance Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017718",
+      "name": "ACME INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018258",
+      "name": "Abhishek Goel proprietor Primedin Investment Adviser",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019442",
+      "name": "Abhishek Phore - Proprietor Control Wealth Advisers",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019594",
+      "name": "Abraham Cherian Proprietor 360 wealth advice",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020794",
+      "name": "3Q FINANCIAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022002",
+      "name": "ABHISHEK GUPTA Proprietor Qligence Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022358",
+      "name": "ACUITY INSIGHTS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022419",
+      "name": "A58 KNOWLEDGE SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023065",
+      "name": "ABHINAV KHATTAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023232",
+      "name": "A AND A Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023348",
+      "name": "Aastha Rathore Proprietor of Sky Line Capital Research",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100005050",
+      "name": "AAUM INVESTMENT ADVISERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100008045",
+      "name": "ABHISHEK KUMAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200000365",
+      "name": "29K INVESTMENT ADVISERS PRIVATE LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200000910",
+      "name": "ABUBAKR SIDDIQUE. A.G.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200008291",
+      "name": "90-10 Financial Planners Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INAIFSC10001",
+      "name": "Aavishkaar Investment Advisers IFSC Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INH000006369",
+      "name": "ABANS BROKING SERVICES PRIVATE LIMITED",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000011431",
+      "name": "360 ONE Distribution Services Limited",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000013174",
+      "name": "Aashish",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000013244",
+      "name": "Abdullah Zaman",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000013457",
+      "name": "AAKANKSHA GUPTA",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000013642",
+      "name": "Aakash Rathore Proprietor of Kuber Alpha Research",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000015312",
+      "name": "Aakash Ashok Jajoo",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000015419",
+      "name": "A&Y MARKET RESEARCH",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000018443",
+      "name": "Abhijeet Ranganathan Ramachandran",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000018832",
+      "name": "Aarohi Palak Shah",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000020004",
+      "name": "5 CIRCLES PRIVATE LIMITED",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000021678",
+      "name": "Aastha Fintech Private Limited",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000022172",
+      "name": "Aaritya Broking Private Limited",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000023533",
+      "name": "Aashish bansal",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000023913",
+      "name": "A C Agarwal Share Brokers Private Limited",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000025188",
+      "name": "5paisa Capital Limited",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000025692",
+      "name": "A K EQUITIES PRIVATE LIMITED",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000026372",
+      "name": "AAKANKSHA PRASHANT THAKKAR Proprietor of PORTFOLIO MANTRA",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000027229",
+      "name": "Aayush Deepak Badade",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000028459",
+      "name": "Abhay Kumar Sharma Proprietor of Wealth Grow Research",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000029722",
+      "name": "72 STREET RA PRIVATE LIMITED",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH000030056",
+      "name": "Aakash Abhigyanam Rathore Proprietor of Capital Scope Research",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH200009193",
+      "name": "AAA PROFIT ANALYTICS PRIVATE LIMITED",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH300000211",
+      "name": "360 ONE Capital Market Private Limited",
+      "type": "Research Analyst"
+    },
+    {
+      "regNo": "INH300008465",
+      "name": "Abhay Kumar",
+      "type": "Research Analyst"
+    }
+  ]
+}
