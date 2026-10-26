@@ -61,6 +61,7 @@ export async function render(root, { query }) {
                   <label class="check"><input type="checkbox" id="a-consent" /> <span>${t("auth.consent")} <a href="#/privacy" target="_blank">${t("footer.privacy")}</a></span></label>
                   <label class="check"><input type="checkbox" id="a-board" checked /> <span>${t("auth.board")}</span></label>`
                 : ""}
+              ${mode === "login" ? html`<details class="forgot small"><summary>${t("auth.forgot")}</summary><p class="muted">${t("auth.forgotText")}</p></details>` : ""}
               <div id="a-msg" role="alert"></div>
               <button class="btn btn-primary btn-lg btn-block" type="submit" id="a-submit">${mode === "login" ? t("auth.loginBtn") : t("auth.signupBtn")}</button>
               <p class="auth-switch small">${mode === "login" ? t("auth.noAccount") : t("auth.haveAccount")} <button type="button" class="link-btn" data-mode="${mode === "login" ? "signup" : "login"}">${mode === "login" ? t("auth.createLink") : t("auth.tabLogin")}</button></p>

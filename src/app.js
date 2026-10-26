@@ -6,6 +6,7 @@ import { securityHeaders, apiGuard, createRateLimiter } from "./security.js";
 import { attachUser, pruneSessions } from "./auth.js";
 import { createAi } from "./ai.js";
 import { seedIfEmpty } from "./seed.js";
+import { setRegisterExtras } from "./sebi.js";
 import { authRoutes } from "./routes/auth.js";
 import { dostRoutes } from "./routes/dost.js";
 import { checkRoutes } from "./routes/check.js";
@@ -18,6 +19,7 @@ export async function createApp(overrides = {}) {
   const store = createStore(cfg.dataDir);
   const seeded = cfg.seedDemo ? await seedIfEmpty(store, cfg) : null;
   pruneSessions(store);
+  setRegisterExtras(store.data.registerAdditions);
   const ai = createAi(cfg, { fetch: overrides.aiFetch });
   const limit = createRateLimiter(cfg);
   const ctx = { store, cfg, ai, limit };

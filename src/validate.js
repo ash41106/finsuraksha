@@ -41,4 +41,13 @@ export function parseImage(dataUrl, maxBytes = 2_500_000) {
   return { ext: m[1] === "jpeg" ? "jpg" : m[1], mediaType: `image/${m[1]}`, buffer: buf, data: m[2] };
 }
 
+// 8-128 characters with at least one letter and one digit (any script).
+export function checkPassword(value, field = "Password") {
+  const pw = typeof value === "string" ? value : "";
+  if (pw.length < 8 || pw.length > 128 || !/\p{L}/u.test(pw) || !/\p{Nd}/u.test(pw)) {
+    throw new HttpError(400, `${field} needs 8+ characters with at least one letter and one number.`);
+  }
+  return pw;
+}
+
 export const asyncRoute = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);

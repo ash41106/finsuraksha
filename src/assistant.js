@@ -3,7 +3,7 @@
 import { analyzeMessage } from "./analyzer.js";
 import { redact } from "./redact.js";
 import { describeAiError } from "./ai.js";
-import { ACTIONS, FLAG_ACTIONS, VERDICT_TEXT, AUDIO_TEXT, FAQ, GENERAL_TIPS, LANGS } from "./knowledge.js";
+import { ACTIONS, FLAG_ACTIONS, VERIFIED_TEXT, VERDICT_TEXT, AUDIO_TEXT, FAQ, GENERAL_TIPS, LANGS } from "./knowledge.js";
 
 const SUPPORT_RE =
   /\b(?:i|we|my\s+\w+|maine|mere|humne)\b[^.?!]{0,50}\b(?:lost|been\s+scammed|got\s+scammed|was\s+scammed|cheated|duped|defrauded|paid|transferred|sent\s+(?:money|rs|₹))\b|\b(?:scammed|cheated|duped|defrauded)\b|ठगी\s*हो|धोखा\s*हो|पैसे\s*(?:चले|गए|डूब)|fraud\s+(?:ho\s+gaya|hua|happened\s+with)|shared\s+(?:my\s+)?otp|otp\s+(?:de\s+diya|bata\s+diya)/i;
@@ -29,6 +29,28 @@ function pickFaq(text, L) {
   return hit ? hit[L] : GENERAL_TIPS[L];
 }
 
+// "Verify on SEBI's site / SEBI Check" style steps. FinSuraksha does that check
+// itself, so such steps are replaced by the verified result.
+const SELF_VERIFY_RE = /\b(?:verify|check|confirm|search|look\s+up|match)\b[^.]*(?:\bsebi\b|intermediary|@valid|\bin[ah]\b)|(?:जाँच|पुष्टि|मिला)[^।]*(?:sebi|सेबी|@valid)|(?:sebi|सेबी)[^।]*(?:जाँच|पुष्टि)/i;
+
+function verifiedLines(analysis, L) {
+  const out = [];
+  for (const s of analysis.checks.sebi.filter((x) => x.verified)) {
+    out.push(VERIFIED_TEXT.sebi[L].replace("{x}", s.normalized).replace("{y}", s.name).replace("{z}", L === "hi" ? s.typeHi : s.type));
+  }
+  for (const u of analysis.checks.upi.filter((x) => x.verified)) {
+    const what = [u.category, u.bank].filter(Boolean).join(", ");
+    out.push(VERIFIED_TEXT.upi[L].replace("{x}", u.vpa).replace("{y}", what || "registered intermediary"));
+  }
+  return out;
+}
+
+export function withVerified(actions, analysis, L) {
+  const verified = verifiedLines(analysis, L);
+  if (!verified.length) return actions;
+  return [...verified, ...actions.filter((a) => !SELF_VERIFY_RE.test(a))].slice(0, 5);
+}
+
 function actionsFor(analysis, mode, L) {
   const ids = [];
   const push = (id) => !ids.includes(id) && ids.push(id);
@@ -45,7 +67,8 @@ function actionsFor(analysis, mode, L) {
     push("verify_first");
     for (const f of analysis.flags) for (const a of FLAG_ACTIONS[f.id] || []) push(a);
   }
-  return ids.slice(0, 5).map((id) => ACTIONS[id][L]);
+  const list = ids.slice(0, 5).map((id) => ACTIONS[id][L]);
+  return mode === "check" ? withVerified(list, analysis, L) : list;
 }
 
 function ruleBasedReply(analysis, mode, text, L) {
@@ -167,7 +190,7 @@ export async function runAssistant({ message, history, lang, image, store, cfg, 
           headline: r.headline || base.headline,
           reply: r.reply || base.reply,
           flags: mode === "check" ? (r.red_flags || []).slice(0, 5).map((f, i) => ({ id: `ai_${i}`, sev: i === 0 && level === "high" ? "high" : "medium", title: f.title, why: f.why })) : [],
-          actions: (r.actions || []).slice(0, 5),
+          actions: mode === "check" ? withVerified((r.actions || []).slice(0, 5), analysis, L) : (r.actions || []).slice(0, 5),
           audio: r.audio_summary || "",
           replyLang: uiLang,
           note: undefined,

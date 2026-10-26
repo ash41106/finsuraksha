@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { analyzeMessage, analyzeLink } from "../src/analyzer.js";
 import { redact } from "../src/redact.js";
 import { validateRegNo, analyzeUpi } from "../src/sebi.js";
+import { runAssistant, withVerified } from "../src/assistant.js";
 
 const level = async (text, lang = "en") => (await analyzeMessage(text, { lang })).level;
 
@@ -61,4 +62,95 @@ test("PII redaction keeps the useful part", () => {
   assert.match(text, /\[upi\]@ybl/);
   assert.match(text, /OTP is \[code\]/);
   assert.ok(counts.phone >= 1 && counts.email === 1 && counts.otp === 1 && counts.pan === 1);
+});
+
+// What students, first-time investors and senior citizens actually paste or ask.
+test("everyday scams in English, Hinglish and Hindi are high risk", async () => {
+  const cases = [
+    "Sir aapka KYC expire ho gaya hai, OTP batao",
+    "OTP bata do sir, refund aa jayega",
+    "ओटीपी बताइए वरना खाता बंद हो जाएगा",
+    "Dear customer your electricity will be disconnected tonight at 9.30 pm, call 9876543210",
+    "बिजली बिल बकाया है, आज रात कनेक्शन कट जाएगा, इस नंबर पर कॉल करें",
+    "Earn ₹5000 daily by liking YouTube videos. pay ₹500 registration",
+    "Bhai ek app hai jisme 2 din me paisa double hota hai, link: bit.ly/dbl",
+    "my students got guaranteed 30% monthly returns",
+    "You have received a cashback of ₹4,999! Enter your UPI PIN to receive the money in your account.",
+    "भाई, बिना डीमैट ट्रेड करो! 500 गुना लीवरेज, कोई टैक्स नहीं, हर शाम तुरंत नकद मुनाफ़ा।",
+  ];
+  for (const c of cases) assert.equal(await level(c, /[ऀ-ॿ]/.test(c) ? "hi" : "en"), "high", c);
+});
+
+test("genuine alerts and ordinary questions are not flagged", async () => {
+  const cases = [
+    "OTP 482913 for your login is valid for 3 minutes. Do not share it with anyone; bank staff will never ask for it.",
+    "Reminder: your KYC is due for its periodic update. Update it from Profile → KYC inside this app. We will never ask for your OTP or password.",
+    "Your contract note is attached as a password-protected PDF. We will never ask you to send us your password or OTP.",
+    "रजिस्टर्ड रिसर्च एनालिस्ट। SEBI द्वारा दिया गया रजिस्ट्रेशन किसी भी तरह प्रदर्शन की गारंटी नहीं है।",
+    "Mera SIM card band ho gaya, naya kaise milega?",
+    "Light chali gayi hai, power cut hai area mein",
+    "what is dabba trading?",
+    "My broker says there is no tax on mutual fund SIP below 1 lakh, is it true?",
+    "How do I enter my UPI PIN safely to pay my electricity bill?",
+  ];
+  for (const c of cases) assert.ok(["low", "unknown"].includes(await level(c, /[ऀ-ॿ]/.test(c) ? "hi" : "en")), c);
+});
+
+test("FinSuraksha verifies SEBI numbers and @valid UPI IDs itself", async () => {
+  const upi = await runAssistant({ message: "My broker asked me to pay margin to abc.brk@validhdfc. Is that okay?", lang: "en", cfg: { quiet: true } });
+  assert.match(upi.actions[0], /Verified by FinSuraksha.*abc\.brk@validhdfc.*Stock broker, HDFC Bank/);
+  const reg = await runAssistant({ message: "My adviser INA000000888 wants fees", lang: "en", cfg: { quiet: true } });
+  assert.match(reg.actions[0], /Verified by FinSuraksha.*INA000000888.*360 ONE/);
+  for (const r of [upi, reg]) assert.ok(!r.actions.some((a) => /intermediary search|SEBI Check|sebi\.gov\.in/i.test(a)));
+
+  // AI-written "go verify on SEBI yourself" steps are replaced by the verified result.
+  const a = await analyzeMessage("pay to abc.brk@validhdfc", {});
+  const out = withVerified(["Verify the broker's registration on SEBI's intermediary search (sebi.gov.in).", "Check your financial statements monthly."], a, "en");
+  assert.equal(out.length, 2);
+  assert.match(out[0], /Verified by FinSuraksha/);
+  assert.equal(out[1], "Check your financial statements monthly.");
+});
+
+test("complete register: a missing number is 'not registered'; lookup service fills gaps", async () => {
+  const { loadRegister, verifyRegNo, registerInfo } = await import("../src/sebi.js");
+  const fs = await import("node:fs");
+  const os = await import("node:os");
+  const path = await import("node:path");
+  const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "fs-reg-")), "reg.json");
+  try {
+    // Partial register: unknown numbers are only "could not verify".
+    fs.writeFileSync(file, JSON.stringify({ asOf: "Oct 20, 2026", partial: true, entries: [{ regNo: "INA000000888", name: "Real Adviser", type: "Investment Adviser" }] }));
+    loadRegister(file);
+    let a = await analyzeMessage("My adviser INA000012345 wants fees", {});
+    assert.ok(a.flags.some((f) => f.id === "sebi_not_found"));
+    assert.ok(!a.flags.some((f) => f.id === "sebi_not_registered"));
+
+    // Complete register: unknown numbers are "not registered"; with a payment ask it's high risk.
+    fs.writeFileSync(file, JSON.stringify({ asOf: "Oct 20, 2026", partial: false, entries: [{ regNo: "INA000000888", name: "Real Adviser", type: "Investment Adviser" }] }));
+    loadRegister(file);
+    assert.equal(registerInfo().complete, true);
+    a = await analyzeMessage("SEBI adviser INA000012345: pay 5000 to 9876543210@ybl for guaranteed profit", {});
+    assert.ok(a.flags.some((f) => f.id === "sebi_not_registered"));
+    assert.equal(a.level, "high");
+
+    // Lookup service: asked only for numbers we don't hold, answers cached.
+    let calls = 0;
+    const fakeFetch = async (url) => {
+      calls++;
+      const no = new URL(url).searchParams.get("regNo");
+      return { ok: true, json: async () => (no === "INA000077777" ? { found: true, name: "Fresh Adviser", type: "Investment Adviser" } : { found: false }) };
+    };
+    const cfg = { sebiLookupUrl: "https://lookup.example/sebi", sebiLookupKey: "k" };
+    const hit = await verifyRegNo("INA000077777", cfg, { fetch: fakeFetch });
+    assert.equal(hit.verified, true);
+    assert.equal(hit.name, "Fresh Adviser");
+    await verifyRegNo("INA000077777", cfg, { fetch: fakeFetch });
+    assert.equal(calls, 1, "second lookup comes from the cache");
+    await verifyRegNo("INA000000888", cfg, { fetch: fakeFetch });
+    assert.equal(calls, 1, "local hits never call the service");
+    const down = await verifyRegNo("INA000066666", cfg, { fetch: async () => { throw new Error("down"); } });
+    assert.equal(down.found, false, "service down falls back to the local answer");
+  } finally {
+    loadRegister(); // back to the bundled register for other tests
+  }
 });

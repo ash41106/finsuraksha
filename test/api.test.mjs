@@ -320,3 +320,41 @@ test("rate limiter returns 429 when enabled", async () => {
   fs.rmSync(dir2, { recursive: true, force: true });
   assert.equal(status, 429);
 });
+
+test("forgotten password: moderator reset, then the member sets a new one", async () => {
+  const mod = client();
+  await mod.post("/api/auth/signup", signupBody(40, { email: "mod@test.local" }));
+  await mod.post("/api/auth/login", { email: "mod@test.local", password: "Passw0rd!" });
+  const member = await newUser(41);
+  assert.equal((await member.post("/api/auth/reset", { email: "t41@test.local" })).status, 403, "members can't reset others");
+  assert.equal((await mod.post("/api/auth/reset", { email: "nobody@test.local" })).status, 404);
+  const r = await mod.post("/api/auth/reset", { email: "T41@test.local" });
+  assert.equal(r.status, 200);
+  assert.match(r.body.tempPassword, /^[a-z]{6}\d{2}$/);
+  assert.equal((await member.get("/api/auth/me")).body.user, null, "old sessions end on reset");
+
+  const again = client();
+  assert.equal((await again.post("/api/auth/login", { email: "t41@test.local", password: "Passw0rd!" })).status, 401);
+  assert.equal((await again.post("/api/auth/login", { email: "t41@test.local", password: r.body.tempPassword })).status, 200);
+  assert.equal((await again.post("/api/me/password", { current: "wrong-pass1", next: "NewPass123" })).status, 401);
+  assert.equal((await again.post("/api/me/password", { current: r.body.tempPassword, next: "short" })).status, 400);
+  assert.equal((await again.post("/api/me/password", { current: r.body.tempPassword, next: "नयापासवर्ड2024" })).status, 200, "non-Latin passwords are fine");
+  assert.equal((await again.get("/api/auth/me")).body.user.email, "t41@test.local", "stays signed in after changing");
+  assert.equal((await client().post("/api/auth/login", { email: "t41@test.local", password: "नयापासवर्ड2024" })).status, 200);
+});
+
+test("moderator adds a newly registered entity to the SEBI register", async () => {
+  const mod = client();
+  await mod.post("/api/auth/login", { email: "mod@test.local", password: "Passw0rd!" });
+  const member = await newUser(51);
+  const body = { regNo: "INA000099991", name: "New Advisers Pvt Ltd" };
+  assert.equal((await member.post("/api/sebi/register", body)).status, 403, "members can't add");
+  assert.equal((await mod.post("/api/sebi/register", { regNo: "INA123", name: "Bad" })).status, 400);
+  assert.equal((await member.get("/api/check?q=INA000099991")).body.sebi.found, false);
+  const r = await mod.post("/api/sebi/register", body);
+  assert.equal(r.status, 200, JSON.stringify(r.body));
+  const after = (await member.get("/api/check?q=INA000099991")).body.sebi;
+  assert.equal(after.verified, true);
+  assert.equal(after.name, "New Advisers Pvt Ltd");
+  assert.ok(ctx.store.data.registerAdditions.some((e) => e.regNo === "INA000099991"), "saved in the database");
+});

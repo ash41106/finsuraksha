@@ -21,6 +21,9 @@ export const PREFIXES = {
 
 let snapshot = { entries: [], asOf: null, partial: true };
 const byReg = new Map();
+// Entities a moderator added after checking their SEBI certificate (registered
+// after the last import). Kept in the app database, merged on top of the file.
+let extras = [];
 
 export function loadRegister(file = path.join(ROOT, "seed", "sebi_register_snapshot.json")) {
   try {
@@ -30,12 +33,32 @@ export function loadRegister(file = path.join(ROOT, "seed", "sebi_register_snaps
   }
   byReg.clear();
   for (const e of snapshot.entries) byReg.set(e.regNo.toUpperCase(), e);
+  for (const e of extras) byReg.set(e.regNo, e);
+  providerCache.clear();
   return snapshot;
 }
-loadRegister();
 
+export function setRegisterExtras(list = []) {
+  for (const e of extras) if (byReg.get(e.regNo) === e) byReg.delete(e.regNo);
+  extras = list.map((e) => ({ ...e, regNo: e.regNo.toUpperCase() }));
+  for (const e of extras) byReg.set(e.regNo, e);
+  providerCache.clear();
+}
+
+const STALE_DAYS = 14;
 export function registerInfo() {
-  return { asOf: snapshot.asOf, count: snapshot.entries.length, partial: snapshot.partial !== false, sourceUrls: snapshot.sourceUrls || [] };
+  const t = Date.parse(snapshot.asOf || "");
+  const ageDays = Number.isFinite(t) ? Math.floor((Date.now() - t) / 86_400_000) : null;
+  return {
+    asOf: snapshot.asOf,
+    count: byReg.size,
+    // A complete register means "not found" really is "not registered".
+    complete: snapshot.partial === false,
+    partial: snapshot.partial !== false,
+    ageDays,
+    stale: ageDays === null || ageDays > STALE_DAYS,
+    sourceUrls: snapshot.sourceUrls || [],
+  };
 }
 
 // Loose candidates (catch near-misses like "INA12345") so we can flag bad formats.
@@ -73,13 +96,55 @@ export function validateRegNo(raw) {
 export function lookupRegNo(raw) {
   const check = validateRegNo(raw);
   const hit = check.valid ? byReg.get(check.normalized) : null;
+  const complete = snapshot.partial === false;
   return {
     ...check,
     found: Boolean(hit),
+    // FinSuraksha checks the number itself, so the user isn't sent to SEBI's site.
+    verified: Boolean(hit),
+    verifiedBy: hit ? "SEBI register" : null,
+    notRegistered: check.valid && !hit && complete,
     name: hit?.name || null,
     asOf: snapshot.asOf,
-    partialSnapshot: snapshot.partial !== false,
+    partialSnapshot: !complete,
   };
+}
+
+// Optional lookup service for numbers the local register doesn't have
+// (SEBI_LOOKUP_URL + SEBI_LOOKUP_KEY). Contract:
+//   GET <url>?regNo=INA000012345   Authorization: Bearer <key>
+//   -> { "found": true, "name": "...", "type": "Investment Adviser" } or { "found": false }
+// Answers are cached for a day so the same number isn't paid for twice.
+const providerCache = new Map();
+const CACHE_MS = 24 * 60 * 60_000;
+
+async function askProvider(regNo, cfg, fetchImpl) {
+  const hit = providerCache.get(regNo);
+  if (hit && Date.now() - hit.at < CACHE_MS) return hit.value;
+  let value = null;
+  try {
+    const url = new URL(cfg.sebiLookupUrl);
+    url.searchParams.set("regNo", regNo);
+    const res = await fetchImpl(url, {
+      headers: { accept: "application/json", ...(cfg.sebiLookupKey ? { authorization: `Bearer ${cfg.sebiLookupKey}` } : {}) },
+      signal: AbortSignal.timeout(8_000),
+    });
+    const data = res.ok ? await res.json().catch(() => null) : null;
+    if (data && typeof data.found === "boolean") value = { found: data.found, name: data.found ? String(data.name || "").slice(0, 200) || null : null, type: data.type ? String(data.type).slice(0, 60) : null };
+  } catch {
+    value = null; // provider down: fall back to the local answer
+  }
+  if (value) providerCache.set(regNo, { at: Date.now(), value });
+  return value;
+}
+
+export async function verifyRegNo(raw, cfg = {}, { fetch: fetchImpl = globalThis.fetch } = {}) {
+  const local = lookupRegNo(raw);
+  if (!local.valid || local.found || !cfg.sebiLookupUrl) return local;
+  const p = await askProvider(local.normalized, cfg, fetchImpl);
+  if (!p) return local;
+  if (p.found) return { ...local, found: true, verified: true, verifiedBy: "SEBI lookup service", notRegistered: false, name: p.name, type: p.type || local.type };
+  return { ...local, notRegistered: true, verifiedBy: "SEBI lookup service" };
 }
 
 export function searchRegister(q, limit = 8) {
@@ -98,18 +163,27 @@ export function searchRegister(q, limit = 8) {
 // A trailing full stop is allowed (end of sentence); a dot followed by letters means an email domain.
 export const UPI_RE = /\b[a-z0-9][a-z0-9._-]{1,63}@[a-z][a-z0-9]{2,30}\b(?![@\w-]|\.\w)/gi;
 const CATEGORY = { brk: "Stock broker", mf: "Mutual fund" };
+// Banks that issue @valid handles under SEBI's validated-UPI framework (@valid<bank>).
+const VALID_BANKS = { hdfc: "HDFC Bank", icici: "ICICI Bank", axis: "Axis Bank", sbi: "State Bank of India", kotak: "Kotak Mahindra Bank", yes: "Yes Bank", idbi: "IDBI Bank", indus: "IndusInd Bank", pnb: "Punjab National Bank", boi: "Bank of India", bob: "Bank of Baroda", union: "Union Bank of India", canara: "Canara Bank", idfc: "IDFC FIRST Bank", federal: "Federal Bank", hsbc: "HSBC" };
 
 export function analyzeUpi(vpa) {
   const v = String(vpa || "").trim().toLowerCase();
   const [local = "", handle = ""] = v.split("@");
   const isValidHandle = handle.startsWith("valid");
   const suffix = local.includes(".") ? local.split(".").pop() : "";
+  const bank = isValidHandle ? VALID_BANKS[handle.slice(5)] || null : null;
   return {
     vpa: v,
     handle,
     validHandle: isValidHandle,
     category: isValidHandle ? CATEGORY[suffix] || "Registered intermediary" : null,
+    bank,
+    // @valid handles are issued only to SEBI-registered intermediaries, so the handle itself is the check.
+    verified: isValidHandle,
+    verifiedBy: isValidHandle ? "SEBI @valid UPI framework" : null,
     looksLikePhone: /^\d{10}$/.test(local),
     sebiCheckUrl: SEBI_LINKS.sebiCheck,
   };
 }
+
+loadRegister();

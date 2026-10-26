@@ -2,7 +2,12 @@
 // "Recognised intermediaries" pages (normal page views, saved from a browser).
 //
 // Usage:
-//   node scripts/build-sebi-snapshot.mjs <ia-page.html> <ra-page.html>
+//   node scripts/build-sebi-snapshot.mjs [--complete] <page1.html> <page2.html> ...
+//   node scripts/build-sebi-snapshot.mjs --complete register-pages/   (a folder of saved pages)
+//
+// Pass every saved page of every category you cover. Add --complete only when
+// the pages hold SEBI's whole list: FinSuraksha then treats a number that isn't
+// in the register as "not registered with SEBI" instead of "could not verify".
 //
 // Only the entity name, registration number and category are kept. Contact
 // details of advisers (many are individuals) are deliberately dropped.
@@ -44,7 +49,12 @@ function parse(file) {
   return { asOf, records: records.filter((r) => r.name && r.regNo) };
 }
 
-const files = process.argv.slice(2);
+const complete = process.argv.includes("--complete");
+// Arguments can be saved .html pages or folders that hold them.
+const files = process.argv
+  .slice(2)
+  .filter((a) => a !== "--complete")
+  .flatMap((a) => (fs.statSync(a).isDirectory() ? fs.readdirSync(a).filter((f) => /\.html?$/i.test(f)).sort().map((f) => path.join(a, f)) : [a]));
 if (!files.length) {
   console.error("Usage: node scripts/build-sebi-snapshot.mjs <saved-sebi-page.html> [...]");
   process.exit(1);
@@ -64,15 +74,17 @@ for (const f of files) {
 }
 
 const snapshot = {
-  source: "SEBI - Recognised intermediaries (public list, first page of each category)",
+  source: `SEBI - Recognised intermediaries (public list, ${files.length} saved page${files.length > 1 ? "s" : ""})`,
   sourceUrls: [
     "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=13",
     "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=14",
   ],
   asOf,
-  partial: true,
-  note: "Partial snapshot for demonstration. A number missing here is NOT proof of a fake - always confirm on sebi.gov.in.",
+  partial: !complete,
+  note: complete
+    ? "Complete register: a valid number missing here is reported as not registered with SEBI."
+    : "Partial register: a number missing here is reported as 'could not verify', not as fake.",
   entries: [...entries.values()].sort((a, b) => a.regNo.localeCompare(b.regNo)),
 };
 fs.writeFileSync(out, JSON.stringify(snapshot, null, 2));
-console.log(`Wrote ${snapshot.entries.length} entries (as of ${asOf}) -> ${path.relative(process.cwd(), out)}`);
+console.log(`Wrote ${snapshot.entries.length} entries (as of ${asOf}, ${complete ? "COMPLETE" : "partial"}) -> ${path.relative(process.cwd(), out)}`);

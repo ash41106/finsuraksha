@@ -37,6 +37,9 @@ export function buildConfig(overrides = {}) {
     aiModel: env.FS_AI_MODEL || "openai/gpt-oss-120b",
     aiEffort: ["low", "medium", "high"].includes(env.FS_AI_EFFORT) ? env.FS_AI_EFFORT : "low",
     safeBrowsingKey: env.GOOGLE_SAFE_BROWSING_API_KEY || "",
+    // Optional SEBI registration lookup service for numbers missing from the local register.
+    sebiLookupUrl: env.SEBI_LOOKUP_URL || "",
+    sebiLookupKey: env.SEBI_LOOKUP_KEY || "",
     moderatorEmails: (env.MODERATOR_EMAILS || "")
       .split(",")
       .map((s) => s.trim().toLowerCase())

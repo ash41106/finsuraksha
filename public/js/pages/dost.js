@@ -7,6 +7,20 @@ import { prepareImage, readText, decodeQr, parseUpiUri, speak, stopSpeaking, spe
 
 const LEVEL_ICON = { high: "alert", medium: "alert", low: "check", unknown: "question", info: "info" };
 
+// Plain words for link warnings (people don't know what a "TLD" is).
+const LINK_WORDS = {
+  link_lookalike: { en: "copies a real company's name", hi: "असली कंपनी के नाम की नक़ल" },
+  link_tld: { en: "unusual web address ending", hi: "अजीब वेब पते का अंत" },
+  link_shortener: { en: "short link hides the real address", hi: "छोटा लिंक असली पता छिपाता है" },
+  link_http: { en: "not a secure (https) page", hi: "सुरक्षित (https) पेज नहीं" },
+  link_ip: { en: "uses numbers instead of a website name", hi: "नाम की जगह नंबर वाला पता" },
+  link_punycode: { en: "uses look-alike letters", hi: "मिलते-जुलते अक्षरों वाला पता" },
+  link_apk: { en: "downloads an app file", hi: "ऐप फ़ाइल डाउनलोड करता है" },
+  link_telegram_private: { en: "private Telegram invite", hi: "प्राइवेट Telegram न्योता" },
+  link_whatsapp_group: { en: "WhatsApp group invite", hi: "WhatsApp ग्रुप न्योता" },
+  link_userinfo: { en: "hides the real address", hi: "असली पता छिपाता है" },
+};
+
 export async function render(root, { query } = {}) {
   const messages = []; // { role, text, image?, result? }
   let attachment = null; // { dataUrl, canvas, ocr, qr, aiConsent }
@@ -17,7 +31,7 @@ export async function render(root, { query } = {}) {
 
   mount(
     root,
-    html`<section class="page-hero" style="padding-bottom:18px"><div class="blob b1"></div>
+    html`<section class="page-hero hero-compact" style="padding-bottom:18px"><div class="blob b1"></div>
       <div class="container" style="position:relative;z-index:1">
         <span class="crumbs">${icon("sparkle")}<b>${t("dost.kicker")}</b></span>
         <h1 class="page-title">${t("dost.titleA")} <span class="soft">${t("dost.titleB")}</span></h1>
@@ -84,19 +98,20 @@ export async function render(root, { query } = {}) {
     const rows = [];
     for (const s of c.sebi || []) {
       if (!s.valid) rows.push(html`<div class="check-row" style="color:var(--risk-high)">${icon("x")}<span>${t("dost.sebiBad", { no: s.normalized })}</span></div>`);
-      else if (s.found) rows.push(html`<div class="check-row">${icon("check")}<span>${t("dost.sebiFound", { no: s.normalized, name: s.name, type: state.lang === "hi" ? s.typeHi : s.type })} <a href="${s.officialUrl}" target="_blank" rel="noopener noreferrer">${t("dost.verifyOn")}</a></span></div>`);
-      else rows.push(html`<div class="check-row">${icon("info")}<span>${t("dost.sebiNotFound", { no: s.normalized })} <a href="${s.officialUrl}" target="_blank" rel="noopener noreferrer">${t("dost.verifyOn")}</a></span></div>`);
+      else if (s.found) rows.push(html`<div class="check-row">${icon("check")}<span>${t("dost.sebiFound", { no: s.normalized, name: s.name, type: state.lang === "hi" ? s.typeHi : s.type })}</span></div>`);
+      else if (s.notRegistered) rows.push(html`<div class="check-row" style="color:var(--risk-high)">${icon("x")}<span>${t("dost.sebiNotRegistered", { no: s.normalized, date: s.asOf || "—" })}</span></div>`);
+      else rows.push(html`<div class="check-row">${icon("info")}<span>${t("dost.sebiNotFound", { no: s.normalized })}</span></div>`);
     }
     for (const u of c.upi || []) {
       rows.push(
         u.validHandle
-          ? html`<div class="check-row">${icon("check")}<span>${t("dost.upiValid", { vpa: u.vpa, cat: u.category || "" })} <a href="${u.sebiCheckUrl}" target="_blank" rel="noopener noreferrer">${t("dost.checkOn")}</a></span></div>`
+          ? html`<div class="check-row">${icon("check")}<span>${t("dost.upiValid", { vpa: u.vpa, cat: [u.category, u.bank].filter(Boolean).join(", ") })}</span></div>`
           : html`<div class="check-row">${icon("alert")}<span>${t("dost.upiPersonal", { vpa: u.vpa })} <a href="${u.sebiCheckUrl}" target="_blank" rel="noopener noreferrer">${t("dost.checkOn")}</a></span></div>`,
       );
     }
     for (const l of c.links || []) {
       if (l.official) rows.push(html`<div class="check-row">${icon("check")}<span>${t("dost.linkOfficial", { host: l.host })}</span></div>`);
-      else if (l.flags.length) rows.push(html`<div class="check-row">${icon("alert")}<span>${t("dost.linkFlags", { host: l.host, flags: l.flags.map((f) => f.id.replace("link_", "").replace(/_/g, " ")).join(", ") })}${l.safeBrowsing === "unsafe" ? " · Google Safe Browsing: unsafe" : ""}</span></div>`);
+      else if (l.flags.length) rows.push(html`<div class="check-row">${icon("alert")}<span>${t("dost.linkFlags", { host: l.host, flags: l.flags.map((f) => L(LINK_WORDS[f.id]) || f.id.replace("link_", "").replace(/_/g, " ")).join(", ") })}${l.safeBrowsing === "unsafe" ? " · Google Safe Browsing: unsafe" : ""}</span></div>`);
       else rows.push(html`<div class="check-row">${icon("info")}<span>${t("dost.linkClean", { host: l.host })}${l.safeBrowsing === "clean" ? " · Safe Browsing: clean" : ""}</span></div>`);
     }
     for (const x of c.community || []) rows.push(html`<div class="check-row">${icon("users")}<span>${t("dost.community", { entity: x.display, status: x.status === "verified" ? t("hunt.verified") : t("hunt.pending") })}</span></div>`);
@@ -134,8 +149,20 @@ export async function render(root, { query } = {}) {
     return node;
   }
 
-  function addMessage(m) {
+  // The conversation survives a refresh or a visit to another page, but only in
+  // this browser tab (sessionStorage is cleared when the tab is closed).
+  const CHAT_KEY = "fs_chat";
+  const saveChat = () => {
+    try {
+      sessionStorage.setItem(CHAT_KEY, JSON.stringify(messages.slice(-30).map(({ role, text, result }) => ({ role, text, result }))));
+    } catch {
+      /* storage full or blocked - chat lasts for this page view */
+    }
+  };
+
+  function addMessage(m, { restore = false } = {}) {
     messages.push(m);
+    if (!restore) saveChat();
     const node = m.role === "user" ? userBubble(m) : botBubble(m);
     log.appendChild(node);
     // Long answers: show the start of the reply (the verdict), not its end.
@@ -425,11 +452,21 @@ export async function render(root, { query } = {}) {
   $("#clear", root).addEventListener("click", () => {
     stopSpeaking();
     messages.length = 0;
+    try {
+      sessionStorage.removeItem(CHAT_KEY);
+    } catch {
+      /* blocked */
+    }
     log.innerHTML = "";
     welcome();
   });
 
   welcome();
+  try {
+    for (const m of JSON.parse(sessionStorage.getItem(CHAT_KEY) || "[]")) if (m && (m.role === "user" || m.result)) addMessage(m, { restore: true });
+  } catch {
+    /* nothing saved */
+  }
   // Deep link: #/dost?q=<text> opens the chat with that message already checked.
   const preset = query?.get("q");
   if (preset) send(preset.slice(0, 6000));

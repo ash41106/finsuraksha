@@ -29,7 +29,7 @@ Open **http://localhost:3000**. The console also prints a "same Wi-Fi" address t
 
 **Keep the server window open** while you use the site. Closing it stops FinSuraksha. If that happens, the page shows a "Server not reachable" banner and reconnects by itself once you start it again.
 
-**Accounts:** anyone can create an account on the **Sign up** tab (18+, with consent), then **sign in** with that email and password. Accounts are stored on the computer running the server (`data/db.json`).
+**Accounts:** anyone can create an account on the **Sign up** tab (18+, with consent), then **sign in** with that email and password. Accounts are stored on the computer running the server (`data/db.json`). **Forgot password?** There is no reset email, so a moderator opens *My profile → Reset a member's password* and hands the member a temporary password; the member signs in and sets a new one under *Change password*.
 
 On the first run the console prints a **moderator login**, which is also saved to `data/FIRST_RUN_CREDENTIALS.txt`. Sample hunters and reports are loaded so the Alert Wall, leaderboard and charts aren't empty. The UI labels all of them **"Sample"**. To start with an empty site, set `SEED_DEMO=false` before the first run, or delete the `data/` folder.
 

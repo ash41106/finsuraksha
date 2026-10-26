@@ -3,7 +3,7 @@
 // an optional Google Safe Browsing lookup. Deterministic and explainable - it
 // runs on every request, and grounds the AI mode when that is enabled.
 import { FLAG_TEXT, POSITIVE_TEXT } from "./knowledge.js";
-import { extractRegNos, lookupRegNo, analyzeUpi, UPI_RE } from "./sebi.js";
+import { extractRegNos, verifyRegNo, analyzeUpi, UPI_RE } from "./sebi.js";
 import { maskPhone } from "./redact.js";
 
 // id -> [severity, weight]
@@ -27,6 +27,8 @@ export const META = {
   rbi_alert: ["high", 25],
   celebrity: ["high", 30],
   ponzi: ["medium", 15],
+  utility_threat: ["critical", 35],
+  task_job: ["high", 30],
   link_apk: ["critical", 35],
   link_shortener: ["medium", 12],
   link_lookalike: ["high", 30],
@@ -40,6 +42,7 @@ export const META = {
   safe_browsing: ["critical", 50],
   sebi_bad_format: ["high", 30],
   sebi_not_found: ["medium", 12],
+  sebi_not_registered: ["high", 35],
   sebi_claim_no_number: ["medium", 15],
   upi_personal: ["high", 25],
   community_verified: ["critical", 35],
@@ -57,6 +60,8 @@ const P = {
     /\bguarantee(?:d|s)?\b/gi,
     /\b(?:100|hundred)\s?%\s?(?:sure|safe|guaranteed|profit|returns?|accurate|accuracy|success|winning)\b/gi,
     /\b(?:assured|fixed|confirmed)\s+(?:daily\s+|weekly\s+|monthly\s+)?(?:returns?|profits?|income|payouts?)\b/gi,
+    /\b(?:assured|fixed|confirmed|guaranteed)\s+\d{1,3}(?:\.\d+)?\s?%\s*(?:daily\s+|weekly\s+|monthly\s+)?(?:returns?|profits?|income|interest)\b/gi,
+    /\b(?:100|hundred)\s?%\s?सटीक|सटीक\s*(?:कॉल|टिप)|पक्का\s*(?:\d+\s*%|IPO|आईपीओ|अलॉटमेंट|रिटर्न)|अपर\s*सर्किट\s*लगेगा/gi,
     /\b(?:risk[- ]?free|zero[- ]?risk|no[- ]?risk|no[- ]?loss|loss[- ]?free)\b/gi,
     /\b(?:double|triple|2x|3x|10x)\s+(?:your\s+)?(?:money|investment|capital|amount)\b/gi,
     /\bmoney\s+(?:will\s+)?(?:be\s+)?double[ds]?\b/gi,
@@ -73,6 +78,7 @@ const P = {
     /\b(?:within|in\s+the\s+next|in)\s+\d+\s*(?:mins?|minutes|hours?|hrs?)\b/gi,
     /\boffer\s+(?:ends|expires|valid\s+till)\b/gi,
     /\b(?:jaldi|abhi)\s+(?:karo|join|kare|karein|kijiye)\b/gi,
+    /सीटें\s*बच|तुरंत\s*(?:KYC|केवाईसी|अपडेट|भेज|जमा|कॉल)|घंटे\s*के\s*लिए|मौक़?ा\s*सीमित/gi,
     /जल्दी\s*कर|आज\s*ही|सिर्फ़?\s*आज|अभी\s*जुड़?|आख़?िरी\s*मौक़?ा|सीमित\s*सीट/g,
   ],
   insider: [
@@ -103,6 +109,9 @@ const P = {
     /\bvip\s+(?:membership|plan|tier|group|access|package|subscription|channel)\b/gi,
     /\b(?:premium|paid)\s+(?:group|channel|membership|calls)\b/gi,
     /\b(?:paise|paisa|amount)\s+(?:bhejo|bhejiye|transfer\s+karo|daalo|dalo)\b/gi,
+    /\b(?:deposit|pay|send|transfer)\b[^.\n]{0,30}\bto\s+(?:our|my|the|his|her)\s+(?:manager|agent|admin|mentor|coordinator|team\s+leader)(?:'s)?\b/gi,
+    /\b(?:pay|deposit)\s+(?:₹|rs\.?|inr)?\s*[\d,]+\s+(?:as\s+)?(?:registration|joining|activation|membership|entry)\b/gi,
+    /(?:मैनेजर|एजेंट)\s*(?:को|के\s*खाते)|(?:₹|रु\.?)\s*[\d,]+\s*भेजें|पैसे\s*भेजें/g,
     /फ़?ीस\s*(?:जमा|भर)|पैसे\s*(?:भेज|ट्रांसफर)|मेरे\s*खाते\s*में/g,
   ],
   withdrawal_fee: [
@@ -114,24 +123,32 @@ const P = {
     /निकासी\s*(?:शुल्क|फ़?ीस|टैक्स)|पैसे\s*निकालने\s*के\s*लिए/g,
   ],
   credentials: [
-    /\botp\b/gi,
+    /\b(?:share|send|tell|give|forward|read|enter|batao|bataiye|bata\s+do|bhejo|bhej\s+do|de\s+do|type)\b[^.\n]{0,25}\botp\b/gi,
+    /\botp\b[^.\n]{0,25}\b(?:batao|bataiye|bata\s+do|bhejo|bhej\s+do|share\s+karo|bolo|de\s+do|send\s+(?:it|me|us)|tell\s+(?:me|us)|read\s+(?:it\s+)?out)\b/gi,
+    /\botp\b[^।.\n]{0,25}(?:बता|भेज|सुना|पढ़)/gi,
+    /\b(?:upi\s+)?pin\b[^.\n]{0,20}\bto\s+(?:receive|get|claim|accept)\b|\bto\s+(?:receive|get|claim|accept)\b[^.\n]{0,30}\b(?:upi\s+)?pin\b/gi,
+    /(?:पाने|लेने)\s*के\s*लिए[^।.\n]{0,30}(?:PIN|पिन)/gi,
     /\b(?:share|send|tell|give|forward|batao|bataiye|bhejo)\b[^.\n]{0,20}\b(?:pin|password|cvv|mpin|upi\s+pin)\b/gi,
-    /\bkyc\b[^.\n]{0,30}\b(?:expir\w*|update|pending|incomplete|block\w*|suspend\w*|verify|verification|re-?kyc)\b/gi,
+    /\bkyc\b[^.\n]{0,30}\b(?:expir\w*|block\w*|suspend\w*|deactivat\w*|re-?kyc|band|immediately|today|turant)\b/gi,
     /\b(?:demat|trading|bank|account|card|sim)\b[^.\n]{0,25}\b(?:block(?:ed)?|suspend\w*|deactivat\w*|frozen|freez\w*|closed|band)\b/gi,
     /\b(?:verify|update|confirm)\s+(?:your\s+)?(?:account|kyc|pan|details|demat)\b/gi,
     /\bclick\b[^.\n]{0,25}\b(?:link|here|below)\b[^.\n]{0,30}\b(?:verify|update|kyc|unblock|activate|claim)\b/gi,
-    /ओटीपी|केवाईसी|खाता\s*(?:बंद|ब्लॉक)|पिन\s*बता/g,
+    /ओटीपी\s*(?:बता|भेज|दे|शेयर)|(?:बता|भेज)[^।.\n]{0,10}ओटीपी|केवाईसी[^।.\n]{0,20}(?:बंद|ब्लॉक|समाप्त|एक्सपायर)|खात[ाे][^।.\n]{0,15}(?:बंद|ब्लॉक)\s*(?:हो\s*जाएगा|कर\s*दिया\s*जाएगा)|पिन\s*बता/g,
   ],
   remote_apk: [
     /\.apk\b/gi,
     /\b(?:download|install)\b[^.\n]{0,40}\b(?:apk|app|application)\b[^.\n]{0,40}\b(?:link|below|telegram|whatsapp|website|from\s+here)\b/gi,
     /\b(?:anydesk|any\s+desk|teamviewer|team\s+viewer|quick\s?support|rustdesk|airdroid|ammyy|ultraviewer)\b/gi,
     /\bscreen[- ]?shar(?:e|ing)\b/gi,
+    /\b(?:download|install)\b[^.\n]{0,15}\b(?:it|app|apk)?\s*(?:here|from\s+(?:this|the)\s+link)\b/gi,
+    /स्क्रीन[- ]?शेयर|(?:यहाँ|लिंक)\s*से\s*(?:ऐप\s*)?डाउनलोड/g,
   ],
   authority: [
     /\bsebi\b[^.\n]{0,15}\b(?:approved|certified|authori[sz]ed|verified|recommended|endorsed|officer|official|department)\b/gi,
     /\b(?:rbi|nse|bse|government|govt)\b[^.\n]{0,15}\b(?:approved|certified|backed|guaranteed|authori[sz]ed)\s+(?:scheme|plan|investment|returns?|app|platform|group|channel)\b/gi,
     /\b(?:i\s+am|this\s+is|calling\s+from)\b[^.\n]{0,30}\b(?:sebi|rbi|nse|bse|cbi|customs|income\s+tax|trai|cyber\s+(?:cell|police))\b/gi,
+    /\b(?:government|govt|sebi|rbi)[- ](?:approved|certified)\b/gi,
+    /(?:सरकार|सेबी)\s*से\s*मंज़?ूर(?![^।.\n]*\?)/g,
   ],
   threat: [
     /\bdigital\s+arrest\b/gi,
@@ -147,8 +164,9 @@ const P = {
     /\b\d{2,4}\s?x\s+(?:leverage|margin|exposure)\b/gi,
     /\b(?:leverage|margin|exposure)\s+(?:of\s+)?(?:up\s?to\s+)?\d{2,4}\s?x\b/gi,
     /\b(?:unlimited|huge|1:\d{3,4})\s+(?:leverage|margin)\b/gi,
-    /\b(?:no|zero|without)\s+(?:tax|taxes|stt|income\s+tax)\b/gi,
+    /\b(?:no|zero|without)\s+(?:tax|taxes|stt)\b[^.\n]{0,40}\b(?:trad\w*|leverage|profit|terminal|cash)\b|\b(?:trad\w*|leverage|terminal)\b[^.\n]{0,40}\b(?:no|zero|without)\s+(?:tax|taxes|stt)\b/gi,
     /\bbucket\s+shop\b/gi,
+    /बिना\s*डीमैट|\d+\s*गुना\s*लीवरेज|कोई\s*टैक्स\s*नहीं|प्राइवेट\s*टर्मिनल/g,
     /डब्बा/g,
   ],
   unregistered_tips: [
@@ -175,6 +193,18 @@ const P = {
     /\b(?:crypto|bitcoin|btc|usdt|ethereum)\b[^.\n]{0,25}\b(?:signals?|guaranteed|double|bot|arbitrage|mining\s+returns?)\b/gi,
     /\bcurrency\s+trading\b/gi,
     /\bmt[45]\b/gi,
+    /फ़?ॉरेक्स/g,
+  ],
+  utility_threat: [
+    /\b(?:electricity|bijli|light|power|gas|water|sim|connection)\b[^.\n]{0,40}\b(?:will\s+be\s+(?:disconnected|cut|blocked|deactivated|suspended)|(?:disconnected|cut)\s+(?:today|tonight)|kat\s+jayega|katega|kat\s+diya\s+jayega|band\s+ho\s+jayega|band\s+kar\s+diya\s+jayega|block\s+ho\s+jayega)\b/gi,
+    /\b(?:electricity|bijli|light)\s+bill\b[^.\n]{0,40}\b(?:pending|due|unpaid|not\s+(?:paid|updated)|update)\b/gi,
+    /(?:बिजली|कनेक्शन|सिम)[^।.\n]{0,30}(?:कट\s*जाएगा|काट\s*दिया\s*जाएगा|बंद\s*हो\s*जाएगा|बंद\s*कर\s*दिया\s*जाएगा|ब्लॉक\s*हो\s*जाएगा)/g,
+  ],
+  task_job: [
+    /\b(?:like|subscribe|rate|review|follow)\w*\b[^.\n]{0,40}\b(?:videos?|hotels?|products?|pages?|posts?|channels?|movies?)\b[^.\n]{0,40}\b(?:earn|income|pay|paid|₹|rs\.?|salary|commission)\b/gi,
+    /\b(?:earn|kamao|kamaye)\b[^.\n]{0,40}\b(?:by|from)\s+(?:liking|subscribing|rating|reviewing|following)\b/gi,
+    /\b(?:task|prepaid\s+task|part[- ]?time|work\s+from\s+home|ghar\s+baithe)\b[^.\n]{0,40}\b(?:job|earn|income|kamai|daily|₹)/gi,
+    /घर\s*बैठे[^।.\n]{0,30}(?:कमा|कमाई)|टास्क[^।.\n]{0,30}(?:कमा|कमाई|पैसे)/g,
   ],
   ponzi: [
     /\b(?:level|team|downline|matrix)\s+(?:income|bonus|commission|plan)\b/gi,
@@ -183,7 +213,9 @@ const P = {
     /\b(?:recruit|add|join)\s+(?:\d+\s+)?(?:members|people|friends)\b[^.\n]{0,30}\b(?:earn|income|bonus)\b/gi,
   ],
 };
-const NEGATABLE = new Set(["guaranteed"]);
+const NEGATABLE = new Set(["guaranteed", "credentials"]);
+// "What is dabba trading?" asks about the word; it isn't a dabba pitch.
+const QUESTION_RE = /^\s*(?:what|how|why|is|are|can|should|explain|tell\s+me)\b|\?\s*$|\b(?:kya\s+hai|kya\s+hota)\b|क्या\s*(?:है|होता)/i;
 
 // RBI Alert List names (unauthorised forex platforms) as reported up to Nov 2025.
 const RBI_ALERT = [
@@ -197,13 +229,23 @@ const RBI_RE = new RegExp(`\\b(?:${RBI_ALERT.map((n) => n.replace(/\s+/g, "\\s+"
 const CELEB_RE =
   /\b(?:narayana\s+murthy|mukesh\s+ambani|ratan\s+tata|nirmala\s+sitharaman|sudha\s+murty|anand\s+mahindra|raghuram\s+rajan)\b[^.\n]{0,60}\b(?:recommend\w*|invest\w*|platform|app|scheme|earn\w*|returns?|trading)\b/gi;
 const SCAM_BRAND_RE = /\b(?:quantum\s+ai|immediate\s+(?:edge|connect|momentum|matrix)|bitcoin\s+(?:era|code|profit|prime|revolution))\b/gi;
+const CELEB_GENERIC_RE = /\b(?:famous|celebrity|billionaire|business\s+tycoon|actor|cricketer)\b[^.\n]{0,40}\b(?:reveals?|secret|app|platform)\b|मशहूर[^।.\n]{0,30}(?:सीक्रेट|ऐप|राज़?)/gi;
 
 const RISK_DISCLAIMER_RE = /investments?\s+in\s+(?:the\s+)?securities\s+markets?\s+(?:is|are)\s+subject\s+to\s+market\s+risks?/i;
 const SEBI_CLAIM_RE = /\bsebi[\s-]*(?:registered|regd\.?|licensed|certified|approved|authori[sz]ed)\b|सेबी\s*(?:रजिस्टर्ड|पंजीकृत)/i;
 
-function negated(text, index) {
+// "We will never ask for your OTP", "गारंटी नहीं है", "my SIM got blocked" are
+// warnings or the person's own situation, not a scammer's claim or demand.
+function negated(text, index, len = 0, id = "") {
   const pre = text.slice(Math.max(0, index - 32), index).toLowerCase();
-  return /\b(?:no|not|never|cannot|can't|cant|doesn't|does not|don't|do not|in no way|nobody|no one|isn't|is not|nahi|nahin)\b[^.!?\n]*$/.test(pre) || /नहीं[^।.!?\n]*$/.test(pre);
+  const post = text.slice(index + len, index + len + 24);
+  return (
+    /\b(?:no|not|never|cannot|can't|cant|doesn't|does not|don't|do not|in no way|nobody|no one|isn't|is not|nahi|nahin|mat)\b[^.!?\n]*$/.test(pre) ||
+    /नहीं[^।.!?\n]*$|मत\s*$/.test(pre) ||
+    /^[^।.!?\n]{0,12}(?:नहीं|नही|न\s+करें|न\s+बताएँ)/.test(post) ||
+    /\b(?:not|never)\b/.test(post.slice(0, 8)) ||
+    (id === "credentials" && (/\b(?:my|mera|meri|mere)\b[^.!?\n]{0,12}$/.test(pre) || /मेरा|मेरी|मेरे/.test(pre.slice(-14))))
+  );
 }
 
 function findHighReturns(text) {
@@ -220,8 +262,16 @@ function findHighReturns(text) {
   // Unit before the number: "daily 2%", "रोज़ 2%".
   for (const m of text.matchAll(/(?:daily|every\s+day|roz|रोज़?|हर\s*दिन)\s*(\d{1,3}(?:\.\d+)?)\s?%/gi)) if (parseFloat(m[1]) >= 0.5) out.push(m[0]);
   for (const m of text.matchAll(/(?:monthly|every\s+month|har\s+mahine|हर\s*महीने|महीने\s*में)\s*(\d{1,3}(?:\.\d+)?)\s?%/gi)) if (parseFloat(m[1]) >= 3) out.push(m[0]);
+  // "money doubles in 2 days" style promises.
+  for (const m of text.matchAll(/\b(?:double|dugna|dogna|doguna|2x|triple|3x)\b[^.\n]{0,30}?\b\d+\s*(?:din|days?|hafte|weeks?|mahine|months?)\b|\b\d+\s*(?:din|days?|hafte|weeks?|mahine|months?)\b[^.\n]{0,30}?\b(?:double|dugna|dogna|doguna|2x|triple|3x)\b|(?:दोगुना|दुगना|डबल)[^।.\n]{0,25}\d+\s*(?:दिन|हफ़?्ते|महीने)|\d+\s*(?:दिन|हफ़?्ते|महीने)[^।.\n]{0,25}(?:दोगुना|दुगना|डबल)/gi)) out.push(m[0].trim());
   // "invest 21,000 earn 2 lakh" style multipliers.
   const amount = (n, unit) => parseFloat(String(n).replace(/,/g, "")) * ({ k: 1e3, lakh: 1e5, lac: 1e5, lakhs: 1e5, crore: 1e7, cr: 1e7 }[String(unit || "").toLowerCase()] || 1);
+  const hiAmount = (n, unit) => parseFloat(String(n).replace(/,/g, "")) * ({ "हजार": 1e3, "लाख": 1e5, "करोड": 1e7 }[String(unit || "").replace(/़/g, "")] || 1);
+  for (const m of text.matchAll(/([\d,]+(?:\.\d+)?)\s*(हज़?ार|लाख|करोड़?)?\s*(?:लगाएँ|लगाओ|लगाइए|जमा\s*करें|निवेश\s*करें)[^।.\n]{0,30}?([\d,]+(?:\.\d+)?)\s*(हज़?ार|लाख|करोड़?)?\s*(?:कमाएँ|कमाओ|कमाइए|पाएँ|पाओ)/g)) {
+    const a = hiAmount(m[1], m[2]);
+    const b = hiAmount(m[3], m[4]);
+    if (a > 0 && b / a >= 1.5) out.push(m[0].trim());
+  }
   for (const m of text.matchAll(
     /\b(?:invest|deposit|put|lagao|lagaiye)\w*\s*(?:₹|rs\.?|inr)?\s*([\d,]+(?:\.\d+)?)\s*(k|lakhs?|lac|crore|cr)?\b[^.\n]{0,30}?\b(?:earn|get|make|receive|kamao|paao|pao|withdraw)\w*\s*(?:₹|rs\.?|inr)?\s*([\d,]+(?:\.\d+)?)\s*(k|lakhs?|lac|crore|cr)?\b/gi,
   )) {
@@ -486,7 +536,8 @@ export async function analyzeMessage(text, { store = null, cfg = null, lang = "e
   for (const [id, list] of Object.entries(P)) {
     for (const re of list) {
       for (const m of t.matchAll(re)) {
-        if (NEGATABLE.has(id) && negated(t, m.index)) continue;
+        if (NEGATABLE.has(id) && negated(t, m.index, m[0].length, id)) continue;
+        if (id === "dabba" && /^(?:dabba|डब्बा)$/i.test(m[0]) && QUESTION_RE.test(t)) continue;
         add(id, m[0].trim());
       }
     }
@@ -495,15 +546,17 @@ export async function analyzeMessage(text, { store = null, cfg = null, lang = "e
   for (const m of t.matchAll(RBI_RE)) add("rbi_alert", m[0], m[0]);
   for (const m of t.matchAll(CELEB_RE)) add("celebrity", m[0]);
   for (const m of t.matchAll(SCAM_BRAND_RE)) add("celebrity", m[0]);
+  for (const m of t.matchAll(CELEB_GENERIC_RE)) add("celebrity", m[0]);
   if (RISK_DISCLAIMER_RE.test(t)) positive("risk_disclaimer");
 
   const ents = extractEntities(t);
   const links = ents.urls.map(analyzeLink).filter(Boolean);
 
   // SEBI registration numbers
-  const sebi = ents.regNos.map(lookupRegNo);
+  const sebi = await Promise.all(ents.regNos.map((n) => verifyRegNo(n, cfg || {})));
   for (const s of sebi) {
     if (!s.valid) add("sebi_bad_format", s.normalized, s.normalized);
+    else if (s.notRegistered) add("sebi_not_registered", s.normalized, s.normalized, s.asOf || "");
     else if (!s.found) add("sebi_not_found", s.normalized, s.normalized);
     else positive("sebi_found", s.normalized, s.name);
   }
@@ -553,8 +606,18 @@ export async function analyzeMessage(text, { store = null, cfg = null, lang = "e
   let floor = 0;
   if (ids.has("safe_browsing")) floor = 85;
   if (ids.has("community_verified")) floor = Math.max(floor, 70);
-  if (ids.has("credentials") || ids.has("remote_apk") || ids.has("link_apk") || ids.has("withdrawal_fee") || ids.has("threat")) floor = Math.max(floor, 60);
+  if (ids.has("credentials") || ids.has("remote_apk") || ids.has("link_apk") || ids.has("withdrawal_fee") || ids.has("threat") || ids.has("utility_threat")) floor = Math.max(floor, 60);
   if ((ids.has("pay_personal") || ids.has("upi_personal")) && flags.length >= 2) floor = Math.max(floor, 60);
+  // An unregistered "adviser" who also wants money or promises returns.
+  if (ids.has("sebi_not_registered") && ["pay_personal", "upi_personal", "high_return", "guaranteed", "unregistered_tips", "group_invite"].some((x) => ids.has(x))) floor = Math.max(floor, 60);
+  // Task jobs that also ask for a fee are the classic "prepaid task" scam.
+  if (ids.has("task_job") && (ids.has("pay_personal") || ids.has("high_return") || ids.has("group_invite"))) floor = Math.max(floor, 60);
+  // A promise plus pressure ("100% sure, only 5 seats left") is a textbook pitch.
+  if ((ids.has("guaranteed") || ids.has("high_return")) && ids.has("urgency")) floor = Math.max(floor, 60);
+  // Several dabba signs together ("no demat, 500x leverage, no tax") = an illegal trading pitch.
+  if ((found.get("dabba")?.hits || 0) >= 2) floor = Math.max(floor, 60);
+  // Return promises plus a fake official stamp or pressure to pay.
+  if ((ids.has("high_return") || ids.has("guaranteed")) && (ids.has("authority") || ids.has("pay_personal") || ids.has("forex_crypto") || ids.has("institutional"))) floor = Math.max(floor, 60);
   // Celebrity / "AI trading" pitch combined with return promises = classic deepfake ad.
   if (ids.has("celebrity") && (ids.has("high_return") || ids.has("guaranteed"))) floor = Math.max(floor, 60);
   // Any single high-severity sign is at least "suspicious".

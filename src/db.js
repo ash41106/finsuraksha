@@ -13,6 +13,8 @@ const EMPTY = () => ({
   votes: [],
   appeals: [],
   certificates: [],
+  // SEBI-registered entities a moderator added after checking their certificate.
+  registerAdditions: [],
   // Anonymous aggregate counters only - never message content.
   counters: { checks: 0, verdicts: {}, flags: {}, daily: {} },
 });

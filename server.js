@@ -3,6 +3,7 @@ import os from "node:os";
 import { spawn } from "node:child_process";
 import { buildConfig } from "./src/config.js";
 import { createApp } from "./src/app.js";
+import { registerInfo } from "./src/sebi.js";
 
 // `node server.js --open` (used by run.bat) also opens the site in the browser.
 const OPEN = process.argv.includes("--open");
@@ -66,6 +67,9 @@ server.listen(port, host, async () => {
   }
   console.log(`  Suraksha-Dost AI mode : ${ai.enabled ? `ON (Groq: ${ai.model})` : "OFF - rule-based engine only (set GROQ_API_KEY to enable)"}`);
   console.log(`  Safe Browsing checks  : ${cfg.safeBrowsingKey ? "ON" : "OFF (optional GOOGLE_SAFE_BROWSING_API_KEY)"}`);
+  const reg = registerInfo();
+  console.log(`  SEBI register         : ${reg.count} entries, as on ${reg.asOf || "unknown"} (${reg.complete ? "complete" : "partial - see PROGRESS.md to load the full list"})${cfg.sebiLookupUrl ? " + lookup service" : ""}`);
+  if (reg.stale) console.log(`  !! SEBI register is ${reg.ageDays ?? "?"} days old - refresh it (npm run import-register).`);
   console.log(`  Data folder           : ${store.dataDir}`);
   if (seeded) {
     console.log(`\n  Sample data loaded. Moderator login (also saved in ${seeded.file}):`);

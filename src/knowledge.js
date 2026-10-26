@@ -76,6 +76,14 @@ export const FLAG_TEXT = {
     en: ['"Digital arrest" or legal threat', "Fraudsters pose as CBI, police, customs or SEBI on video calls and threaten arrest to scare you into paying. No agency arrests anyone over a call."],
     hi: ['"डिजिटल अरेस्ट" या क़ानूनी धमकी', "ठग वीडियो कॉल पर CBI, पुलिस, कस्टम या SEBI बनकर गिरफ़्तारी की धमकी देते हैं ताकि आप डरकर पैसे दे दें। कोई एजेंसी कॉल पर गिरफ़्तार नहीं करती।"],
   },
+  utility_threat: {
+    en: ["Threat to cut your electricity, gas or SIM", "Fake 'bill pending, connection will be cut tonight' messages push you to call a number and pay or install an app. Power companies never ask for payment through a personal number."],
+    hi: ["बिजली, गैस या सिम काटने की धमकी", "'बिल बाक़ी है, आज रात कनेक्शन कट जाएगा' जैसे नक़ली संदेश आपसे किसी नंबर पर कॉल करवाकर पैसे या ऐप माँगते हैं। बिजली कंपनी कभी निजी नंबर से भुगतान नहीं माँगती।"],
+  },
+  task_job: {
+    en: ["'Earn by liking videos' task job", "Scammers pay small amounts for likes or reviews at first, then ask you to 'invest' in prepaid tasks and never pay back. Genuine jobs don't pay for likes."],
+    hi: ["'वीडियो लाइक करके कमाओ' वाला टास्क जॉब", "ठग पहले लाइक या रिव्यू के छोटे पैसे देते हैं, फिर 'प्रीपेड टास्क' में पैसे लगवाकर ग़ायब हो जाते हैं। असली नौकरी लाइक के पैसे नहीं देती।"],
+  },
   dabba: {
     en: ['Signs of illegal "dabba" (off-exchange) trading', 'Trading without demat/KYC, huge leverage or "no tax" outside exchanges is illegal under the SCRA, 1956 - up to 10 years\' jail and/or ₹25 crore fine, and you get no exchange protection.'],
     hi: ['ग़ैरक़ानूनी "डब्बा" ट्रेडिंग के संकेत', 'बिना डीमैट/KYC, भारी लीवरेज या "बिना टैक्स" एक्सचेंज के बाहर ट्रेडिंग SCRA, 1956 के तहत ग़ैरक़ानूनी है — 10 साल तक जेल और/या ₹25 करोड़ तक जुर्माना, और एक्सचेंज की कोई सुरक्षा नहीं।'],
@@ -157,8 +165,12 @@ export const FLAG_TEXT = {
     hi: ["SEBI रजिस्ट्रेशन नंबर ग़लत लगता है ({x})", "SEBI नंबर INA/INH के बाद 9 अंकों के होते हैं। नकली नंबर आम हैं।"],
   },
   sebi_not_found: {
-    en: ["Number not in our register snapshot ({x})", "Our snapshot is partial, so verify {x} yourself on SEBI's official intermediary search before trusting."],
-    hi: ["नंबर हमारी सूची में नहीं मिला ({x})", "हमारी सूची अधूरी है, इसलिए भरोसा करने से पहले {x} को SEBI की आधिकारिक वेबसाइट पर ख़ुद जाँचें।"],
+    en: ["Not found in the SEBI register ({x})", "FinSuraksha checked {x} against its copy of SEBI's register and could not verify it. Treat it as unverified and don't pay until it checks out."],
+    hi: ["SEBI रजिस्टर में नहीं मिला ({x})", "FinSuraksha ने {x} को SEBI रजिस्टर की अपनी कॉपी में जाँचा, पर इसकी पुष्टि नहीं हुई। इसे असत्यापित मानें और पुष्टि होने तक भुगतान न करें।"],
+  },
+  sebi_not_registered: {
+    en: ["Not registered with SEBI ({x})", "{x} is not in SEBI's register (updated {y}). Don't pay. If they say they registered very recently, ask for their SEBI registration certificate."],
+    hi: ["SEBI में रजिस्टर्ड नहीं ({x})", "{x} SEBI रजिस्टर ({y} तक अपडेट) में नहीं है। भुगतान न करें। अगर वे कहें कि हाल ही में रजिस्टर हुए हैं, तो उनका SEBI रजिस्ट्रेशन सर्टिफ़िकेट माँगें।"],
   },
   sebi_claim_no_number: {
     en: ['Claims "SEBI registered" but shows no number', 'Anyone can say "SEBI registered". A genuine adviser or analyst shows a number you can verify.'],
@@ -189,18 +201,27 @@ export const ACTIONS = {
   verify_first: { en: "Don't pay, install anything or share personal details until you verify.", hi: "जाँच पूरी होने तक न पैसे भेजें, न कुछ इंस्टॉल करें, न निजी जानकारी दें।" },
   never_otp: { en: "Never share OTP/PIN. Call your bank or broker only on the number from their official website or card.", hi: "OTP/PIN कभी न बताएँ। बैंक/ब्रोकर को सिर्फ़ उनकी आधिकारिक वेबसाइट या कार्ड पर दिए नंबर पर कॉल करें।" },
   no_apk: { en: "Don't install the app. If you already did: uninstall it, turn on flight mode and change banking passwords from another device.", hi: "ऐप इंस्टॉल न करें। अगर कर लिया है: उसे हटाएँ, फ़्लाइट मोड चालू करें और किसी दूसरे फ़ोन से बैंकिंग पासवर्ड बदलें।" },
-  valid_upi: { en: "Pay only to @valid UPI IDs of SEBI-registered entities, and confirm them on SEBI Check.", hi: "सिर्फ़ SEBI-रजिस्टर्ड संस्थाओं की @valid UPI ID पर ही भुगतान करें और SEBI Check पर पुष्टि करें।" },
-  verify_sebi: { en: "Verify the adviser on SEBI's intermediary search (INA = adviser, INH = research analyst) and match the name.", hi: "SEBI की वेबसाइट पर सलाहकार को जाँचें (INA = सलाहकार, INH = रिसर्च एनालिस्ट) और नाम मिलाएँ।" },
+  valid_upi: { en: "Pay only to an @valid UPI ID of a SEBI-registered entity. Paste the UPI ID here and FinSuraksha will verify it for you.", hi: "सिर्फ़ SEBI-रजिस्टर्ड संस्था की @valid UPI ID पर भुगतान करें। UPI ID यहाँ भेजें, FinSuraksha आपके लिए जाँच देगा।" },
+  verify_sebi: { en: "Ask for their SEBI registration number (INA = adviser, INH = research analyst) and paste it here. FinSuraksha will verify it against SEBI's register for you.", hi: "उनका SEBI रजिस्ट्रेशन नंबर माँगें (INA = सलाहकार, INH = रिसर्च एनालिस्ट) और यहाँ भेजें। FinSuraksha इसे SEBI रजिस्टर में आपके लिए जाँच देगा।" },
+  not_registered: { en: "Don't pay or take tips from anyone who isn't SEBI-registered. If they can't show a SEBI registration certificate, report them on FinScam Hunter.", hi: "जो SEBI में रजिस्टर्ड नहीं है, उसे न पैसे दें, न उसकी टिप लें। अगर वे SEBI रजिस्ट्रेशन सर्टिफ़िकेट न दिखा पाएँ, तो FinScam Hunter पर रिपोर्ट करें।" },
   avoid_dabba: { en: "Trade only through SEBI-registered brokers on recognised exchanges. Dabba operators can be reported to the exchange or the police.", hi: "सिर्फ़ SEBI-रजिस्टर्ड ब्रोकर से मान्य एक्सचेंज पर ट्रेड करें। डब्बा ऑपरेटर की शिकायत एक्सचेंज या पुलिस से करें।" },
   exit_report: { en: "Exit the group and report it on FinScam Hunter so others are warned.", hi: "ग्रुप छोड़ें और FinScam Hunter पर रिपोर्ट करें ताकि दूसरे भी सावधान रहें।" },
   no_fee_withdraw: { en: "Don't pay any 'tax' or 'fee' to withdraw. Stop payments and report at cybercrime.gov.in or call 1930.", hi: "पैसे निकालने के लिए कोई 'टैक्स' या 'फ़ीस' न दें। भुगतान रोकें और cybercrime.gov.in या 1930 पर शिकायत करें।" },
   disconnect_1930: { en: "No agency arrests anyone over a video call. Disconnect and call 1930.", hi: "कोई भी एजेंसी वीडियो कॉल पर गिरफ़्तार नहीं करती। कॉल काटें और 1930 पर फ़ोन करें।" },
   rbi_list: { en: "Check RBI's Alert List on rbi.org.in before using any forex or crypto platform.", hi: "किसी भी फ़ॉरेक्स/क्रिप्टो प्लेटफ़ॉर्म से पहले rbi.org.in पर RBI की अलर्ट लिस्ट देखें।" },
   chakshu: { en: "Report the suspicious call, SMS or WhatsApp on Sanchar Saathi → Chakshu (sancharsaathi.gov.in/sfc).", hi: "संदिग्ध कॉल, SMS या WhatsApp की शिकायत संचार साथी → चक्षु (sancharsaathi.gov.in/sfc) पर करें।" },
+  official_bill: { en: "Check your bill only in the official app or website of your electricity/gas company. Don't call numbers from SMS or install apps they send.", hi: "बिल सिर्फ़ बिजली/गैस कंपनी के आधिकारिक ऐप या वेबसाइट पर देखें। SMS में दिए नंबर पर कॉल न करें, न उनका भेजा ऐप इंस्टॉल करें।" },
+  no_task_job: { en: "Don't pay any 'registration' or 'task' money. Real employers never ask you to pay to work.", hi: "कोई 'रजिस्ट्रेशन' या 'टास्क' के पैसे न दें। असली नौकरी देने वाला काम के लिए पैसे नहीं माँगता।" },
   lost_money: { en: "If money is already gone, call 1930 right away and file at cybercrime.gov.in; ask your bank to freeze the transaction.", hi: "अगर पैसे जा चुके हैं, तुरंत 1930 पर कॉल करें, cybercrime.gov.in पर शिकायत करें और बैंक से लेन-देन रोकने को कहें।" },
   already_reported: { en: "Others have already reported this. Don't engage or pay.", hi: "दूसरे लोग इसे पहले ही रिपोर्ट कर चुके हैं। बात न करें, पैसे न दें।" },
-  stay_careful: { en: "No major red flags found, but still verify registration before paying and never share OTPs.", hi: "कोई बड़ा ख़तरा नहीं दिखा, फिर भी भुगतान से पहले रजिस्ट्रेशन जाँचें और OTP कभी न बताएँ।" },
+  stay_careful: { en: "No major red flags found. Never share OTPs, and pay only the exact amount asked.", hi: "कोई बड़ा ख़तरा नहीं दिखा। OTP कभी न बताएँ और सिर्फ़ उतनी ही रक़म भेजें जितनी माँगी गई है।" },
   share_more: { en: "Paste the full message, the link, or the adviser's SEBI number so I can check properly.", hi: "पूरा संदेश, लिंक या सलाहकार का SEBI नंबर भेजें ताकि मैं ठीक से जाँच सकूँ।" },
+};
+
+// Shown as the first next step when FinSuraksha has verified something itself.
+export const VERIFIED_TEXT = {
+  sebi: { en: "✓ **Verified by FinSuraksha:** {x} is registered with SEBI as **{y}** ({z}). Just make sure that's who actually contacted you.", hi: "✓ **FinSuraksha द्वारा सत्यापित:** {x} SEBI में **{y}** ({z}) के नाम से रजिस्टर्ड है। बस देख लें कि आपसे संपर्क करने वाला यही है।" },
+  upi: { en: "✓ **Verified by FinSuraksha:** {x} is a SEBI @valid UPI ID ({y}). These are issued only to SEBI-registered intermediaries.", hi: "✓ **FinSuraksha द्वारा सत्यापित:** {x} एक SEBI @valid UPI ID है ({y})। ये सिर्फ़ SEBI-रजिस्टर्ड संस्थाओं को मिलती हैं।" },
 };
 
 export const FLAG_ACTIONS = {
@@ -212,6 +233,7 @@ export const FLAG_ACTIONS = {
   unregistered_tips: ["verify_sebi"],
   sebi_bad_format: ["verify_sebi"],
   sebi_not_found: ["verify_sebi"],
+  sebi_not_registered: ["not_registered"],
   sebi_claim_no_number: ["verify_sebi"],
   dabba: ["avoid_dabba"],
   group_invite: ["exit_report"],
@@ -223,6 +245,8 @@ export const FLAG_ACTIONS = {
   withdrawal_fee: ["no_fee_withdraw"],
   authority: ["chakshu"],
   threat: ["disconnect_1930", "chakshu"],
+  utility_threat: ["official_bill", "chakshu"],
+  task_job: ["no_task_job", "exit_report"],
   forex_crypto: ["rbi_list"],
   rbi_alert: ["rbi_list"],
   community_verified: ["already_reported"],

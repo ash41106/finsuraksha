@@ -1,16 +1,241 @@
 {
-  "source": "SEBI - Recognised intermediaries (public list, first page of each category)",
+  "source": "SEBI - Recognised intermediaries (public list, 43 saved pages)",
   "sourceUrls": [
     "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=13",
     "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=14"
   ],
-  "asOf": "Oct 22, 2026",
+  "asOf": "Oct 25, 2026",
   "partial": true,
-  "note": "Partial snapshot for demonstration. A number missing here is NOT proof of a fake - always confirm on sebi.gov.in.",
+  "note": "Partial register: a number missing here is reported as 'could not verify', not as fake.",
   "entries": [
+    {
+      "regNo": "INA000000037",
+      "name": "KAVITHA MENON",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000045",
+      "name": "PRAKASH CHANDRA PRAHARAJ",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000060",
+      "name": "VALUEFY SOLUTIONS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000094",
+      "name": "ICICI SECURITIES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000276",
+      "name": "ASTEYA INVESTMENT MANAGERS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000383",
+      "name": "V R WEALTH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000391",
+      "name": "BARCLAYS SECURITIES (INDIA) PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000409",
+      "name": "PLAN AHEAD WEALTH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000441",
+      "name": "GORAKH KADAM",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000532",
+      "name": "ASK Wealth Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000557",
+      "name": "TRUSTPLUTUS FAMILY OFFICE & INVESTMENT ADVISERS (INDIA) PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000615",
+      "name": "AXIS SECURITIES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000623",
+      "name": "IIFL Capital Services Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000631",
+      "name": "AJIT SINGH DUA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000672",
+      "name": "Purnartha Investment Advisers Pvt.Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000680",
+      "name": "QUANTUM INFORMATION SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000789",
+      "name": "JIGNESH HARSHADRAI SHAH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000805",
+      "name": "SACHIN MAHESH WALAVALKAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000000854",
+      "name": "SHRI. AMIT BHADANG",
+      "type": "Investment Adviser"
+    },
     {
       "regNo": "INA000000888",
       "name": "360 ONE Investment Adviser and Trustee Services Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001001",
+      "name": "UNIQUEST INVESTMENT ADVISER PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001027",
+      "name": "KALPESH N ASHAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001126",
+      "name": "SHRI AKHILESH CHAWDA PROPRIETOR M/S CAPITAL COW RESEARCH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001142",
+      "name": "DSIJ Wealth Advisory Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001365",
+      "name": "RAJIV SHARMA PROPRIETOR M/S CAPITAL LIFE MARKET RESEARCH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001472",
+      "name": "VIKRAM ADVISORY SERVICES PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001522",
+      "name": "HAREN JAYENDRA BANKER",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000001761",
+      "name": "CENTRUM INVESTMENT ADVISORS LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000002173",
+      "name": "HARSH VARDHAN DAWAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000002470",
+      "name": "MUNJAL RAJENDRA SHAH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000002611",
+      "name": "AJIT ROONGTA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000002678",
+      "name": "GAURAV AGRAWAL PROPRIETOR PROFIT VISTA FINANCIAL RESEARCH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000002744",
+      "name": "GEPL INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000002751",
+      "name": "FORT CAPITAL INVESTMENT ADVISORY PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000002892",
+      "name": "KRISHNA RATH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003130",
+      "name": "Julius Baer Wealth Advisors (India) Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003254",
+      "name": "AKANSHA JAIN PROPRIETOR DYNAMIC MONEY RESEARCH ADVISORY SERVICES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003296",
+      "name": "UMESH KUMAR PANDEY PROP. AUROSTAR INVESTMENT ADVISORY SERVICES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003395",
+      "name": "DINESH DA COSTA (PROPRIETOR ZARA INVESTMENT ADVISORY)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003643",
+      "name": "VIPIN KHANDELWAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003767",
+      "name": "AKHILESH JAIN PROPRIETOR EH RESEARCH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003783",
+      "name": "HEMANG MEHTA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003809",
+      "name": "INNOVAGE INVESTMENT ADVISERS PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003833",
+      "name": "BLUE OCEAN FINANCIAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003874",
+      "name": "EQUENTIS WEALTH ADVISORY SERVICES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000003924",
+      "name": "quant Portfolio Managers Private Limited",
       "type": "Investment Adviser"
     },
     {
@@ -19,8 +244,678 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000004013",
+      "name": "GAURAV MASHRUWALA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004039",
+      "name": "DEVENDRA KUMAR BAIRATHI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004070",
+      "name": "KONGRUENT WEALTH MANAGEMENT SERVICES LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004088",
+      "name": "RC CAPITAL MANAGEMENT",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004146",
+      "name": "Nishit Vinay Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004187",
+      "name": "NIMISH DEHARIYA PROPRIETOR IR24",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004237",
+      "name": "HEMENDRA GANDHI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004245",
+      "name": "Atul Mishra (Proprietor - AMIGOS FINSERV)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004377",
+      "name": "RAJU SATPUTE PROPRIETOR THE EQUAL RESEARCH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004401",
+      "name": "MANEK FINANCIAL ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004450",
+      "name": "DEEP KANDPAL PROP. RESEARCH INN INVESTMENT ADVISOR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004492",
+      "name": "BRIJESH C PARIKH (PROPRIETOR OF PLANETWEALTH FINANCIAL ADVISORS)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004500",
+      "name": "MONEYMAP INVESTMENT ADVISORS PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004518",
+      "name": "PHILLIPCAPITAL (INDIA) PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004773",
+      "name": "Mobikwik Investment Adviser Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004906",
+      "name": "PRUDENT CORPORATE ADVISORY SERVICES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000004930",
+      "name": "RIGHT RETURNS FINANCIAL PLANNING LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005291",
+      "name": "RAJU JHARIYA PROPRIETOR CAPITAL VRADDHI FINANCIAL SERVICES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005333",
+      "name": "Market-Hub Stock Broking Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005358",
+      "name": "EQUITY99",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005457",
+      "name": "CEDRUS CONSULTANTS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005564",
+      "name": "BIA INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005606",
+      "name": "VIKAS KUMAR PANDEY PROP. PARAMOUNT RESEARCH SERVICES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005713",
+      "name": "HIRENSINH P BHATTI (PROPRIETOR OF SANCHI CONSULTANCY)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000005721",
+      "name": "MONARCH NETWORTH INVESTMENT ADVISORS PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000006527",
+      "name": "Avendus Wealth Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000006651",
+      "name": "Alphafront Finserv Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000006688",
+      "name": "EQUITYPANDIT FINANCIAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000006703",
       "name": "Abhijit Talukdar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000006837",
+      "name": "Chinmay Harshad Kelkar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000006846",
+      "name": "Ashmore Investment Management India LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000006952",
+      "name": "Ekvity Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007021",
+      "name": "QBER ASSET ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007058",
+      "name": "Jitendra Dangi",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007216",
+      "name": "Dyota Solutions Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007313",
+      "name": "Shobhit Khare",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007331",
+      "name": "YES SECURITIES INDIA LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007492",
+      "name": "Ankur Jain Proprietor Winway Research",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007526",
+      "name": "NIFTYONLY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007580",
+      "name": "ALPHA INVESTMENT ADVISER",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007757",
+      "name": "Ankit Shah - Proprietor of White Equity",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007818",
+      "name": "Mr Dick Hosy Mody",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007924",
+      "name": "Amit Malviya Proprietor of Moneyplant Investment Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007933",
+      "name": "RAJIV SHAH (PROPRIETOR: RMS INVESTMENTS)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007951",
+      "name": "Nivesh Research",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000007997",
+      "name": "JHANAVIKA SINGH PROPRIETOR FINTHERP WEALTH MANAGEMENT",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008084",
+      "name": "CHIRAG V GANDHI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008093",
+      "name": "Moral Financial Research",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008154",
+      "name": "RACHIT KHANDELWAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008172",
+      "name": "ANGEL ONE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008251",
+      "name": "Chandan Singh Padiyar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008482",
+      "name": "Moneycontrol.Dot Com India Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008525",
+      "name": "KUSH BOHRA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008589",
+      "name": "Multi Act Trade and Investments Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008668",
+      "name": "FRR SHARES AND SECURITIES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008738",
+      "name": "SWAPNIL DHANANJAY KENDHE",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008792",
+      "name": "NEERAJ KUMAR JAIN PROPRIETOR of CAPITAL PRIDE",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008808",
+      "name": "HIMANSHU MURALIA PROPRIETOR OF TRADE GYAN SOLUTIONS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008826",
+      "name": "Sachin Motilal Neema",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008862",
+      "name": "DEEPAK OSTWAL PROPRIETOR OF CAPITAL WAYS INVESTMENT ADVISER",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000008880",
+      "name": "NANDINEE MANDAR VAIDYA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009065",
+      "name": "PROALPHA CAPITAL PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009180",
+      "name": "RIPPLEWAVE EQUITY ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009278",
+      "name": "ANKUSH SANODIYA PROPRIE TOR of DELIGHT FINANCIAL SERVICES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009427",
+      "name": "SHIVANSU JAISWAL PROPRIETOR of INVESTMENT MULTIPLIER FINANCIAL SERVICES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009481",
+      "name": "Alphaniti Fintech Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009649",
+      "name": "Ketan Kiran Gogte",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009719",
+      "name": "SUDHANSHU SHEKHAR PATEL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009834",
+      "name": "Sicomoro Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009861",
+      "name": "LKP Wealth Advisory Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009931",
+      "name": "Ajendra",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000009959",
+      "name": "ANUGYA SINGH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010070",
+      "name": "JAVERI FISCAL SERVICES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010104",
+      "name": "SHIVANGI CHANDEL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010113",
+      "name": "Yogesh Kukadia Chhaganbhai",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010159",
+      "name": "Networth Research And Investment Advisor, Proprietor Neha Saluja",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010344",
+      "name": "Ritesh Chouksey",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010380",
+      "name": "Godrej Ventures And Investment Advisers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010584",
+      "name": "Hersh Tolani",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010636",
+      "name": "Lightrock Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010742",
+      "name": "Pradeep Gobind Mahtani",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000010779",
+      "name": "AMPLE INVESTMENT ADVISER",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011219",
+      "name": "Compounding Wealth Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011477",
+      "name": "Jenil k shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011538",
+      "name": "HDFC SECURITIES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011574",
+      "name": "GreenEdge Wealth Services LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011617",
+      "name": "L.F.C. SECURITIES PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011796",
+      "name": "Priyadarshini Moreshwar Mulye",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011802",
+      "name": "IDBI Capital Markets & Securities Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000011875",
+      "name": "Ritwik Rai",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012102",
+      "name": "VARDE INDIA INVESTMENT ADVISER PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012175",
+      "name": "Venkateshwaran Subramanian",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012351",
+      "name": "JM FINANCIAL SERVICES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012519",
+      "name": "Kotak Alternate Asset Managers Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012528",
+      "name": "MOJO MARKETS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012713",
+      "name": "FUNDWISERS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012777",
+      "name": "Preeti K Zende",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012838",
+      "name": "HARISH MENON",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012874",
+      "name": "Dalton Investment Advisory Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000012953",
+      "name": "Manish Khandelwal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013040",
+      "name": "REDDITO CAPITAL INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013183",
+      "name": "Adhish patel",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013217",
+      "name": "JEENA SCRIPTECH ALPHA ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013235",
+      "name": "Ventugrow consultants Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013262",
+      "name": "Affirma Capital Investment Adviser India Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013402",
+      "name": "Rio Capital Investment Advisor",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013493",
+      "name": "Devendra Tripathi Sole Proprietor Stock Bull Investment Advisory Services",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013697",
+      "name": "Eminent Investments",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013785",
+      "name": "ICICI Investment Management Company Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013800",
+      "name": "Hrushikesh Kale",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013855",
+      "name": "DIPEN DEEPAK DOSHI (SOLE PROPRIETOR OF FOCUS INVESTING)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000013961",
+      "name": "Emkay Wealth Advisory Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014207",
+      "name": "MADHUVAN INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014322",
+      "name": "Aishwarya Agarwal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014331",
+      "name": "Mangal Keshav Financial Services LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014410",
+      "name": "IndusInd Securities Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014614",
+      "name": "ARETE SECURITIES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014632",
+      "name": "RACHNA CHAUHAN",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014809",
+      "name": "Jay Rajnikant Thacker",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014818",
+      "name": "VANSH CAPITAL PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014836",
+      "name": "FEE ONLY INVESTMENT ADVISERS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014845",
+      "name": "Sundeep B Parmar (Proprietor of Fortuplier Investment Advisors)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000014890",
+      "name": "Incred Capital Wealth Portfolio Managers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015057",
+      "name": "Yashraj Maheshwari",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015260",
+      "name": "PHAEDRUS ADVISORY LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015297",
+      "name": "PRITESHKUMAR CHAMPAKLAL SHAH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015312",
+      "name": "ADV PARTNERS INVESTMENT ADVISER INDIA PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015367",
+      "name": "YOGESH AJMIRE",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015385",
+      "name": "Cervin Family Office & Advisors Pvt. Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015455",
+      "name": "Harshad Chetanwala",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015491",
+      "name": "PIYUSH SARAWAGI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015525",
+      "name": "Kedia Capital Services Pvt. Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015543",
+      "name": "FERMI 325 INVESTMENT ADVISER",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015552",
+      "name": "VIPUL P SHAH(PROPRIETOR: INPACT WEALTH ADVISORS)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015701",
+      "name": "ALFACCURATE ADVISORS PVT LTD",
       "type": "Investment Adviser"
     },
     {
@@ -29,8 +924,123 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000015747",
+      "name": "Alphaware Advisory Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000015774",
       "name": "Accelpru Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015808",
+      "name": "InvesQ Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015817",
+      "name": "GreenOak India Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015899",
+      "name": "Lazara Capital Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015923",
+      "name": "MAHESH KABRA (PROPRIETOR : TAURUSCAP INVESTMENT ADVISERS)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015932",
+      "name": "KASHYAP POPAT",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015969",
+      "name": "Multistrato Capital Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000015996",
+      "name": "GYR Financial Planners Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016001",
+      "name": "Ladder7 Wealth Planners Pvt. Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016010",
+      "name": "ETHINVEST ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016038",
+      "name": "Roshni Nayak",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016056",
+      "name": "Kislay Upadhyay",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016083",
+      "name": "Bajaj Finserv Direct Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016171",
+      "name": "Alpha Alternatives Fund Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016180",
+      "name": "Manish K Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016223",
+      "name": "Midas Wealth Advisory Private Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016278",
+      "name": "QUANTSAPP WEALTH PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016296",
+      "name": "Nirmiti Investment Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016302",
+      "name": "DV Investment Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016348",
+      "name": "Citrus Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016384",
+      "name": "Deepesh Jain",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016427",
+      "name": "Varsha Vasant Shingate",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016436",
+      "name": "RENAISSANCE SMART TECH PRIVATE LIMITED",
       "type": "Investment Adviser"
     },
     {
@@ -39,8 +1049,173 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000016463",
+      "name": "Estee Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016481",
+      "name": "Neuron Wealth Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016506",
+      "name": "Nischal Santosh Jain",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016515",
+      "name": "Investor First Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016603",
+      "name": "Degree 212 Investment Services & IMF Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016649",
+      "name": "Parami Financial Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016685",
+      "name": "Preeti Passi",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016719",
+      "name": "Appreciate Investment Advisory Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016728",
+      "name": "PINPOINT INVESTMENT ADVISORY SERVICES INDIA LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016764",
+      "name": "Varun Ginodia - Proprietor Bulwark Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016773",
+      "name": "Prosperity Wealth Adviser",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016782",
+      "name": "CIRCLE WEALTH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016843",
+      "name": "Chase Alpha Partners LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000016977",
+      "name": "Atul Gupta",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017019",
+      "name": "PARAS V. LAKHANI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017198",
+      "name": "Compound Everyday Capital Management LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017204",
+      "name": "Marcellus Capital Partners LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017213",
+      "name": "PUSPENDU DATTA",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000017231",
       "name": "21G INVESTMENT ADVISERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017259",
+      "name": "Pioneer Wealth Management Services Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017277",
+      "name": "ALGONAUTS ADVISORY SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017286",
+      "name": "Neo Wealth Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017295",
+      "name": "MFS Capital Partners",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017310",
+      "name": "Himanshu Pravinchandra Pandya",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017347",
+      "name": "Deepak Motwani (Proprietor: Marquee Investment Managers)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017356",
+      "name": "Mohit Chawla",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017365",
+      "name": "CAPITAL LEAGUE LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017383",
+      "name": "EVAREAP INVESTMENT ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017426",
+      "name": "ValueArk Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017435",
+      "name": "Nag Munagapati wealth advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017444",
+      "name": "Care Portfolio Managers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017453",
+      "name": "SINCERE SYNDICATION AND CORPORATE SERVICES LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017471",
+      "name": "GAURI ANAND",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017480",
+      "name": "Credcap Consultants LLP",
       "type": "Investment Adviser"
     },
     {
@@ -49,8 +1224,208 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000017532",
+      "name": "Fort Investments",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017587",
+      "name": "UFICS Investment Advisory LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017602",
+      "name": "PAWAN KUMAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017611",
+      "name": "Urvil Bharatkumar Modi",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017620",
+      "name": "VSK FINANCIAL CONSULTANCY SERVICES PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017639",
+      "name": "Uniapps Investment Adviser Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017648",
+      "name": "Safejar Advisers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017657",
+      "name": "Apricus Wealth Investment Managers LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017666",
+      "name": "Vaibhav Pandey",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017675",
+      "name": "Rinshad P P",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017693",
+      "name": "Rama Subramanyam Nimmagadda",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017709",
+      "name": "DEEPAK KUMAR AGARWAL",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000017718",
       "name": "ACME INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017754",
+      "name": "Alfama Research & Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017763",
+      "name": "Ashish Khetan- Proprietor of Meeraj Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017806",
+      "name": "PRUDENO WEALTH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017815",
+      "name": "Zebu Share and Wealth Managements Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017833",
+      "name": "SIGFYN INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017851",
+      "name": "Chander P Chellani - Proprietor IDA Wealth",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017879",
+      "name": "Hardik Jain- Proprietor of Eternal Research Investment Advisor",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017888",
+      "name": "Devraj Dhagat",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017897",
+      "name": "Yadnya Academy Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017903",
+      "name": "DRCHOKSEY FINSERV PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017921",
+      "name": "MOONBOW INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017930",
+      "name": "Milind Jagannath More Proprietor of MUKUR Financial Planners and Consultants",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017958",
+      "name": "Neo Wealth Partners Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017967",
+      "name": "Viren Sameer Deshpande Proprietor of Alphapeak Investments",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000017994",
+      "name": "SHOMITA SAHA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018054",
+      "name": "Goldmine Assets Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018072",
+      "name": "Lunchbrake Classic Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018090",
+      "name": "Anshul Khare Proprietor of Inertia Equities for Wealth",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018124",
+      "name": "Equal Identity Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018133",
+      "name": "Lime Internet Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018142",
+      "name": "Vinay Simon George",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018160",
+      "name": "Ajay Pradhan",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018179",
+      "name": "Pi Square Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018197",
+      "name": "Hum Fauji Financial Services Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018212",
+      "name": "Sivamurugan Sankaralingam Proprietor Maxima Wealth Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018221",
+      "name": "Chintan Shantilal Madhvani Proprietor Be Wealth Wise",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018230",
+      "name": "PERPETUAL CAPITAL ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018249",
+      "name": "CORPCARE INVESTMENT ADVISORY PRIVATE LIMITED",
       "type": "Investment Adviser"
     },
     {
@@ -59,8 +1434,443 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000018267",
+      "name": "Prabhudas Lilladher Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018276",
+      "name": "PROVITT CONSULTANTS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018285",
+      "name": "ROKAD APP PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018319",
+      "name": "MARATHON TRENDS ADVISORY PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018337",
+      "name": "Concept Investwell Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018382",
+      "name": "Coinwise Research Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018391",
+      "name": "Rahul Kalra",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018407",
+      "name": "Moneyvesta Capital Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018416",
+      "name": "DSK INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018425",
+      "name": "Researchinfo Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018434",
+      "name": "Aurostarinvestment Advisory Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018443",
+      "name": "Invexa Capital LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018461",
+      "name": "Bodeddula Siva Prasad Reddy",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018470",
+      "name": "AlphaGrep Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018498",
+      "name": "Basant Maheshwari Wealth Advisers LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018504",
+      "name": "Epsilon Money Investment Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018522",
+      "name": "Kaitav Shailesh Shah Proprietor Labdhi Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018531",
+      "name": "DEVAGNAYA R SHAH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018540",
+      "name": "Turiya Advisory Services LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018559",
+      "name": "CENTRICITY ADVISORY SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018577",
+      "name": "Jigar Pradipchandra Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018601",
+      "name": "DEVENDRA KUMAR CHAUDHARY-Proprietor-TRADE MANIACS INVESTMENT ADVISOR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018629",
+      "name": "S MEENAKSHI SUNDAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018638",
+      "name": "K Prabhu",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018647",
+      "name": "Ramchandran S Iyer",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018656",
+      "name": "Korman Capital Investment Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018665",
+      "name": "Growthvine Capital Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018683",
+      "name": "Ramakrishnan M Proprietor Well Fare Investment Advisers",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018692",
+      "name": "Vishal Borasi Proprietor Muhurat Investing - Investment Advisor",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018708",
+      "name": "MOOL CAPITAL PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018726",
+      "name": "Ajeet Kumar Pandey- Proprietor of Investment Climb Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018735",
+      "name": "VENKTESH PRASAD SHUKLA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018744",
+      "name": "GOOD MONEYING WEALTH PLANNERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018753",
+      "name": "Jahnvi Deepak Goradia",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018762",
+      "name": "Fluid Fincap Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018780",
+      "name": "Llama Research LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018805",
+      "name": "JAISAL DINESHCHANDRA SHAH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018814",
+      "name": "Gaurav Agrawal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018823",
+      "name": "Vinod Chinnaya Bangera- Proprietor- Karvin Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018832",
+      "name": "MENTOR RING FINANCIAL ADVISORY PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018841",
+      "name": "Dreamplug Advisory Solutions Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018850",
+      "name": "Girish Ganaraj Proprietor of Finwise Financial Planners and Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018878",
+      "name": "Ananya Roy - Proprietor of Credibull Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018902",
+      "name": "GOLDVEST CAPITAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018939",
+      "name": "Shruti Subhashchander Bhatia",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018948",
+      "name": "Econ Ventures LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018957",
+      "name": "Prosperentia Investment Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018966",
+      "name": "PLNR INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018975",
+      "name": "Pavan Kumar Manchiraju Proprietor of Hubridge Investment Advisers",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018984",
+      "name": "MONEYDHAN INVESTMENT ADVISORY INDIA LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000018993",
+      "name": "Akshay Sunil Deora Proprietor DEORA INVESTMENT ADVISORY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019008",
+      "name": "Banafshe Pashootanizadeh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019017",
+      "name": "Dhruvin Jagdish Bhanushali",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019026",
+      "name": "I VENTURES CAPITAL PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019035",
+      "name": "Anubhuti Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019053",
+      "name": "BasuNivesh Fee Only Financial Planners",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019062",
+      "name": "Jay Distribution Links",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019071",
+      "name": "Dhilip Krishna SS Proprietor of Apta Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019080",
+      "name": "HEXAWEALTH FINANCIAL TECHNOLOGIES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019099",
+      "name": "MYFI FINTECH ADVISORY SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019123",
+      "name": "BIGMANS CONSULTANT & MARKETING PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019132",
+      "name": "JVT Investment Adviser LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019141",
+      "name": "BYLD WEALTH ADVISORY PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019150",
+      "name": "Ashwin Ramakrishnan",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019187",
+      "name": "RAVI KABRA Proprietor MONEYSAAR INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019202",
+      "name": "PRISHA WEALTH MANAGEMENT PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019211",
+      "name": "Naveen Rego Capital Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019220",
+      "name": "Vishal Bharat Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019239",
+      "name": "QICAP MANAGEMENT PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019248",
+      "name": "Madhur Gundecha Sole Proprietor of Ligna Wealth Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019266",
+      "name": "Challa Surya Teja - Proprietor of Empirai Research and Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019293",
+      "name": "Qubit Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019309",
+      "name": "U-Klickkit Enterprises Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019327",
+      "name": "HENSEX SECURITIES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019336",
+      "name": "Niranjan Goyal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019354",
+      "name": "Chavod Dasharathbhai Narsangabhai",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019363",
+      "name": "Mahesh Thangaraju -Proprietor EquityStreet Investment Advisor",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019406",
+      "name": "N Prabhanjan Rao Proprietor Elysian Investment Advisory Services",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019415",
+      "name": "FW Fintech Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019433",
+      "name": "BR Fiduciary Investment Advisory LLP",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000019442",
       "name": "Abhishek Phore - Proprietor Control Wealth Advisers",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019479",
+      "name": "Candour Asset Management LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019488",
+      "name": "Dymon Asia Capital Investment Adviser India Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019503",
+      "name": "Rudo Wealth Investment Advisory Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019512",
+      "name": "Maximus Financial Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019558",
+      "name": "Nobias Analyst India Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019567",
+      "name": "Legacy Custodians Advisory Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019576",
+      "name": "Pugmark Fund Capital Advisors LLP",
       "type": "Investment Adviser"
     },
     {
@@ -69,8 +1879,933 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000019619",
+      "name": "Malay Kirti Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019628",
+      "name": "G KANNAN PROPRIETOR HAWKEYE TRADING FINANCE ACADEMY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019646",
+      "name": "Amit Vinayak Ghag",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019655",
+      "name": "Pinakin C Jaiswal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019664",
+      "name": "Gopalakrishna Narayana Moni",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019673",
+      "name": "RISHU GOYAL - Proprietor of RURR ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019682",
+      "name": "Shilpi Maheshwari",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019691",
+      "name": "Navneet Sharma",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019707",
+      "name": "Ayushi Chauksey Adviser Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019716",
+      "name": "LGT Securities India Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019743",
+      "name": "ValueX Fund Managers LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019752",
+      "name": "Privus Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019770",
+      "name": "HEMLATA SOMANI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019789",
+      "name": "ADARSH NIMBORKAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019798",
+      "name": "Powerup Money Wealth Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019804",
+      "name": "Angel One Investment Managers & Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019813",
+      "name": "Ankur Vipul Shah Proprietor Quasar Capital Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019822",
+      "name": "Kashish Manjani",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019831",
+      "name": "Ardeko Asset Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019840",
+      "name": "Equisense Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019859",
+      "name": "Credent Asset Management Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019868",
+      "name": "Tygo Investment Advisers LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019938",
+      "name": "Jio Finance Platform and Service Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019947",
+      "name": "PLIRIS CAPITAL PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019956",
+      "name": "IIFL Capital Asset Management Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019965",
+      "name": "Growtheum Investment Advisors India Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019974",
+      "name": "Ashutosh Kumar Gupta",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000019992",
+      "name": "Nexedge Investment Adviser Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020004",
+      "name": "CUSP MONEY ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020040",
+      "name": "Rajan Nileshbhai Gajariya Proprietor Truenorth Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020059",
+      "name": "VASUPRADAH INVESTMENT ADVISORY SERVICES PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020068",
+      "name": "ASHUTOSH FINANCIAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020077",
+      "name": "PRATEEK SINGH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020095",
+      "name": "Profitmart Securities Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020101",
+      "name": "Dolat Finserv Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020110",
+      "name": "Punyasa Capital Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020138",
+      "name": "Rohit Gupta Proprietor Algolytical",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020165",
+      "name": "Navi Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020183",
+      "name": "Pradip Prabir Banerjee",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020192",
+      "name": "BLUESTRIDES FINANCIAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020217",
+      "name": "Ujvin Nevatia Proprietor Nevat Investments",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020226",
+      "name": "Narasimha Krishnakumar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020235",
+      "name": "Navinkumar Mishra Proprietor NM India Investment Advisers",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020244",
+      "name": "Gurpreet Singh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020253",
+      "name": "CASTLEGATE CAPITAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020262",
+      "name": "Deep Bhavesh Dhanecha",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020271",
+      "name": "Vikas Dimaniya",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020280",
+      "name": "KRUTIKA KATHAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020299",
+      "name": "AKHILESH V GOKARAJU",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020305",
+      "name": "Sushilkumar D Pardeshi",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020314",
+      "name": "Jio BlackRock Investment Advisers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020323",
+      "name": "ZEN NIVESH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020332",
+      "name": "MINERVA ASSET ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020341",
+      "name": "PRANAV KUMAR TIWARY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020350",
+      "name": "Minal Wagh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020387",
+      "name": "INVESTCUES CAPITAL INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020396",
+      "name": "NETWORTH TRACKER SOLUTIONS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020402",
+      "name": "Anushree Agarwal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020411",
+      "name": "MS SQUARE INVESTMENT ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020420",
+      "name": "Gunjal Jayadrath Suresh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020439",
+      "name": "Clearsharp Technology Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020448",
+      "name": "Varun Srivastava",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020457",
+      "name": "Mohammed Shoaib Dayma Proprietor FiSC Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020466",
+      "name": "JAYAPRAKASH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020475",
+      "name": "Ayush Sharma",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020484",
+      "name": "UPSTOX SECURITIES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020509",
+      "name": "INFINASK ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020527",
+      "name": "N Raghu Kumar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020536",
+      "name": "ASK LONG-SHORT FUND MANAGERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020545",
+      "name": "LN FINTECH ADVISORY PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020554",
+      "name": "Vivek Gupta",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020563",
+      "name": "Krishna Goyal Proprietor Fynvestor Investment Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020572",
+      "name": "Invsify Technologies Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020606",
+      "name": "INVESTORAI INVESTMENT MANAGEMENT SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020615",
+      "name": "Narendran",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020624",
+      "name": "CUBERA ASSET ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020633",
+      "name": "Cettlx Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020642",
+      "name": "NITISH CONSUL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020651",
+      "name": "Profit Finstock Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020660",
+      "name": "INDIUM INVESTMENT ADVISERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020697",
+      "name": "Pramiti Rawat",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020703",
+      "name": "Shishir Agarwal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020721",
+      "name": "PI DELTA ENTERPRISES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020730",
+      "name": "Aman Rakesh Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020776",
+      "name": "Arigamoney India Pvt. Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020785",
+      "name": "Kaustubh Dattatraya Agashe",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000020794",
       "name": "3Q FINANCIAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020800",
+      "name": "PLOUTUS ASSET SERVICES LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020819",
+      "name": "Eiko Quantum Solutions Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020828",
+      "name": "Patel Poojan Praful",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020846",
+      "name": "CKREDENCE WEALTH MANAGEMENT PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020855",
+      "name": "Everest Creators Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020864",
+      "name": "SUJAN SINGH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020891",
+      "name": "Newcamp Finserv Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020907",
+      "name": "Crest Capital Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020916",
+      "name": "Shivam Kumar Aggarwal Proprietor ASKCA Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020925",
+      "name": "NERDYBIRD WEALTH ADVISORY LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020934",
+      "name": "Vishrav Technologies",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020943",
+      "name": "ASHISH CHAUDHARY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020952",
+      "name": "GOELA FINANCIAL SERVICES LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020961",
+      "name": "Anudeep Yadav",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020970",
+      "name": "Vishal Pramod Rotwadkar Proprietor Heritage City Ventures",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000020998",
+      "name": "Wallet Wealth LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021003",
+      "name": "Datla Venkata Satya Teja Krishnam Raju",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021012",
+      "name": "Peace Valley Ventures Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021021",
+      "name": "DHANAYUSH CAPITAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021030",
+      "name": "Jaima Scientific Ventures LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021049",
+      "name": "Ajay Jajam Proprietor Chanakya Investment",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021058",
+      "name": "ARC Spire Advisory Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021076",
+      "name": "Viresh P Patel",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021094",
+      "name": "MOTILAL OSWAL WEALTH LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021100",
+      "name": "Milan Kumar Sahu",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021119",
+      "name": "Anand Manish",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021128",
+      "name": "S Roshan Valiathan Proprietor Investantra",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021137",
+      "name": "EUREKA STOCK & SHARE BROKING SERVICES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021146",
+      "name": "JWA Wealth Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021155",
+      "name": "Value Ethics Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021164",
+      "name": "Investrite Fintech LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021173",
+      "name": "Zactor Tech Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021216",
+      "name": "Himanshu Somani",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021225",
+      "name": "Amandeep Singh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021234",
+      "name": "Ryze India Advisory Solutions Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021243",
+      "name": "Parekh Rutviz Bharatkumar Proprietor Tanviz Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021252",
+      "name": "Chinmay D Naik Proprietor Kautilya Capital Management",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021261",
+      "name": "MURALI KRISHNA SIVVALA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021298",
+      "name": "AMIT GORISHANKAR DHANUKA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021304",
+      "name": "VINAYAK ARUN KINI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021322",
+      "name": "Pravia Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021331",
+      "name": "Chandrachuda Sarma Yemmanuru Proprietor Finwiser",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021340",
+      "name": "Pararthya Capital Management LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021359",
+      "name": "Sudip Dipten Putatunda",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021368",
+      "name": "Ayush Lath",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021377",
+      "name": "Tushar Sharma",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021386",
+      "name": "IPK WEALTH SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021395",
+      "name": "Mudit Madan",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021401",
+      "name": "MEHAK WEALTH INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021410",
+      "name": "Indira Securities Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021429",
+      "name": "JBV Share Broker And Fintech Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021438",
+      "name": "Primew Financial Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021465",
+      "name": "Kartik M Soni",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021474",
+      "name": "SURENDRA JAUHARI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021492",
+      "name": "VINSMART WEALTH MANAGEMENT LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021508",
+      "name": "Manoj Kumar Kaushik",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021517",
+      "name": "MARWADI CHANDARANA INTERMEDIARIES BROKERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021526",
+      "name": "Plus91 Asset Management LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021544",
+      "name": "Invesmate Insights Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021553",
+      "name": "NBHAVA CAPITAL PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021562",
+      "name": "Dushyant Vipinchandra Acharya",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021571",
+      "name": "SHWETANK DEV",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021580",
+      "name": "VSCVITTY.AI PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021599",
+      "name": "Quicko Infosoft Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021614",
+      "name": "Ayush Bharat Bhutada Proprietor of Time Wheel Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021623",
+      "name": "INVESTGOAL CAPITAL ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021650",
+      "name": "KOLADI UKKURU VARGHESE",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021669",
+      "name": "BFC Capital Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021678",
+      "name": "MITALI GUNVANT SINGHI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021687",
+      "name": "Houlihan Lokey Advisory India Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021696",
+      "name": "Vishnu M",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021711",
+      "name": "DIVERSIFI LABS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021720",
+      "name": "RIQR LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021739",
+      "name": "Sugam Rathi Proprietor Opening Bell Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021748",
+      "name": "Anshul",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021757",
+      "name": "BALACHANDRAN RAMAN VISWANATHAN",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021766",
+      "name": "RITIK ANIL SONI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021775",
+      "name": "ANURAG SINGHAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021784",
+      "name": "PRAVID FINANCIAL SERVICES LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021793",
+      "name": "Hijli Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021809",
+      "name": "Beyondco Technologies Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021818",
+      "name": "BUSIREDDY KAUSHIK REDDY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021827",
+      "name": "Vijay Rajendra Kotak Proprietor of Brytlink Wealth Management",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021836",
+      "name": "Dr. Aniruddh Sahai",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021845",
+      "name": "Pravin Ratilal Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021854",
+      "name": "Pushpanjali Kumar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021872",
+      "name": "Bristlecone Consultants",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021881",
+      "name": "Vijay kumar Gupta",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021890",
+      "name": "MATCAP WEALTH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021906",
+      "name": "Rajesh Sudhakar Prabhudesai",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021915",
+      "name": "HARIHARAN",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021924",
+      "name": "MAHESH KUMAR K",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021933",
+      "name": "Rahul Rajgopal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021942",
+      "name": "FYNRO ADVISORY SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021951",
+      "name": "Koti Labs Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021960",
+      "name": "KOWSIKA DEVI PROPRIETOR EXPLICIT",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021979",
+      "name": "Famli Technology Products Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021988",
+      "name": "Harendra P Zatakia Proprietor Wealth Aligned Financial Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000021997",
+      "name": "VIJAY KUMAR SHARMA",
       "type": "Investment Adviser"
     },
     {
@@ -79,8 +2814,138 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000022011",
+      "name": "Dakshamm Capital Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022020",
+      "name": "Sixdis Technologies Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022039",
+      "name": "VIRAL ARUN PAREKH PROPRIETOR OF REDWOODS WEALTH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022066",
+      "name": "Anil Kumar Koul Proprietor of Koul Financial Advisor",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022084",
+      "name": "Potofwealth Nurturing LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022093",
+      "name": "TWOCENTS VENTURES LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022109",
+      "name": "Ashish Gupta",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022127",
+      "name": "Jay Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022145",
+      "name": "JEETU KRISHNAN",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022163",
+      "name": "NATIVE INVESTMENT MANAGERS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022190",
+      "name": "Kapil Aggarwal Proprietor investkaps",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022206",
+      "name": "Shubham Jaiswal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022215",
+      "name": "Sunil Vyas",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022224",
+      "name": "Crystalline Capserve Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022233",
+      "name": "NIKITA RAJKUMAR GEHANI PROPRIETOR OF TRADEMINT",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022242",
+      "name": "Jasween Malik",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022260",
+      "name": "Money Purse Finserv LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022279",
+      "name": "PARASURAMA PRAVEEN M",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022288",
+      "name": "FIRSTCOREADVISERS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022297",
+      "name": "MYFINVEST INVESTMENT ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022321",
+      "name": "Partha Harshal Deshpande",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022330",
+      "name": "VITTUS WEALTH PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022349",
+      "name": "Eton Solutions and Technologies India LLP",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000022358",
       "name": "ACUITY INSIGHTS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022367",
+      "name": "QUANT ART MARKET SOLUTIONS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022376",
+      "name": "CLARITAS INSIGHTS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022394",
+      "name": "Persevera Wealth Advisors LLP",
       "type": "Investment Adviser"
     },
     {
@@ -89,8 +2954,298 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000022428",
+      "name": "BLACKLITT TECHNOLOGIES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022446",
+      "name": "Nemtara Investment Advisors OPC Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022455",
+      "name": "Pramukh Somisetty Sureshkumar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022473",
+      "name": "PINSEC AI RESEARCH ADVISORY PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022482",
+      "name": "Praveen Kumar H M",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022491",
+      "name": "Parth Malav Patel",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022507",
+      "name": "Arjit Anand",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022516",
+      "name": "Anesh K Vyaas LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022525",
+      "name": "Banyan Capital Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022534",
+      "name": "ASHOK KRISHNARAO",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022543",
+      "name": "SUNIL MAHADEV GHADAGE",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022552",
+      "name": "VINAYAK B PATIL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022561",
+      "name": "Pooja Mahesh Proprietor IRA CONSULTING SERVICES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022570",
+      "name": "Baskaran Nadarajan",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022598",
+      "name": "Kartik Iyer proprietor of Finsenz Wealth Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022604",
+      "name": "Mangesh Sagane Proprietor TRUSTEDGE ADVISORY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022622",
+      "name": "Yatindra Agrawal Proprietor Yellowsand",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022640",
+      "name": "Vijayan N Proprietor Vudhi FinTech",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022659",
+      "name": "Anand Biswas",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022668",
+      "name": "MAHIR INVESTMENT ADVISERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022677",
+      "name": "Nikkhiel Nerkaar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022686",
+      "name": "Gautam Khemka Proprietor Sampatti Planning",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022701",
+      "name": "Rupeestop LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022710",
+      "name": "HER-MONY SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022729",
+      "name": "ADITYA SAKHARAM JADHAV",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022738",
+      "name": "Raghunandan Madhukar Alavani",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022747",
+      "name": "CHAITANYA VINOD AGARWAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022765",
+      "name": "Allvest Invesment Managers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022774",
+      "name": "ZENARA TECHNOLOGIES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022792",
+      "name": "Rahul Jain",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022808",
+      "name": "VERIQUS FINANCIAL SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022817",
+      "name": "Anushri Shukla Proprietor Mrigashira Consultancy",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022826",
+      "name": "Niranjan Sridharan Kumar Proprietor Artha Jnana Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022853",
+      "name": "Poondi Devarajan Sundar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022871",
+      "name": "Kailasanathan Subramaniam Proprietor Tattvam Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022899",
+      "name": "VARUN HARESH DODHIA PROPRIETOR OF LIGHT YEAR ADVISORY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022905",
+      "name": "SUMIT KALRA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022914",
+      "name": "Dezerv Investments Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022923",
+      "name": "ADITI AGGARWAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022932",
+      "name": "Strateasy",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022941",
+      "name": "Avdesh Mishra Capitals Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022950",
+      "name": "SUJAY MUKUND CHAUDHARI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022969",
+      "name": "PRIMEVYUH WEALTH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000022987",
+      "name": "Simplus Wealth Managers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023010",
+      "name": "Nitin Purwar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023029",
+      "name": "NEUROFI WEALTH ADVISORY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023038",
+      "name": "Neeraj Pandey",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023056",
+      "name": "Sunit Nitin Nagori",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000023065",
       "name": "ABHINAV KHATTAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023074",
+      "name": "ANKIT AGRAWAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023108",
+      "name": "NEOGENTLE ADVISORY PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023117",
+      "name": "RAGHAV GUMBER",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023126",
+      "name": "Madhu Srinivas V Proprietor Jeeves Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023144",
+      "name": "Inclusive Wealth Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023162",
+      "name": "NITHIN P",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023180",
+      "name": "Neil Jignesh Shah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023205",
+      "name": "GURURAJA HEBBAR-PROPRIETOR-HEBBAR INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023214",
+      "name": "Manjunatha Vishwanatha Mathihalli",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023223",
+      "name": "YB TECHNOLOGIES PRIVATE LIMITED",
       "type": "Investment Adviser"
     },
     {
@@ -99,8 +3254,213 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA000023241",
+      "name": "Siddharth Dwarkani Proprietor Laksh Sarthi Financials",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023250",
+      "name": "Farhan Elias",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023269",
+      "name": "Ayush Khandelwal Proprietor Vera Money",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023278",
+      "name": "TULSIDAS T SURYAWANSHI Proprietor saaRathi Investment Advisory Service",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023296",
+      "name": "Parth Pahuja Proprietor of Heuriska Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023302",
+      "name": "JMD AARTHIQ PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023311",
+      "name": "PRAKASH S",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023320",
+      "name": "Flowlabs Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023339",
+      "name": "Mintbyte Investment Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA000023348",
       "name": "Aastha Rathore Proprietor of Sky Line Capital Research",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023357",
+      "name": "Fourdegreewater Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023366",
+      "name": "AEVUM INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023375",
+      "name": "HOFI INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023384",
+      "name": "NAGARAJ V JAHAGIRDAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023393",
+      "name": "Lattupalli Vinay Reddy",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023409",
+      "name": "PLK CAPITAL ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023418",
+      "name": "ESSENTIA WEALTHONE INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023427",
+      "name": "HST WEALTH MANAGEMENT AND RESEARCH ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023436",
+      "name": "Himanshu Sinha",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023445",
+      "name": "Avestar Advisory LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023463",
+      "name": "BLISSMONEY FINTECH PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023472",
+      "name": "Dinesh T",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023481",
+      "name": "SUMAIYA FATHIMA PROPRIETOR RIVERCREST ADVISORY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023490",
+      "name": "Adihit Wealth Advisory",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023506",
+      "name": "RAHUL OMPRAKASH MANTRI Proprietor Vantage Solutions",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023515",
+      "name": "Nikunj Raj Chowdhary",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA000023533",
+      "name": "EXCELLUS FINTECH PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100000051",
+      "name": "AMIT KUKREJA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100000184",
+      "name": "JITENDRA PRATAP SINGH SOLANKI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100001398",
+      "name": "BAJAJ CAPITAL INVESTMENT ADVISERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100002032",
+      "name": "VALUEQUEST CAPITAL LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100002438",
+      "name": "INDRESH MALIK",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100002693",
+      "name": "DEVERE GROUP INVESTMENT ADVISORS PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100002719",
+      "name": "DEEPESH RAGHAW",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100003279",
+      "name": "DEEPAK PARNAMI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100003899",
+      "name": "MADHUPAM KRISHNA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100004533",
+      "name": "CHADHA INVESTMENT CONSULTANT PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100004590",
+      "name": "VAIBHAV BADJATYA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100004608",
+      "name": "RAJAT SHARMA (PROP SANA SECURITIES)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100004657",
+      "name": "BHAROSA TECHNOSERVE PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100004814",
+      "name": "AVEEK MITRA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100004871",
+      "name": "BOX WEALTH PLANNERS AND INVESTMENT ADVISORS",
       "type": "Investment Adviser"
     },
     {
@@ -109,8 +3469,233 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA100005241",
+      "name": "DEV ASHISH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100006773",
+      "name": "Rakesh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100006898",
+      "name": "Banayantree Services Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100007718",
+      "name": "ENSURE WEALTH INVESTMENT ADVISER",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100007736",
+      "name": "Multibagger Securities Research & Advisory Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA100008045",
       "name": "ABHISHEK KUMAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100008425",
+      "name": "Himanshu Mahajan",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100008443",
+      "name": "Independent Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100008771",
+      "name": "prashant Dubey",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100009327",
+      "name": "Rays Investment Adviser Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100009381",
+      "name": "Prashant Raghuwanshi Proprietor Investment Solution Providers",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100009798",
+      "name": "Gursimran Singh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010004",
+      "name": "Sumit Kumar Singh",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010147",
+      "name": "jUPITERR TECHNOLOGIES",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010305",
+      "name": "KUSHAL BHATEJA PROPRIETOR OF FINCLIN INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010323",
+      "name": "Ashim Sharma",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010439",
+      "name": "Anup Kalra",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010660",
+      "name": "Pioneer Client Associates Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010837",
+      "name": "Vinay Prakash Tiwari",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010943",
+      "name": "Puneet Saxena",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100010970",
+      "name": "Neha Goel",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100011988",
+      "name": "GULSHAN KHERA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100012075",
+      "name": "nitin sood",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100012279",
+      "name": "Aseem Sen Gupta",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100012570",
+      "name": "Nidhi Tripathi Proprietor of The Tradebond",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100013205",
+      "name": "SUMAN SHANDIL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100013445",
+      "name": "VARUN SURESH MALHOTRA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100013649",
+      "name": "Kundan Mishra",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100013700",
+      "name": "Robins Joseph",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100013861",
+      "name": "Raman Kumar Verma",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100014426",
+      "name": "GAURAV GOEL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100014569",
+      "name": "KRISTAL ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100014578",
+      "name": "PRP Professional Edge Associates Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100014648",
+      "name": "BOWHEAD INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100014879",
+      "name": "Clovek Wealth Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100015115",
+      "name": "MODULOR ADVISORY SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100015151",
+      "name": "CANDURA INVESTMENT ADVISORS",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100015869",
+      "name": "Prospurts Consulco Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100016327",
+      "name": "Vinny Arora (Prop. Money vs Me)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100016363",
+      "name": "BRIGHTER MIND EQUITY ADVISOR PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100016390",
+      "name": "Alpha Capital",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100016406",
+      "name": "Shruti Agrawal Proprietor of CAGRWEALTH",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100016752",
+      "name": "Peeyush Kumar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100016956",
+      "name": "MRA INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA100017186",
+      "name": "Manish Gupta, proprietor of M/s Equinox Investment Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200000316",
+      "name": "VIVEKAM FINANCIAL SERVICES PRIVATE LIMITED",
       "type": "Investment Adviser"
     },
     {
@@ -119,13 +3704,598 @@
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA200000571",
+      "name": "Mercer Wealth India Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200000589",
+      "name": "RENU MAHESHWARI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200000753",
+      "name": "CASPIAN IMPACT INVESTMENT ADVISER PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA200000910",
       "name": "ABUBAKR SIDDIQUE. A.G.",
       "type": "Investment Adviser"
     },
     {
+      "regNo": "INA200001231",
+      "name": "Maxie Jose (Sole Proprietor), Affluenz Wealth Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200001249",
+      "name": "AKSHAYA WEALTH MANAGEMENT PRIVATE LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200001702",
+      "name": "HEXAGON CAPITAL ADVISORS PRIVATE LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200002239",
+      "name": "DILZER CONSULTANTS PRIVATE LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200002361",
+      "name": "MAHESH B PUTTAMADAPPA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200002601",
+      "name": "RIGHT HORIZONS INVESTMENT ADVISORY SERVICES PRIVATE LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200002817",
+      "name": "GEOJIT FINANCIAL SERVICES LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200004177",
+      "name": "SINHASI CONSULTANTS PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200004201",
+      "name": "ENTRUST FAMILY OFFICE INVESTMENT ADVISORS PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200004284",
+      "name": "PHI CAPITAL SERVICES LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200004482",
+      "name": "SHRI RAJU R J",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200005109",
+      "name": "Bharat Jain (Proprietor of Manthan Research and Advisory)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200005141",
+      "name": "BESTPALS RESEARCH & ADVISORY LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200005158",
+      "name": "NISHITH. B",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200005166",
+      "name": "Arevuk Advisory Services Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200005315",
+      "name": "SUDHINDRA HOSKOTE KRISHNACHAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200005380",
+      "name": "GUARDIAN CAPITAL INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200006628",
+      "name": "RightFocus Investments Pvt Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200006910",
+      "name": "Valuegrow Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200007043",
+      "name": "PeakAlpha Investment Services Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200007265",
+      "name": "HEDGELOOP TECHNOLOGIES PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200007450",
+      "name": "Zvest Financial Services LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200007779",
+      "name": "NINEBARK ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
       "regNo": "INA200008291",
       "name": "90-10 Financial Planners Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200008389",
+      "name": "mohammed yusuf gaffoor",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200008592",
+      "name": "Brijesh Vappala",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200008705",
+      "name": "SUCCINCT FINTECH SERVICES PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200009050",
+      "name": "Suda Bhanu Prasad",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200009120",
+      "name": "Monica Vikram Malkani",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200009573",
+      "name": "Jose Varkey Naduthottam",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200009582",
+      "name": "Ratnasri Karra",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200009874",
+      "name": "KALEIDOFIN PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200010676",
+      "name": "International Money Matters Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200010904",
+      "name": "PENAGALURU VENKATA RAVITEJA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200010986",
+      "name": "Sudheer M",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011046",
+      "name": "Moneybloom Advisory Services LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011125",
+      "name": "AVINASH KHATOO LUTHRIA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011240",
+      "name": "Narayan Kamath Kandel Proprietor of Finplifi Financial Planners and Consultants",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011365",
+      "name": "Qovar Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011392",
+      "name": "VIJAYA GOWRI MULAKALA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011666",
+      "name": "Revathi Priya Balraj",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011684",
+      "name": "Upasana Mondal",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200011736",
+      "name": "Aditya Govindaraj",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200012203",
+      "name": "PRAMOD KANIPAKAM",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200012425",
+      "name": "Shree Sidvin Investment Advisors Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200012568",
+      "name": "Ankhonia Advisors Pvt. Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200012601",
+      "name": "Svobodha Infinity Investment Advisors Pvt. Ltd.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200012674",
+      "name": "BUGLEROCK BHUVI INVESTMENT ADVISERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013017",
+      "name": "M/s Cycas Investment Advisers",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013099",
+      "name": "SUMIT KUMAR WAGHMARE",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013284",
+      "name": "Pari Washington Company Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013503",
+      "name": "J Satheesh Kannan",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013594",
+      "name": "VIJAY DUTT VEMALA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013761",
+      "name": "LEKH RAM",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013798",
+      "name": "Flameback Capital Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013886",
+      "name": "AGNAM ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013983",
+      "name": "Ravi Saraogi",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200013992",
+      "name": "MANU CHHABRA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014016",
+      "name": "VASISTH CAPITAL PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014043",
+      "name": "INCOFIN INDIA INVESTMENT MANAGEMENT PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014061",
+      "name": "Creaegis Investment Advisers Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014186",
+      "name": "Kivah Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014195",
+      "name": "Griffin Family Office",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014247",
+      "name": "SHREEM DATATECH SOLUTIONS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014283",
+      "name": "Growthlift Investment Advisories Pvt Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014292",
+      "name": "DUDEKULA HASAN CHAITHANYA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014548",
+      "name": "Unien Capital Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014557",
+      "name": "RS Capfin Investment and Finance",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014672",
+      "name": "Mr. K Akshay Nayak",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014681",
+      "name": "Multipl Wealth Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014706",
+      "name": "Altinvest Capital Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014715",
+      "name": "VARDHARAJAN M",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014724",
+      "name": "Chethan Dhruva",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200014982",
+      "name": "Suhas Suresh Shetiya",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015088",
+      "name": "Shomesh Kumar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015219",
+      "name": "KARAT CAPITAL ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015246",
+      "name": "VINAYAK SAVANUR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015592",
+      "name": "Right Alpha Capital Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015671",
+      "name": "ASSETZ PREMIER WEALTH ADVISORY PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015732",
+      "name": "Insightful",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015787",
+      "name": "PUNIT M SETHIA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200015857",
+      "name": "InvestAscent Wealth Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016096",
+      "name": "Quinstinct Advisory Private Ltd",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016281",
+      "name": "Ganesh Jayaraman",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016412",
+      "name": "Prashanth Sekhar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016564",
+      "name": "UPWISERY ADVISORS LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016573",
+      "name": "Multiplyy Investment Advisors LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016856",
+      "name": "Induswealth Advisors",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016892",
+      "name": "PURPLEPOND FINANCIAL PLANNERS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200016917",
+      "name": "Lookinglaz Technologies LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200017022",
+      "name": "Elystar Investment Management Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA200017077",
+      "name": "Manoj Thankamma Sasidharan",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300002022",
+      "name": "DYNAMIC EQUITIES PVT. LTD.",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300003616",
+      "name": "RAHUL AGARWAL (PROPRIETOR OF ADVENT FINANCIAL)",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300003772",
+      "name": "LAMRON ANALYSTS PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300004267",
+      "name": "RIMA RAJIV VASA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300004838",
+      "name": "MRS. SONAL SAKUNIA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300004853",
+      "name": "ANKUR CHOUDHARY",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300005439",
+      "name": "NARNOLIA INVESTMENT ADVISORS PRIVATE LIMITED",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300005835",
+      "name": "DIBYAJIT SAHA",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300008614",
+      "name": "Biswarup Sinha Ray",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300009312",
+      "name": "KUNJ AGARWAL",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300011609",
+      "name": "ARIJIT MAZUMDAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300011636",
+      "name": "Vishal Shekhar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300011885",
+      "name": "Neeraj Kumar",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300012316",
+      "name": "Bhargav Bujarbaruah",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300012723",
+      "name": "Arijit Sen",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300015207",
+      "name": "PRASOON KUMAR",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300015641",
+      "name": "Mintbox Advisory LLP",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300016701",
+      "name": "DAYCO SECURITIES PVT LTD",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300016738",
+      "name": "Ginteja Fintech Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300016862",
+      "name": "GAURAV JAIN",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300016871",
+      "name": "SUMAN TIWARI",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300016969",
+      "name": "Elbee Investment Advisors Private Limited",
+      "type": "Investment Adviser"
+    },
+    {
+      "regNo": "INA300017162",
+      "name": "Cashvisory Pvt. Ltd.",
       "type": "Investment Adviser"
     },
     {

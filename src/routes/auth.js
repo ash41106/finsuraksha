@@ -1,6 +1,7 @@
 import express from "express";
-import { hashPassword, verifyPassword, createSession, destroySession, setSessionCookie, clearSessionCookie, publicUser } from "../auth.js";
-import { str, oneOf, HttpError, asyncRoute } from "../validate.js";
+import crypto from "node:crypto";
+import { hashPassword, verifyPassword, createSession, destroySession, setSessionCookie, clearSessionCookie, publicUser, requireModerator } from "../auth.js";
+import { str, oneOf, HttpError, asyncRoute, checkPassword } from "../validate.js";
 import { ROLES } from "../constants.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -19,10 +20,7 @@ export function authRoutes({ store, cfg, limit }) {
       if (!NAME_RE.test(name)) throw new HttpError(400, "Name can contain letters, numbers, spaces, dots, hyphens and underscores only.");
       const email = str(b.email, { field: "Email", max: 120, required: true }).toLowerCase();
       if (!EMAIL_RE.test(email)) throw new HttpError(400, "Enter a valid email address.");
-      const password = typeof b.password === "string" ? b.password : "";
-      if (password.length < 8 || password.length > 128 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
-        throw new HttpError(400, "Password needs 8+ characters with at least one letter and one number.");
-      }
+      const password = checkPassword(b.password);
       const role = oneOf(b.role, ROLES, "role");
       const college = str(b.college, { field: "College", max: 80 });
       if (b.ageOk !== true) throw new HttpError(400, "Accounts are for people aged 18 or above. Under 18? You can still use Suraksha-Dost, Quick Check and Learn without an account.");
@@ -85,6 +83,26 @@ export function authRoutes({ store, cfg, limit }) {
   });
 
   r.get("/me", (req, res) => res.json({ user: publicUser(req.user) }));
+
+  // No email service here, so a moderator hands a member a temporary password
+  // in person; the member then sets their own one in their profile.
+  r.post(
+    "/reset",
+    requireModerator,
+    limit("reset", 20, 60 * 60_000),
+    asyncRoute(async (req, res) => {
+      const email = str(req.body?.email, { field: "Email", max: 120, required: true }).toLowerCase();
+      const user = store.data.users.find((u) => u.email === email && !u.isSample);
+      if (!user) throw new HttpError(404, "No account with this email.");
+      const ABC = "abcdefghjkmnpqrstuvwxyz";
+      const temp = `${Array.from(crypto.randomBytes(6), (b) => ABC[b % ABC.length]).join("")}${crypto.randomInt(10, 99)}`;
+      user.passHash = await hashPassword(temp);
+      store.data.sessions = store.data.sessions.filter((s) => s.userId !== user.id);
+      failures.delete(email);
+      store.save();
+      res.json({ ok: true, email, tempPassword: temp });
+    }),
+  );
 
   return r;
 }

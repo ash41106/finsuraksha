@@ -2,9 +2,9 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import { requireAuth, publicUser, verifyPassword, clearSessionCookie } from "../auth.js";
+import { requireAuth, publicUser, verifyPassword, hashPassword, createSession, setSessionCookie, clearSessionCookie } from "../auth.js";
 import { BADGES, CERT_RULE, POINTS, award, grantBadges } from "../gamify.js";
-import { str, oneOf, HttpError, asyncRoute } from "../validate.js";
+import { str, oneOf, HttpError, asyncRoute, checkPassword } from "../validate.js";
 import { ROLES, LEARN_MODULES } from "../constants.js";
 
 const NAME_RE = /^[\p{L}\p{M}\p{N}][\p{L}\p{M}\p{N} .'_-]*$/u;
@@ -65,6 +65,23 @@ export function meRoutes({ store, cfg, limit }) {
       if (b.leaderboard !== undefined) u.leaderboard = b.leaderboard === true;
       store.save();
       res.json(summary(u));
+    }),
+  );
+
+  r.post(
+    "/password",
+    limit("password", 10, 15 * 60_000),
+    asyncRoute(async (req, res) => {
+      const u = req.user;
+      const current = typeof req.body?.current === "string" ? req.body.current : "";
+      if (!(await verifyPassword(current, u.passHash))) throw new HttpError(401, "Current password is incorrect.");
+      const next = checkPassword(req.body?.next, "New password");
+      u.passHash = await hashPassword(next);
+      // Sign out every other device, keep this one signed in.
+      store.data.sessions = store.data.sessions.filter((s) => s.userId !== u.id);
+      setSessionCookie(res, createSession(store, u.id), cfg);
+      store.save();
+      res.json({ ok: true });
     }),
   );
 

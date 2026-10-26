@@ -104,8 +104,8 @@ export async function render(root, { query }) {
 function upiBlock(u) {
   if (!u) return "";
   return html`<div class="notice ${u.validHandle ? "" : "danger"}">${icon(u.validHandle ? "check" : "alert")}<div>
-    <b>${u.validHandle ? t("check.validHandle") : t("check.personalHandle")}</b>${u.category ? html` · ${u.category}` : ""}
-    <div class="small" style="margin-top:4px">${t("check.upiAdvice")} <a href="${u.sebiCheckUrl}" target="_blank" rel="noopener noreferrer">SEBI Check ${icon("external")}</a></div></div></div>`;
+    <b>${u.validHandle ? t("check.validHandle") : t("check.personalHandle")}</b>${u.category ? html` · ${u.category}` : ""}${u.bank ? html` · ${u.bank}` : ""}
+    ${u.verified ? html`<div class="small" style="margin-top:4px">${t("check.upiAdvice")}</div>` : ""}</div></div>`;
 }
 
 function communityBlock(list) {
@@ -120,12 +120,13 @@ function resultView(d) {
     const s = d.sebi;
     parts.push(html`<div class="card pad-lg"><div class="card-title">${icon("shieldCheck")} ${t("check.resSebi")}</div>
       <div class="row" style="gap:14px">
-        <span class="level-pill ${s.valid ? (s.found ? "level-low" : "level-unknown") : "level-high"}">${icon(s.valid ? (s.found ? "check" : "info") : "x")}${s.valid ? (s.found ? t("check.found") : t("check.notFound")) : t("check.badFormat")}</span>
+        <span class="level-pill ${!s.valid || s.notRegistered ? "level-high" : s.found ? "level-low" : "level-unknown"}">${icon(!s.valid || s.notRegistered ? "x" : s.found ? "check" : "info")}${!s.valid ? t("check.badFormat") : s.found ? t("check.found") : s.notRegistered ? t("check.notRegistered") : t("check.notFound")}</span>
         <span class="kbd">${s.normalized}</span>${s.type ? html`<span class="chip">${state.lang === "hi" ? s.typeHi : s.type}</span>` : ""}</div>
-      ${s.found ? html`<h3 style="margin:14px 0 4px;font-size:1.4rem">${s.name}</h3><p class="small muted" style="margin:0">${state.lang === "hi" ? "देखें कि आपसे संपर्क करने वाला यही नाम है — ठग असली नंबर चुराते हैं।" : "Make sure this is the name of whoever contacted you — scammers copy real numbers."}</p>` : ""}
+      ${s.found ? html`<h3 style="margin:14px 0 4px;font-size:1.4rem">${s.name}</h3><p class="small muted" style="margin:0">${state.lang === "hi" ? "✓ FinSuraksha ने SEBI रजिस्टर में सत्यापित किया। देखें कि आपसे संपर्क करने वाला यही नाम है — ठग असली नंबर चुराते हैं।" : "✓ Verified by FinSuraksha against SEBI's register. Make sure this is the name of whoever contacted you — scammers copy real numbers."}</p>` : ""}
       ${!s.valid && s.reason ? html`<p class="small" style="color:var(--risk-high)">${s.reason}</p>` : ""}
-      <p class="xs muted">${t("check.snapshotNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p>
-      ${s.officialUrl ? html`<a class="btn btn-outline btn-sm" href="${s.officialUrl}" target="_blank" rel="noopener noreferrer">${t("dost.verifyOn")} ${icon("external")}</a>` : ""}</div>`);
+      ${s.valid && !s.found ? html`<p class="small" style="margin:14px 0 0">${t(s.notRegistered ? "check.notRegisteredText" : "check.notVerifiedText")}</p>` : ""}
+      ${s.valid ? html`<p class="xs muted">${t(reg.complete ? "check.registerNote" : "check.partialNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p>` : ""}
+</div>`);
   }
   if (d.upi) parts.push(html`<div class="card pad-lg"><div class="card-title">${icon("rupee")} ${t("check.resUpi")}: <span class="kbd">${d.upi.vpa}</span></div>${upiBlock(d.upi)}</div>`);
   if (d.link) {
@@ -137,16 +138,22 @@ function resultView(d) {
   }
   if (d.matches) {
     parts.push(html`<div class="card pad-lg"><div class="card-title">${icon("search")} ${t("check.resName")}</div>
-      ${d.matches.length ? html`<div class="stack">${d.matches.map((m) => html`<div class="check-row" style="align-items:center">${icon("check")}<b>${m.name}</b><span class="kbd">${m.regNo}</span><span class="chip">${m.type}</span></div>`)}</div>` : html`<p class="small muted">${state.lang === "hi" ? "हमारी अधूरी सूची में नहीं मिला। SEBI की आधिकारिक खोज पर देखें।" : "Not found in our partial snapshot. Search SEBI's official list."}</p>`}
-      <p class="xs muted">${t("check.snapshotNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p>
-      <div class="row"><a class="btn btn-outline btn-sm" href="${d.links.ia}" target="_blank" rel="noopener noreferrer">SEBI · Investment Advisers ${icon("external")}</a><a class="btn btn-outline btn-sm" href="${d.links.ra}" target="_blank" rel="noopener noreferrer">SEBI · Research Analysts ${icon("external")}</a></div></div>`);
+      ${d.matches.length ? html`<div class="stack">${d.matches.map((m) => html`<div class="check-row" style="align-items:center">${icon("check")}<b>${m.name}</b><span class="kbd">${m.regNo}</span><span class="chip">${m.type}</span></div>`)}</div>` : html`<p class="small muted">${t(reg.complete ? "check.nameNotRegistered" : "check.nameNotVerified")}</p>`}
+      <p class="xs muted">${t(reg.complete ? "check.registerNote" : "check.partialNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p></div>`);
   }
   if (d.type === "phone" || d.type === "handle") {
     parts.push(html`<div class="card pad-lg"><div class="card-title">${icon(d.type === "phone" ? "phone" : "user")} ${d.phone || d.query}</div>
       <p class="small muted" style="margin:0">${state.lang === "hi" ? "हम निजी नंबर/हैंडल की जानकारी नहीं दिखाते — सिर्फ़ समुदाय की रिपोर्ट जाँचते हैं।" : "We don't look up people's personal details — only community reports."}</p></div>`);
   }
   const flagsOnly = !d.link && d.flags?.length;
-  return html`<div class="grid grid-2 fade-in">${parts}${flagsOnly ? html`<div class="card pad-lg"><div class="card-title">${icon("alert")} ${t("dost.redFlags")}</div><div class="row nowrap" style="gap:14px">${ring(d.score, d.level)}<ul class="flag-list" style="flex:1">${d.flags.map((f) => html`<li><span class="sev-dot sev-${f.sev}"></span><div class="ft">${f.title}</div></li>`)}</ul></div></div>` : ""}<div>${communityBlock(d.community)}</div></div>`;
+  // Plain-language answer first: people want "is it safe?" before the details.
+  let lvl = ["high", "medium", "low"].includes(d.level) ? d.level : d.sebi?.found || d.upi?.validHandle || d.link?.official ? "low" : "unknown";
+  // Keep the banner consistent with the cards below it.
+  if (d.sebi && (!d.sebi.valid || d.sebi.notRegistered)) lvl = "high";
+  else if (lvl !== "high" && ((d.upi && !d.upi.validHandle) || (d.sebi && !d.sebi.found))) lvl = "medium";
+  const vKey = { high: "check.vHigh", medium: "check.vMedium", low: "check.vLow", unknown: "check.vUnknown" }[lvl];
+  const banner = html`<div class="verdict-banner level-${lvl}" role="status"><span class="level-pill level-${lvl}">${icon(lvl === "high" ? "alert" : lvl === "low" ? "check" : "info")}${t(`level.${lvl}`)}</span><p>${t(vKey)}</p></div>`;
+  return html`${banner}<div class="grid grid-2 fade-in">${parts}${flagsOnly ? html`<div class="card pad-lg"><div class="card-title">${icon("alert")} ${t("dost.redFlags")}</div><div class="row nowrap" style="gap:14px">${ring(d.score, d.level)}<ul class="flag-list" style="flex:1">${d.flags.map((f) => html`<li><span class="sev-dot sev-${f.sev}"></span><div class="ft">${f.title}</div></li>`)}</ul></div></div>` : ""}<div>${communityBlock(d.community)}</div></div>`;
 }
 
 function opportunity(card) {

@@ -5,6 +5,22 @@ import { html, mount, icon, $, fmtDate } from "../ui.js";
 
 export async function render(root, { parts }) {
   const id = parts[1] || "";
+  if (!id) {
+    // Opened without an ID: offer a box instead of a "not found" error.
+    mount(
+      root,
+      html`<section class="container page-hero"><form class="card pad-lg" id="cert-form" style="max-width:560px;margin:0 auto">
+        <h2 style="margin-top:0">${t("cert.enterTitle")}</h2><p class="muted">${t("cert.enterText")}</p>
+        <div class="row nowrap"><input class="input" id="cert-id" aria-label="${t("cert.enterTitle")}" placeholder="FS-XXXXXXXX" autocomplete="off" maxlength="40" style="flex:1" /><button class="btn btn-primary" type="submit">${t("cert.check")}</button></div>
+        <p class="small" style="margin-bottom:0"><a href="#/me">${t("nav.profile")}</a> · <a href="#/hunt">${t("nav.hunt")}</a></p></form></section>`,
+    );
+    $("#cert-form", root).addEventListener("submit", (e) => {
+      e.preventDefault();
+      const v = $("#cert-id", root).value.trim();
+      if (v) location.hash = `#/verify/${encodeURIComponent(v)}`;
+    });
+    return;
+  }
   let cert = null;
   try {
     cert = (await api.get(`/api/verify/${encodeURIComponent(id)}`)).certificate;

@@ -1,6 +1,10 @@
 // Merge a CSV of SEBI-registered intermediaries into the local register snapshot.
 //
-//   npm run import-register -- path/to/file.csv
+//   npm run import-register -- path/to/file.csv [--complete]
+//
+// Add --complete only when the register now holds SEBI's whole list (for
+// example a full export). FinSuraksha then reports missing numbers as
+// "not registered with SEBI" instead of "could not verify".
 //
 // CSV columns (header row required): regNo,name[,type]
 // Use data you are allowed to use (e.g. exported from SEBI's public lists by
@@ -13,7 +17,8 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const snapshotFile = path.join(here, "..", "seed", "sebi_register_snapshot.json");
 const TYPES = { INA: "Investment Adviser", INH: "Research Analyst", INZ: "Stock Broker", INP: "Portfolio Manager", INM: "Merchant Banker" };
 
-const file = process.argv[2];
+const complete = process.argv.includes("--complete");
+const file = process.argv.slice(2).find((a) => a !== "--complete");
 if (!file) {
   console.error("Usage: npm run import-register -- <file.csv>");
   process.exit(1);
@@ -69,5 +74,9 @@ for (const line of lines) {
 snapshot.entries = [...byReg.values()].sort((a, b) => a.regNo.localeCompare(b.regNo));
 snapshot.asOf = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 snapshot.source = `${snapshot.source} + manual import (${path.basename(file)})`;
+if (complete) {
+  snapshot.partial = false;
+  snapshot.note = "Complete register: a valid number missing here is reported as not registered with SEBI.";
+}
 fs.writeFileSync(snapshotFile, JSON.stringify(snapshot, null, 2));
-console.log(`Imported ${added} new entries (${skipped} invalid rows skipped). Snapshot now has ${snapshot.entries.length} entries.`);
+console.log(`Imported ${added} new entries (${skipped} invalid rows skipped). Snapshot now has ${snapshot.entries.length} entries${snapshot.partial === false ? " (COMPLETE)" : " (partial)"}.`);

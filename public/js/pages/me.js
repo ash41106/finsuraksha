@@ -80,13 +80,24 @@ export async function render(root) {
               <div><button class="btn btn-primary btn-sm" type="submit">${t("common.save")}</button></div>
             </form>
             <hr class="sep" />
+            <div class="row" style="margin-bottom:10px"><button class="btn btn-outline btn-sm" type="button" id="chg-pw">${icon("lock")}${t("me.changePw")}</button></div>
             <div class="row"><a class="btn btn-outline btn-sm" href="/api/me/export" download>${icon("download")}${t("me.export")}</a><button class="btn btn-ghost btn-sm" id="del" style="color:var(--risk-high)">${icon("trash")}${t("me.delete")}</button></div>
           </div>
+          ${u.isModerator
+            ? html`<form class="card pad-lg stack" id="reset-form"><div class="card-title">${icon("gavel")} ${t("me.resetTitle")}</div>
+              <p class="small muted" style="margin:0">${t("me.resetText")}</p>
+              <div class="field"><label for="reset-email">${t("auth.email")}</label><input class="input" id="reset-email" type="email" required maxlength="120" autocomplete="off" /></div>
+              <div><button class="btn btn-primary btn-sm" type="submit">${t("me.resetBtn")}</button></div><div id="reset-out" aria-live="polite"></div></form>
+            <form class="card pad-lg stack" id="reg-form"><div class="card-title">${icon("shieldCheck")} ${t("me.regTitle")}</div>
+              <p class="small muted" style="margin:0">${t("me.regText")}</p>
+              <div class="field"><label for="reg-no">${t("me.regNo")}</label><input class="input" id="reg-no" required maxlength="20" autocomplete="off" placeholder="INA000012345" /></div>
+              <div class="field"><label for="reg-name">${t("me.regName")}</label><input class="input" id="reg-name" required minlength="2" maxlength="200" autocomplete="off" /></div>
+              <div><button class="btn btn-primary btn-sm" type="submit">${t("me.regBtn")}</button></div><div id="reg-out" aria-live="polite"></div></form>`
+            : ""}
         </div>
       </div>
     </section>`,
   );
-  if (window.matchMedia("(max-width: 900px)").matches) $("#me-grid", root).style.gridTemplateColumns = "1fr";
 
   $("#prof-form", root).addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -97,6 +108,47 @@ export async function render(root) {
       toast(t("me.saved"));
     } catch (err) {
       toast(err.message, "err");
+    }
+  });
+
+  $("#chg-pw", root).addEventListener("click", () => {
+    const body = el(html`<form class="stack">
+      <div class="field"><label for="pw-cur">${t("me.pwCurrent")}</label><input class="input" type="password" id="pw-cur" required autocomplete="current-password" /></div>
+      <div class="field"><label for="pw-new">${t("me.pwNew")}</label><input class="input" type="password" id="pw-new" required minlength="8" autocomplete="new-password" /><span class="hint">${t("auth.pwHint")}</span></div>
+      <div class="row"><button class="btn btn-primary" type="submit">${t("common.save")}</button><button class="btn btn-ghost" type="button" data-close>${t("common.cancel")}</button></div><div class="pw-msg" role="alert"></div></form>`);
+    const m = modal({ title: t("me.changePw"), body });
+    body.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await api.post("/api/me/password", { current: body.querySelector("#pw-cur").value, next: body.querySelector("#pw-new").value });
+        m.close();
+        toast(t("me.pwChanged"));
+      } catch (err) {
+        mount(body.querySelector(".pw-msg"), html`<div class="form-error">${err.message}</div>`);
+      }
+    });
+  });
+
+  $("#reset-form", root)?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const out = $("#reset-out", root);
+    try {
+      const r = await api.post("/api/auth/reset", { email: $("#reset-email", root).value.trim() });
+      mount(out, html`<div class="form-ok">${t("me.resetDone", { email: r.email })} <b class="kbd" style="user-select:all">${r.tempPassword}</b></div>`);
+    } catch (err) {
+      mount(out, html`<div class="form-error">${err.message}</div>`);
+    }
+  });
+
+  $("#reg-form", root)?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const out = $("#reg-out", root);
+    try {
+      const r = await api.post("/api/sebi/register", { regNo: $("#reg-no", root).value.trim(), name: $("#reg-name", root).value.trim() });
+      mount(out, html`<div class="form-ok">${t("me.regDone", { no: r.entry.regNo, count: r.register.count })}</div>`);
+      e.target.reset();
+    } catch (err) {
+      mount(out, html`<div class="form-error">${err.message}</div>`);
     }
   });
 

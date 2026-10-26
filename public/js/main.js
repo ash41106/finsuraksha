@@ -49,7 +49,7 @@ function renderHeader() {
           <button type="button" data-lang="hi" aria-pressed="${state.lang === "hi"}">हिं</button>
         </div>
         <div class="menu">
-          <button class="icon-btn" id="a11y-btn" aria-haspopup="true" aria-expanded="false" title="${t("nav.display")}" aria-label="${t("nav.display")}">${icon("access")}</button>
+          <button class="icon-btn" id="a11y-btn" aria-haspopup="true" aria-expanded="false" title="${t("nav.display")}" aria-label="${t("nav.display")}"><span class="aa" aria-hidden="true">A<small>A</small></span></button>
           <div class="menu-panel hidden" id="a11y-panel">
             <div class="label">${t("nav.textSize")}</div>
             <div class="seg">${["md", "lg", "xl"].map((f, i) => html`<button type="button" data-font="${f}" aria-pressed="${state.font === f}">${["A", "A+", "A++"][i]}</button>`)}</div>

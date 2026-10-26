@@ -25,6 +25,7 @@ export async function render(root) {
           <a class="btn btn-primary btn-lg" href="#/dost">${t("home.cta1")}</a>
           <a class="btn btn-outline btn-lg" href="#/hunt">${t("home.cta2")}</a>
         </div>
+        <p class="sos-line"><a href="tel:1930">${icon("phone")} ${t("home.sos")}</a> · <a href="#/help">${t("home.ctaHelp")}</a></p>
         <div class="hero-visual" aria-hidden="true">
           <div class="float-chip c1"><span class="ico-circle" style="background:color-mix(in srgb,var(--risk-low) 16%,transparent);color:var(--risk-low)">${icon("check")}</span>${t("home.chipSebi")}</div>
           <div class="float-chip c2"><span class="ico-circle" style="background:color-mix(in srgb,var(--risk-high) 14%,transparent);color:var(--risk-high)">${icon("alert")}</span>${t("home.chipRisk")}</div>
