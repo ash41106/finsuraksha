@@ -4,6 +4,7 @@
 // runs on every request, and grounds the AI mode when that is enabled.
 import { FLAG_TEXT, POSITIVE_TEXT } from "./knowledge.js";
 import { extractRegNos, verifyRegNo, analyzeUpi, UPI_RE } from "./sebi.js";
+import { findFakeApps } from "./apps.js";
 import { maskPhone } from "./redact.js";
 
 // id -> [severity, weight]
@@ -13,6 +14,7 @@ export const META = {
   urgency: ["medium", 15],
   insider: ["medium", 20],
   institutional: ["high", 25],
+  fake_app_name: ["high", 30],
   pay_personal: ["high", 30],
   withdrawal_fee: ["high", 30],
   credentials: ["critical", 35],
@@ -544,6 +546,7 @@ export async function analyzeMessage(text, { store = null, cfg = null, lang = "e
   }
   for (const hr of findHighReturns(t)) add("high_return", hr, hr);
   for (const m of t.matchAll(RBI_RE)) add("rbi_alert", m[0], m[0]);
+  for (const f of findFakeApps(t)) add("fake_app_name", f.text, f.text.trim(), f.brand);
   for (const m of t.matchAll(CELEB_RE)) add("celebrity", m[0]);
   for (const m of t.matchAll(SCAM_BRAND_RE)) add("celebrity", m[0]);
   for (const m of t.matchAll(CELEB_GENERIC_RE)) add("celebrity", m[0]);
@@ -606,6 +609,7 @@ export async function analyzeMessage(text, { store = null, cfg = null, lang = "e
   let floor = 0;
   if (ids.has("safe_browsing")) floor = 85;
   if (ids.has("community_verified")) floor = Math.max(floor, 70);
+  if (ids.has("fake_app_name") && (ids.has("link_apk") || ids.has("group_invite") || ids.has("institutional") || ids.has("high_return") || ids.has("guaranteed"))) floor = Math.max(floor, 60);
   if (ids.has("credentials") || ids.has("remote_apk") || ids.has("link_apk") || ids.has("withdrawal_fee") || ids.has("threat") || ids.has("utility_threat")) floor = Math.max(floor, 60);
   if ((ids.has("pay_personal") || ids.has("upi_personal")) && flags.length >= 2) floor = Math.max(floor, 60);
   // An unregistered "adviser" who also wants money or promises returns.

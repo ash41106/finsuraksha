@@ -168,6 +168,10 @@ export const FLAG_TEXT = {
     en: ["Not found in the SEBI register ({x})", "FinSuraksha checked {x} against its copy of SEBI's register and could not verify it. Treat it as unverified and don't pay until it checks out."],
     hi: ["SEBI रजिस्टर में नहीं मिला ({x})", "FinSuraksha ने {x} को SEBI रजिस्टर की अपनी कॉपी में जाँचा, पर इसकी पुष्टि नहीं हुई। इसे असत्यापित मानें और पुष्टि होने तक भुगतान न करें।"],
   },
+  fake_app_name: {
+    en: ["Looks like a clone of a real trading app ({x})", "{y} has no \"VIP\", \"Pro\" or \"Institutional\" app. Clone apps copy real brands, show fake profits and then block withdrawals."],
+    hi: ["असली ट्रेडिंग ऐप की नकल लगती है ({x})", "{y} का कोई \"VIP\", \"Pro\" या \"Institutional\" ऐप नहीं है। नकली ऐप असली ब्रांड की नकल करते हैं, झूठा मुनाफ़ा दिखाते हैं और फिर पैसे निकालने नहीं देते।"],
+  },
   sebi_not_registered: {
     en: ["Not registered with SEBI ({x})", "{x} is not in SEBI's register (updated {y}). Don't pay. If they say they registered very recently, ask for their SEBI registration certificate."],
     hi: ["SEBI में रजिस्टर्ड नहीं ({x})", "{x} SEBI रजिस्टर ({y} तक अपडेट) में नहीं है। भुगतान न करें। अगर वे कहें कि हाल ही में रजिस्टर हुए हैं, तो उनका SEBI रजिस्ट्रेशन सर्टिफ़िकेट माँगें।"],
@@ -234,6 +238,7 @@ export const FLAG_ACTIONS = {
   sebi_bad_format: ["verify_sebi"],
   sebi_not_found: ["verify_sebi"],
   sebi_not_registered: ["not_registered"],
+  fake_app_name: ["no_apk", "exit_report"],
   sebi_claim_no_number: ["verify_sebi"],
   dabba: ["avoid_dabba"],
   group_invite: ["exit_report"],

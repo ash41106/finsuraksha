@@ -2,6 +2,7 @@ import express from "express";
 import { analyzeMessage, analyzeLink, displayEntity } from "../analyzer.js";
 import { verifyRegNo, validateRegNo, searchRegister, analyzeUpi, registerInfo, setRegisterExtras, SEBI_LINKS } from "../sebi.js";
 import { requireModerator } from "../auth.js";
+import { checkApp } from "../apps.js";
 import { str, asyncRoute, HttpError } from "../validate.js";
 
 // Quick Check: one search box for a SEBI number, adviser name, UPI ID, link,
@@ -29,7 +30,10 @@ export function checkRoutes({ store, cfg, limit }) {
       if (type === "sebi") out.sebi = await verifyRegNo(q, cfg);
       if (type === "upi") out.upi = analyzeUpi(q);
       if (type === "link") out.link = analyzeLink(q);
-      if (type === "name") out.matches = searchRegister(q);
+      if (type === "name") {
+        out.matches = searchRegister(q);
+        out.app = checkApp(q);
+      }
       if (type === "phone") out.phone = displayEntity("phone", q);
       // Community + red-flag pass over the same input.
       const a = await analyzeMessage(q, { store, cfg, lang: req.query.lang === "hi" ? "hi" : "en" });
@@ -37,6 +41,11 @@ export function checkRoutes({ store, cfg, limit }) {
       out.flags = a.flags.filter((f) => !["group_invite"].includes(f.id)).map(({ id, sev, title, why }) => ({ id, sev, title, why }));
       out.score = a.score;
       out.level = a.level;
+      // A clone of a real broker's app is high risk on its own.
+      if (out.app?.verdict === "impersonation") {
+        out.score = Math.max(out.score, 70);
+        out.level = "high";
+      }
       if (out.link && a.checks.links[0]) out.link.safeBrowsing = a.checks.links[0].safeBrowsing || (cfg.safeBrowsingKey ? "unavailable" : "not_configured");
       res.json(out);
     }),

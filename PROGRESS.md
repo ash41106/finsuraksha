@@ -20,7 +20,7 @@ FinSuraksha is a financial-security awareness website for students, first-time i
 | Accounts, sessions, profile, privacy | `src/auth.js`, `src/routes/auth.js`, `src/routes/me.js`, `public/js/pages/login.js`, `public/js/pages/me.js` |
 | Front end (vanilla JS SPA, no build step) | `public/index.html`, `public/js/main.js`, `public/js/i18n.js` (English + Hindi strings), `public/css/app.css` |
 | Learn, quiz and Spot the Scam game | `public/js/pages/learn.js`, `public/js/content.js`, `public/js/quiz-data.js`, `public/js/quiz-game.js` |
-| Tests (`npm test`) | `test/*.test.mjs` (26 tests) |
+| Tests (`npm test`) | `test/*.test.mjs` (28 tests) |
 
 ---
 
@@ -90,6 +90,22 @@ FinSuraksha is a financial-security awareness website for students, first-time i
 3. Restart the server. The startup line should say `complete`.
 4. Refresh weekly. The server warns after 14 days.
 
+### 2.7 Competitor-gap features and visual upgrade — not yet committed (26 Oct 2026)
+**Why:** research into SEBI's 2026 measures and existing scam checkers showed gaps. SEBI and Google's Play Store "Verified" badge (Mar 2026) doesn't cover APKs shared by link, websites or iOS. CDSL cites 20,043 clone-app cases and ₹1,420 crore lost. Chatbot-style checkers give a verdict but don't explain the math or say what to do at this exact moment.
+
+| Feature | Where | What it does |
+|---|---|---|
+| **Clone-app detector** | `src/apps.js` (new), `src/routes/check.js`, `public/js/pages/check.js` | Quick Check recognises trading-app names. A real name ("Zerodha Kite", "Kotak Neo") shows the official apps and websites. "VIP/Pro/Institutional/APK" add-ons or misspellings ("gr0ww", "upst0x") are flagged as clones (high risk). The list of genuine broker apps is `GENUINE_APPS`; keep it current. |
+| **Clone-app flag in chat** | `src/analyzer.js` flag `fake_app_name` | Messages naming e.g. "Zerodha VIP app" get a high-severity flag, with a score floor of 60 when combined with APK links, groups, institutional accounts or return promises. |
+| **Return Reality Calculator** | `returnCalc()` in `public/js/pages/check.js`; deep link `#/check?tool=calc` | Turns "3% a day" into its yearly equivalent (about 4.8 million %) and ₹ after a year, compared with FD (7%) and a rough long-run equity average (12%, labelled "never guaranteed"), plus the doubling time and a plain verdict. Frontend only. Education, not advice. |
+| **Scam-stage meter** | `stageMeter()` in `public/js/pages/dost.js` | Maps the rule-based flags onto the 5-stage investment-scam journey (Hook → Trust → Install → Pay → Trap) and shows "what to do right now" for the current stage. It uses `ruleFlags`, so it works in AI mode too. |
+| **Live demo in the home hero** | `public/js/pages/home.js` | A working checker (calls `/api/dost/analyze`) with 3 sample scams, replacing the static illustration. It shows the score, top flags, the verified line and the stage strip, and links to the full chat. |
+| **"Built for the gaps" tools section** | `public/js/pages/home.js` | Four tool cards linking to the new features. |
+| **Visual polish** | end of `public/css/app.css` ("v2" block) | Hero gradient mesh, gradient display text, animated border on the demo card, tool cards with hover motion, reveal-on-scroll (off for reduced motion), gradient primary buttons. High-contrast mode falls back to solid colours. |
+| Tests | `test/analyzer.test.mjs`, `test/api.test.mjs` | Clone-app verdicts, analyzer flag, Quick Check app result. |
+
+**Checked in a real browser (headless Edge):** home, Quick Check (clone-app result and calculator) and chat (stage meter) all render correctly at desktop width.
+
 ---
 
 ## 3. How to run and test
@@ -97,7 +113,7 @@ FinSuraksha is a financial-security awareness website for students, first-time i
 ```bash
 npm install
 npm start        # http://localhost:3000  (Windows: double-click run.bat)
-npm test         # 26 tests, all passing as of 25 Oct 2026
+npm test         # 28 tests, all passing as of 26 Oct 2026
 ```
 
 - The first run prints a moderator login and saves it to `data/FIRST_RUN_CREDENTIALS.txt`.

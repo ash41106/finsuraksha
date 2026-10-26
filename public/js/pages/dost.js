@@ -118,6 +118,33 @@ export async function render(root, { query } = {}) {
     return rows;
   }
 
+  // Where in the typical investment-scam journey this message sits, so the user
+  // knows what usually comes next and what to do right now.
+  const STAGES = [
+    { ids: ["celebrity", "group_invite", "link_whatsapp_group", "link_telegram_private", "unregistered_tips", "task_job"], en: ["Hook", "A stranger, ad or group pulls you in."], hi: ["जाल", "कोई अजनबी, विज्ञापन या ग्रुप आपको खींचता है।"], doEn: "Don't reply or join. Exit and block.", doHi: "जवाब न दें, ग्रुप में न जुड़ें। बाहर निकलें और ब्लॉक करें।" },
+    { ids: ["guaranteed", "high_return", "insider", "fake_proof", "authority", "sebi_claim_no_number", "sebi_bad_format", "sebi_not_registered", "sebi_not_found", "ponzi", "forex_crypto", "rbi_alert", "dabba"], en: ["Trust", "Fake proof, big promises and official-sounding claims."], hi: ["भरोसा", "नकली सबूत, बड़े वादे और सरकारी जैसे दावे।"], doEn: "Next they will ask you to install an app or pay. Stop here.", doHi: "अगला क़दम: ऐप इंस्टॉल करवाना या पैसे माँगना। यहीं रुक जाएँ।" },
+    { ids: ["link_apk", "remote_apk", "fake_app_name", "institutional", "link_lookalike", "link_shortener", "link_punycode", "link_ip", "link_tld", "link_userinfo", "credentials", "safe_browsing"], en: ["Install", "A link, app or 'institutional account' you don't control."], hi: ["इंस्टॉल", "कोई लिंक, ऐप या 'इंस्टीट्यूशनल अकाउंट' जिस पर आपका नियंत्रण नहीं।"], doEn: "Don't install or log in. If you did, uninstall and change passwords from another phone.", doHi: "इंस्टॉल या लॉग-इन न करें। कर लिया है तो हटाएँ और दूसरे फ़ोन से पासवर्ड बदलें।" },
+    { ids: ["pay_personal", "upi_personal", "urgency"], en: ["Pay", "Pressure to send money, often to a personal account."], hi: ["भुगतान", "पैसे भेजने का दबाव, अक्सर निजी खाते में।"], doEn: "Don't pay. Money sent to a personal UPI ID is very hard to recover.", doHi: "भुगतान न करें। निजी UPI ID पर भेजे पैसे वापस मिलना बहुत मुश्किल है।" },
+    { ids: ["withdrawal_fee", "threat", "utility_threat"], en: ["Trap", "Fees to withdraw, threats or fake arrests."], hi: ["फंदा", "पैसे निकालने की फ़ीस, धमकी या नकली गिरफ़्तारी।"], doEn: "Pay nothing more. Call 1930 now and report at cybercrime.gov.in.", doHi: "अब और कुछ न दें। अभी 1930 पर कॉल करें और cybercrime.gov.in पर शिकायत करें।" },
+  ];
+
+  function stageMeter(r) {
+    if (r.mode !== "check" || r.level === "low" || r.level === "unknown") return "";
+    const ids = new Set((r.ruleFlags || []).map((f) => f.id));
+    let at = -1;
+    STAGES.forEach((st, i) => {
+      if (st.ids.some((id) => ids.has(id))) at = i;
+    });
+    if (at < 0) return "";
+    const hi = state.lang === "hi";
+    const cur = STAGES[at];
+    return html`<div class="stage-meter" role="group" aria-label="${hi ? "ठगी का चरण" : "Scam stage"}">
+      <div class="label">${hi ? "आप ठगी के किस चरण पर हैं" : "Where you are in the scam"}</div>
+      <ol class="stages">${STAGES.map((st, i) => html`<li class="${i < at ? "past" : i === at ? "now" : ""}" ${i === at ? html`aria-current="step"` : ""}><span class="dot">${i + 1}</span><span class="nm">${(hi ? st.hi : st.en)[0]}</span></li>`)}</ol>
+      <div class="stage-now"><b>${hi ? `चरण ${at + 1}: ${cur.hi[0]}` : `Stage ${at + 1}: ${cur.en[0]}`}</b> — ${(hi ? cur.hi : cur.en)[1]}<div class="stage-do">${icon("alert")}<span>${hi ? cur.doHi : cur.doEn}</span></div></div>
+    </div>`;
+  }
+
   function botBubble(m) {
     const r = m.result;
     const check = r.mode === "check";
@@ -131,6 +158,7 @@ export async function render(root, { query } = {}) {
         ? html`<div class="verdict ${lvl}">${check ? ring(r.score, lvl) : ""}<div><span class="level-pill level-${lvl}">${icon(LEVEL_ICON[lvl] || "info")}${t(`level.${lvl}`)}</span>${r.headline ? html`<div class="vh">${r.headline}</div>` : ""}</div></div>`
         : ""}
       <div class="reply">${md(r.reply)}</div>
+      ${stageMeter(r)}
       ${check && r.flags?.length ? html`<div class="label" style="margin-top:12px">${t("dost.redFlags")}</div><ul class="flag-list">${r.flags.map((f) => html`<li><span class="sev-dot sev-${f.sev || "medium"}"></span><div><div class="ft">${f.title}</div><div class="fw">${f.why}</div></div></li>`)}</ul>` : ""}
       ${r.actions?.length ? html`<div class="label" style="margin-top:12px">${t("dost.nextSteps")}</div><ol class="actions-list">${r.actions.map((a) => html`<li>${md(a)}</li>`)}</ol>` : ""}
       ${checkRows.length || (r.ai?.used && r.ruleFlags?.length)

@@ -1,10 +1,25 @@
 import { state } from "../state.js";
 import { api } from "../api.js";
 import { t, L } from "../i18n.js";
-import { html, mount, icon, $, fmtNum, timeAgo, raw } from "../ui.js";
+import { html, mount, icon, $, $$, fmtNum, timeAgo, raw, ring } from "../ui.js";
 import { lineChart, columnChart, barList, riskBar, chartCard } from "../charts.js";
 import { CATEGORY, PLATFORM, SCAM_LINES, STRIP } from "../content.js";
 import { alertCard, bindOpeners } from "./hunt-shared.js";
+
+const tx = (en, hi) => (state.lang === "hi" ? hi : en);
+const DEMOS = [
+  { en: "Join our VIP WhatsApp group for guaranteed 30% monthly returns. Install Zerodha Pro VIP app from bit.ly/zpro and pay ₹5,000 to 9876543210@ybl. Only 5 seats left!", label: ["VIP tips group", "VIP टिप्स ग्रुप"] },
+  { en: "Your profit of ₹4,80,000 is ready. Pay 18% tax of ₹86,400 to release the withdrawal from your institutional account today.", label: ["Withdrawal 'tax'", "निकासी 'टैक्स'"] },
+  { en: "My broker asked me to pay margin to abc.brk@validhdfc. Is that okay?", label: ["@valid UPI", "@valid UPI"] },
+];
+
+// Tools other scam checkers don't have.
+const TOOLS = [
+  { icon: "app", href: "#/check?q=Zerodha%20Pro%20VIP", en: ["Clone-app detector", "Type any trading-app name. We catch “VIP”, “Pro” and misspelt clones of real brokers, the apps behind ₹1,400+ crore of losses, and show the official app and website."], hi: ["नकली-ऐप पहचान", "कोई भी ट्रेडिंग-ऐप नाम लिखें। हम असली ब्रोकर के “VIP”, “Pro” और ग़लत-वर्तनी वाले नकली ऐप पकड़ते हैं और आधिकारिक ऐप व वेबसाइट दिखाते हैं।"], tag: ["New", "नया"] },
+  { icon: "bolt", href: "#/check?tool=calc", en: ["Return reality check", "“3% a day” sounds small. It is over 4,800,000% a year. See any promise next to an FD and the long-run market average."], hi: ["रिटर्न की सच्चाई", "“रोज़ 3%” छोटा लगता है, पर यह साल में 48 लाख% से ज़्यादा है। किसी भी वादे को FD और बाज़ार के औसत से मिलाकर देखें।"], tag: ["New", "नया"] },
+  { icon: "target", href: "#/dost", en: ["Scam-stage meter", "Not just “risky”: we show where you are in the scam journey (hook, trust, install, pay, trap) and the one thing to do right now."], hi: ["ठगी-चरण मीटर", "सिर्फ़ “ख़तरनाक” नहीं: हम बताते हैं कि आप ठगी के किस चरण पर हैं (जाल, भरोसा, इंस्टॉल, भुगतान, फंदा) और अभी क्या करें।"], tag: ["New", "नया"] },
+  { icon: "shieldCheck", href: "#/check", en: ["Verified by FinSuraksha", "SEBI registration numbers and @valid UPI IDs are checked for you, against SEBI's register. No jumping between government websites."], hi: ["FinSuraksha द्वारा सत्यापित", "SEBI रजिस्ट्रेशन नंबर और @valid UPI ID हम आपके लिए SEBI रजिस्टर में जाँचते हैं। सरकारी वेबसाइटों पर भटकना नहीं।"] },
+];
 
 export async function render(root) {
   const [stats, wall] = await Promise.all([api.get("/api/stats").catch(() => null), api.get("/api/hunt/reports?status=verified&limit=3").catch(() => ({ reports: [] }))]);
@@ -26,22 +41,39 @@ export async function render(root) {
           <a class="btn btn-outline btn-lg" href="#/hunt">${t("home.cta2")}</a>
         </div>
         <p class="sos-line"><a href="tel:1930">${icon("phone")} ${t("home.sos")}</a> · <a href="#/help">${t("home.ctaHelp")}</a></p>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="float-chip c1"><span class="ico-circle" style="background:color-mix(in srgb,var(--risk-low) 16%,transparent);color:var(--risk-low)">${icon("check")}</span>${t("home.chipSebi")}</div>
-          <div class="float-chip c2"><span class="ico-circle" style="background:color-mix(in srgb,var(--risk-high) 14%,transparent);color:var(--risk-high)">${icon("alert")}</span>${t("home.chipRisk")}</div>
-          <div class="float-chip c3"><span class="ico-circle" style="background:var(--brand-soft);color:var(--brand)">${icon("rupee")}</span>${t("home.chipUpi")}</div>
-          <div class="safety-card">
-            <div class="sc-top"><span>${t("home.cardPass")}</span><span>${icon("shield")}</span></div>
-            <div class="emblem">${icon("shieldCheck")}</div>
-            <div class="sc-name">${t("home.cardName")}</div>
-            <div class="sc-sub">${t("home.cardSub")}</div>
-            <div class="sc-foot"><span>FINSURAKSHA</span><span>1930</span></div>
+        <div class="live-demo reveal" id="live-demo">
+          <div class="float-chip c1" aria-hidden="true"><span class="ico-circle" style="background:color-mix(in srgb,var(--risk-low) 16%,transparent);color:var(--risk-low)">${icon("check")}</span>${t("home.chipSebi")}</div>
+          <div class="float-chip c2" aria-hidden="true"><span class="ico-circle" style="background:color-mix(in srgb,var(--risk-high) 14%,transparent);color:var(--risk-high)">${icon("alert")}</span>${t("home.chipRisk")}</div>
+          <div class="ld-card">
+            <div class="ld-top"><span class="ld-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ld-title">${icon("sparkle")} ${tx("Try it now — no sign-up", "अभी आज़माएँ — साइन-अप की ज़रूरत नहीं")}</span></div>
+            <form id="ld-form" class="ld-body">
+              <label class="sr-only" for="ld-text">${tx("Message to check", "जाँचने के लिए संदेश")}</label>
+              <textarea id="ld-text" class="ld-text" rows="4" maxlength="2000" placeholder="${tx("Paste a suspicious message, link, UPI ID or app name…", "कोई संदिग्ध संदेश, लिंक, UPI ID या ऐप नाम पेस्ट करें…")}">${DEMOS[0].en}</textarea>
+              <div class="ld-actions">
+                <div class="row" style="gap:6px">${DEMOS.map((d, i) => html`<button class="chip" type="button" data-demo="${i}">${d.label[state.lang === "hi" ? 1 : 0]}</button>`)}</div>
+                <button class="btn btn-primary" type="submit">${icon("shieldCheck")}${tx("Check", "जाँचें")}</button>
+              </div>
+            </form>
+            <div class="ld-result" id="ld-result" aria-live="polite"></div>
           </div>
         </div>
       </div>
       <div class="container">
         <div class="dash-row" id="dash"></div>
         ${s.includesSample ? html`<div class="sample-note">${t("common.includesSample")}</div>` : ""}
+      </div>
+    </section>
+
+    <section class="section tools-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="h-section">${tx("Built for the gaps", "उन कमियों के लिए बना")}<br /><span class="soft">${tx("other scam checkers leave.", "जो दूसरे स्कैम-चेकर छोड़ देते हैं।")}</span></h2>
+          <p>${tx("Most tools stop at “this looks risky”. FinSuraksha explains the math, names the clone, verifies the registration and tells you what to do at this exact moment.", "ज़्यादातर टूल “यह ख़तरनाक लगता है” पर रुक जाते हैं। FinSuraksha हिसाब समझाता है, नकली ऐप पहचानता है, रजिस्ट्रेशन जाँचता है और बताता है कि अभी क्या करें।")}</p>
+        </div>
+        <div class="tools-grid">${TOOLS.map((tl, i) => html`<a class="tool-card reveal" style="--d:${i * 70}ms" href="${tl.href}">
+          <span class="tool-ico">${icon(tl.icon)}</span>${tl.tag ? html`<span class="tool-tag">${tl.tag[state.lang === "hi" ? 1 : 0]}</span>` : ""}
+          <h3>${(state.lang === "hi" ? tl.hi : tl.en)[0]}</h3><p>${(state.lang === "hi" ? tl.hi : tl.en)[1]}</p>
+          <span class="go">${t("home.open")} ${icon("arrowRight")}</span></a>`)}</div>
       </div>
     </section>
 
@@ -229,7 +261,58 @@ export async function render(root) {
   band.addEventListener("mouseleave", restart);
   band.addEventListener("focusin", () => clearInterval(timer));
 
+  // ---- Live demo in the hero ----
+  const STAGE_NAMES = [["Hook", "जाल"], ["Trust", "भरोसा"], ["Install", "इंस्टॉल"], ["Pay", "भुगतान"], ["Trap", "फंदा"]];
+  const STAGE_IDS = [
+    ["celebrity", "group_invite", "link_whatsapp_group", "link_telegram_private", "unregistered_tips", "task_job"],
+    ["guaranteed", "high_return", "insider", "fake_proof", "authority", "sebi_claim_no_number", "sebi_bad_format", "sebi_not_registered", "ponzi", "forex_crypto", "dabba"],
+    ["link_apk", "remote_apk", "fake_app_name", "institutional", "link_lookalike", "link_shortener", "credentials"],
+    ["pay_personal", "upi_personal", "urgency"],
+    ["withdrawal_fee", "threat", "utility_threat"],
+  ];
+  const ldText = $("#ld-text", root);
+  const ldOut = $("#ld-result", root);
+  $$("[data-demo]", root).forEach((b) => b.addEventListener("click", () => {
+    ldText.value = DEMOS[Number(b.dataset.demo)].en;
+    $("#ld-form", root).requestSubmit();
+  }));
+  $("#ld-form", root).addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const msg = ldText.value.trim();
+    if (!msg) return ldText.focus();
+    mount(ldOut, html`<div class="ld-loading"><span></span><span></span><span></span></div>`);
+    try {
+      const r = await api.post("/api/dost/analyze", { message: msg, lang: state.lang === "hi" ? "hi" : "en", history: [] });
+      const ids = new Set((r.ruleFlags || []).map((f) => f.id));
+      let at = -1;
+      STAGE_IDS.forEach((list, i) => list.some((id) => ids.has(id)) && (at = i));
+      const lvl = r.level === "info" ? "unknown" : r.level;
+      const flags = (r.flags || []).slice(0, 3);
+      const good = (r.actions || []).find((a) => /Verified by FinSuraksha|FinSuraksha द्वारा सत्यापित/.test(a));
+      mount(ldOut, html`<div class="ld-res fade-in">
+        <div class="row nowrap" style="gap:14px;align-items:center">${r.mode === "check" ? ring(r.score, lvl) : ""}<div style="min-width:0"><span class="level-pill level-${lvl}">${t(`level.${lvl}`)}</span>${r.headline ? html`<div class="ld-head">${r.headline}</div>` : ""}</div></div>
+        ${flags.length ? html`<ul class="ld-flags">${flags.map((f) => html`<li><span class="sev-dot sev-${f.sev || "medium"}"></span>${f.title}</li>`)}</ul>` : ""}
+        ${good ? html`<div class="ld-good">${icon("shieldCheck")}<span>${good.replace(/\*\*/g, "").replace(/^✓\s*/, "")}</span></div>` : ""}
+        ${at >= 0 && lvl !== "low" ? html`<div class="ld-stage">${STAGE_NAMES.map((n, i) => html`<span class="${i < at ? "past" : i === at ? "now" : ""}">${n[state.lang === "hi" ? 1 : 0]}</span>`)}</div>` : ""}
+        <a class="ld-more" href="#/dost?q=${encodeURIComponent(msg)}">${tx("See full explanation, next steps & audio", "पूरी जानकारी, अगले क़दम और ऑडियो देखें")} ${icon("arrowRight")}</a>
+      </div>`);
+    } catch (err) {
+      mount(ldOut, html`<div class="form-error">${err.message}</div>`);
+    }
+  });
+
+  // ---- Reveal on scroll ----
+  let io = null;
+  const reveals = $$(".reveal", root);
+  if (!reduce && "IntersectionObserver" in window) {
+    io = new IntersectionObserver((entries) => entries.forEach((en) => en.isIntersecting && (en.target.classList.add("in"), io.unobserve(en.target))), { rootMargin: "0px 0px -8% 0px" });
+    reveals.forEach((n) => io.observe(n));
+  } else reveals.forEach((n) => n.classList.add("in"));
+
   bindOpeners(root);
   void timeAgo;
-  return () => clearInterval(timer);
+  return () => {
+    clearInterval(timer);
+    io?.disconnect();
+  };
 }

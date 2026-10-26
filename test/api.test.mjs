@@ -358,3 +358,13 @@ test("moderator adds a newly registered entity to the SEBI register", async () =
   assert.equal(after.name, "New Advisers Pvt Ltd");
   assert.ok(ctx.store.data.registerAdditions.some((e) => e.regNo === "INA000099991"), "saved in the database");
 });
+
+
+test("Quick Check recognises trading-app names", async () => {
+  const c = client();
+  const fake = (await c.get("/api/check?q=Upstox%20Pro%20VIP")).body;
+  assert.equal(fake.app.verdict, "impersonation");
+  assert.deepEqual(fake.app.officialDomains, ["upstox.com"]);
+  const real = (await c.get("/api/check?q=Groww")).body;
+  assert.equal(real.app.verdict, "genuine");
+});

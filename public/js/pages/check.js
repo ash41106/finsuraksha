@@ -5,7 +5,8 @@ import { html, mount, icon, $, $$, toast, ring } from "../ui.js";
 import { OPPORTUNITY, SEBI_GUIDE } from "../content.js";
 import { prepareImage, decodeQr, parseUpiUri } from "../media.js";
 
-const EXAMPLES = ["INH000011431", "INA000017523", "abc.brk@validhdfc", "9876543210@ybl", "zer0dha-kyc-update.top", "@crorepati.trader.official"];
+const EXAMPLES = ["INH000011431", "INA000017523", "abc.brk@validhdfc", "9876543210@ybl", "Zerodha Pro VIP", "zer0dha-kyc-update.top", "@crorepati.trader.official"];
+const tx = (en, hi) => (state.lang === "hi" ? hi : en);
 
 export async function render(root, { query }) {
   mount(
@@ -32,6 +33,7 @@ export async function render(root, { query }) {
         </div>
         <div class="card pad-lg" id="opp-card"></div>
       </div>
+      <div class="card pad-lg calc-card" id="calc-card"></div>
       <div class="card pad-lg">
         <h3 style="font-size:1.3rem;margin-bottom:12px">${icon("book")} ${t("check.guideTitle")}</h3>
         <div class="table-wrap"><table class="lb-table"><thead><tr><th>${t("check.prefix")}</th><th>${t("check.who")}</th><th>${t("check.whereVerify")}</th></tr></thead>
@@ -99,6 +101,8 @@ export async function render(root, { query }) {
   });
 
   opportunity($("#opp-card", root));
+  returnCalc($("#calc-card", root));
+  if (query.get("tool") === "calc") requestAnimationFrame(() => $("#calc-card", root).scrollIntoView({ behavior: "smooth", block: "start" }));
 }
 
 function upiBlock(u) {
@@ -136,10 +140,31 @@ function resultView(d) {
       ${d.flags.length ? html`<ul class="flag-list">${d.flags.map((f) => html`<li><span class="sev-dot sev-${f.sev}"></span><div><div class="ft">${f.title}</div><div class="fw">${f.why}</div></div></li>`)}</ul>` : !l.official ? html`<div class="notice">${icon("info")}<span>${t("check.noLinkFlags")}</span></div>` : ""}
       <p class="xs muted">Google Safe Browsing: ${l.safeBrowsing === "not_configured" ? (state.lang === "hi" ? "चालू नहीं (वैकल्पिक API key)" : "not enabled (optional API key)") : l.safeBrowsing}</p></div>`);
   }
-  if (d.matches) {
+  if (d.matches && (d.matches.length || !d.app)) {
     parts.push(html`<div class="card pad-lg"><div class="card-title">${icon("search")} ${t("check.resName")}</div>
       ${d.matches.length ? html`<div class="stack">${d.matches.map((m) => html`<div class="check-row" style="align-items:center">${icon("check")}<b>${m.name}</b><span class="kbd">${m.regNo}</span><span class="chip">${m.type}</span></div>`)}</div>` : html`<p class="small muted">${t(reg.complete ? "check.nameNotRegistered" : "check.nameNotVerified")}</p>`}
       <p class="xs muted">${t(reg.complete ? "check.registerNote" : "check.partialNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p></div>`);
+  }
+  if (d.app) {
+    const a = d.app;
+    const fake = a.verdict === "impersonation";
+    const why = {
+      misspelt: tx(`The name is spelt like "${a.brand}" but isn't the same. Clone apps change one or two letters.`, `नाम "${a.brand}" जैसा लिखा है पर वैसा नहीं है। नकली ऐप एक-दो अक्षर बदल देते हैं।`),
+      apk: tx("Real broker apps are never shared as APK files.", "असली ब्रोकर ऐप कभी APK फ़ाइल के रूप में नहीं भेजे जाते।"),
+      bait: tx(`${a.brand} has no "${a.bait}" app. Scammers add words like VIP, Pro or Institutional to a real brand.`, `${a.brand} का कोई "${a.bait}" ऐप नहीं है। ठग असली ब्रांड में VIP, Pro या Institutional जैसे शब्द जोड़ते हैं।`),
+    }[a.reason];
+    parts.push(html`<div class="card pad-lg app-card ${fake ? "fake" : "real"}"><div class="card-title">${icon("app")} ${tx("Trading app check", "ट्रेडिंग ऐप जाँच")}</div>
+      <span class="level-pill ${fake ? "level-high" : "level-low"}">${icon(fake ? "x" : "check")}${fake ? tx("Looks like a clone app", "नकली ऐप लगता है") : tx(`Genuine ${a.brand} app name`, `असली ${a.brand} ऐप का नाम`)}</span>
+      ${why ? html`<p class="small" style="margin:12px 0 0">${why}</p>` : ""}
+      <div class="app-official"><div class="label">${tx(`Official ${a.brand} apps`, `${a.brand} के आधिकारिक ऐप`)}</div>
+        <div class="row" style="gap:6px">${a.officialApps.map((x) => html`<span class="chip ok">${icon("check")}${x}</span>`)}</div>
+        <div class="label" style="margin-top:10px">${tx("Official websites", "आधिकारिक वेबसाइट")}</div>
+        <div class="row" style="gap:6px">${a.officialDomains.map((x) => html`<span class="kbd">${x}</span>`)}</div></div>
+      <ul class="tick-list" style="margin-top:12px">
+        <li>${icon("check")}<span>${tx("Install only from Google Play or the App Store, and look for the SEBI “Verified” badge on Play.", "सिर्फ़ Google Play या App Store से इंस्टॉल करें, और Play पर SEBI “Verified” बैज देखें।")}</span></li>
+        <li>${icon("check")}<span>${tx("Check that the developer name matches the broker exactly.", "देखें कि डेवलपर का नाम ब्रोकर से बिल्कुल मेल खाता है।")}</span></li>
+        ${fake ? html`<li>${icon("alert")}<span>${tx("Already installed it? Uninstall it, turn on flight mode and change banking passwords from another phone.", "इंस्टॉल कर लिया है? हटाएँ, फ़्लाइट मोड चालू करें और दूसरे फ़ोन से बैंकिंग पासवर्ड बदलें।")}</span></li>` : ""}
+      </ul></div>`);
   }
   if (d.type === "phone" || d.type === "handle") {
     parts.push(html`<div class="card pad-lg"><div class="card-title">${icon(d.type === "phone" ? "phone" : "user")} ${d.phone || d.query}</div>
@@ -150,6 +175,8 @@ function resultView(d) {
   let lvl = ["high", "medium", "low"].includes(d.level) ? d.level : d.sebi?.found || d.upi?.validHandle || d.link?.official ? "low" : "unknown";
   // Keep the banner consistent with the cards below it.
   if (d.sebi && (!d.sebi.valid || d.sebi.notRegistered)) lvl = "high";
+  else if (d.app?.verdict === "impersonation") lvl = "high";
+  else if (d.app?.verdict === "genuine" && lvl === "unknown") lvl = "low";
   else if (lvl !== "high" && ((d.upi && !d.upi.validHandle) || (d.sebi && !d.sebi.found))) lvl = "medium";
   const vKey = { high: "check.vHigh", medium: "check.vMedium", low: "check.vLow", unknown: "check.vUnknown" }[lvl];
   const banner = html`<div class="verdict-banner level-${lvl}" role="status"><span class="level-pill level-${lvl}">${icon(lvl === "high" ? "alert" : lvl === "low" ? "check" : "info")}${t(`level.${lvl}`)}</span><p>${t(vKey)}</p></div>`;
@@ -212,6 +239,84 @@ function opportunity(card) {
       }),
     );
     void toast;
+  };
+  draw();
+}
+
+// "Too good to be true?" - turns a promised return into what it would really mean.
+const PERIODS = { day: 365, week: 52, month: 12, year: 1 };
+const FD = 7; // typical bank FD rate, % a year
+const EQUITY = 12; // rough long-run Indian equity index average, % a year - never guaranteed
+
+function returnCalc(card) {
+  let rate = 3;
+  let per = "day";
+  let amount = 10000;
+  const money = (n) =>
+    n >= 1e12 ? `₹${(n / 1e12).toLocaleString("en-IN", { maximumFractionDigits: 1 })}${tx(" lakh crore", " लाख करोड़")}`
+    : n >= 1e7 ? `₹${(n / 1e7).toLocaleString("en-IN", { maximumFractionDigits: 1 })}${tx(" crore", " करोड़")}`
+    : `₹${Math.round(n).toLocaleString("en-IN")}`;
+  const draw = () => {
+    const n = PERIODS[per];
+    const annual = (Math.pow(1 + rate / 100, n) - 1) * 100;
+    const end = amount * (1 + annual / 100);
+    const fd = amount * (1 + FD / 100);
+    const eq = amount * (1 + EQUITY / 100);
+    const doubling = Math.log(2) / Math.log(1 + rate / 100);
+    const level = annual > 30 ? "high" : annual > 15 ? "medium" : "low";
+    const lo = Math.log10(amount * 0.9);
+    const hi = Math.log10(Math.max(end, fd, eq));
+    const bar = (v) => Math.max(3, Math.min(100, ((Math.log10(v) - lo) / (hi - lo || 1)) * 100));
+    const pw = { day: tx("day", "दिन"), week: tx("week", "हफ़्ते"), month: tx("month", "महीने"), year: tx("year", "साल") };
+    const yearly = annual > 1e9 ? "100,00,00,000%+" : `${Math.round(annual).toLocaleString("en-IN")}%`;
+    const verdict = {
+      high: tx(`No legal investment can promise this. ${rate}% every ${pw[per]} means ${yearly} a year. Schemes like this pay early investors with new victims' money, then vanish.`, `कोई भी क़ानूनी निवेश ऐसा वादा नहीं कर सकता। हर ${pw[per]} ${rate}% का मतलब है साल में ${yearly}। ऐसी स्कीमें नए लोगों के पैसे से पुराने लोगों को देती हैं, फिर ग़ायब हो जाती हैं।`),
+      medium: tx("Far above what markets usually give, and no one can guarantee it. Treat a promise like this as a warning sign.", "बाज़ार आम तौर पर इतना नहीं देता, और कोई इसकी गारंटी नहीं दे सकता। ऐसे वादे को ख़तरे का संकेत मानें।"),
+      low: tx("A realistic range, but market returns are never guaranteed. A “fixed” or “guaranteed” promise is still a red flag.", "यह वास्तविक दायरा है, पर बाज़ार में रिटर्न की गारंटी कभी नहीं होती। “फ़िक्स्ड” या “गारंटीड” वादा फिर भी ख़तरे का संकेत है।"),
+    }[level];
+    const showDoubling = per !== "year" && doubling < 120;
+    mount(
+      card,
+      html`<div class="calc-head"><span class="eyebrow">${icon("bolt")} ${tx("Return reality check", "रिटर्न की सच्चाई")}</span>
+        <h3>${tx("Too good to be true? Do the math.", "बहुत अच्छा लग रहा है? हिसाब लगाइए।")}</h3>
+        <p class="muted small">${tx("Enter what they promised and see what it would really mean.", "जो वादा किया गया है वह डालें और देखें इसका असली मतलब क्या है।")}</p></div>
+      <div class="calc-grid">
+        <div class="calc-inputs">
+          <label class="field"><span class="label">${tx("Promised return (%)", "वादा किया गया रिटर्न (%)")}</span><input class="input" id="c-rate" type="number" min="0.1" max="100" step="0.1" value="${rate}" inputmode="decimal" /></label>
+          <div class="field"><span class="label">${tx("Every", "हर")}</span><div class="seg wide">${Object.keys(PERIODS).map((p) => html`<button type="button" data-per="${p}" aria-pressed="${p === per}">${pw[p]}</button>`)}</div></div>
+          <label class="field"><span class="label">${tx("If I invest (₹)", "अगर मैं लगाऊँ (₹)")}</span><input class="input" id="c-amt" type="number" min="100" max="100000000" step="100" value="${amount}" inputmode="numeric" /></label>
+          <div class="row" style="gap:6px"><span class="xs muted">${tx("Common scam pitches:", "आम ठगी के वादे:")}</span>${[["3", "day"], ["10", "week"], ["20", "month"]].map(([rr, p]) => html`<button class="chip" type="button" data-preset="${rr}|${p}">${rr}% / ${pw[p]}</button>`)}</div>
+        </div>
+        <div class="calc-out level-${level}" aria-live="polite">
+          <div class="calc-big"><span class="muted small">${tx("That is", "इसका मतलब")}</span><b>${yearly}</b><span class="muted small">${tx("a year", "सालाना")}</span></div>
+          <div class="calc-bars">
+            <div class="cb"><span>${tx("Their promise", "उनका वादा")}</span><div class="track"><i class="promise" style="width:${bar(end)}%"></i></div><b>${money(end)}</b></div>
+            <div class="cb"><span>${tx("Equity index*", "शेयर सूचकांक*")}</span><div class="track"><i style="width:${bar(eq)}%"></i></div><b>${money(eq)}</b></div>
+            <div class="cb"><span>${tx("Bank FD", "बैंक FD")}</span><div class="track"><i style="width:${bar(fd)}%"></i></div><b>${money(fd)}</b></div>
+          </div>
+          ${showDoubling ? html`<p class="small" style="margin:0"><b>${tx(`Your money would double every ${Math.max(1, Math.round(doubling))} ${pw[per]}${Math.round(doubling) > 1 ? "s" : ""}.`, `आपका पैसा हर ${Math.max(1, Math.round(doubling))} ${pw[per]} में दोगुना हो जाता।`)}</b></p>` : ""}
+          <p class="small calc-verdict" style="margin:0">${verdict}</p>
+          <p class="xs muted" style="margin:0">${tx(`*Value after 1 year. FD ≈ ${FD}%, equity ≈ ${EQUITY}% a year (rough long-run average, never guaranteed). Bars use a log scale. Education only, not investment advice.`, `*1 साल बाद की रक़म। FD ≈ ${FD}%, शेयर ≈ ${EQUITY}% सालाना (लंबी अवधि का अनुमानित औसत, गारंटी नहीं)। बार लॉग स्केल पर हैं। सिर्फ़ जानकारी के लिए, निवेश सलाह नहीं।`)}</p>
+        </div>
+      </div>`,
+    );
+    const num = (id, min, max, set) =>
+      card.querySelector(id).addEventListener("change", (e) => {
+        const v = Number(e.target.value);
+        if (Number.isFinite(v) && v >= min && v <= max) set(v);
+        draw();
+      });
+    num("#c-rate", 0.1, 100, (v) => (rate = v));
+    num("#c-amt", 100, 1e8, (v) => (amount = v));
+    $$("[data-per]", card).forEach((b) => b.addEventListener("click", () => ((per = b.dataset.per), draw())));
+    $$("[data-preset]", card).forEach((b) =>
+      b.addEventListener("click", () => {
+        const [rr, p] = b.dataset.preset.split("|");
+        rate = Number(rr);
+        per = p;
+        draw();
+      }),
+    );
   };
   draw();
 }

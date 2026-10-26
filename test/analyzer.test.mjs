@@ -154,3 +154,19 @@ test("complete register: a missing number is 'not registered'; lookup service fi
     loadRegister(); // back to the bundled register for other tests
   }
 });
+
+
+test("clone trading-app names are caught, real ones pass", async () => {
+  const { checkApp, findFakeApps } = await import("../src/apps.js");
+  assert.equal(checkApp("Zerodha Kite").verdict, "genuine");
+  assert.equal(checkApp("Kotak Neo").verdict, "genuine");
+  assert.equal(checkApp("Zerodha Pro VIP").verdict, "impersonation");
+  assert.equal(checkApp("gr0ww institutional").reason, "misspelt");
+  assert.equal(checkApp("angel one ipo apk").reason, "apk");
+  assert.equal(checkApp("my grandmother"), null);
+  assert.deepEqual(findFakeApps("Groww is fine").length, 0);
+
+  const a = await analyzeMessage("Join our group and install Zerodha VIP app from tinyurl.com/zvip for guaranteed 20% monthly profit", {});
+  assert.ok(a.flags.some((f) => f.id === "fake_app_name"));
+  assert.equal(a.level, "high");
+});
