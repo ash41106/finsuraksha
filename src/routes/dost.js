@@ -25,7 +25,9 @@ export function dostRoutes({ store, cfg, ai, limit }) {
         ? b.history.slice(-8).map((h) => ({ role: h?.role === "assistant" ? "assistant" : "user", text: typeof h?.text === "string" ? h.text.slice(0, 2000) : "" }))
         : [];
       // Nothing from this request is stored - only anonymous counters are updated.
-      const result = await runAssistant({ message, history, lang, image, store, cfg, ai });
+      // AI mode is opt-in per chat: masked text goes to the AI only when the user switched it on.
+      const useAi = b.useAi === true;
+      const result = await runAssistant({ message, history, lang, image: useAi ? image : null, store, cfg, ai, useAi });
       res.json(result);
     }),
   );

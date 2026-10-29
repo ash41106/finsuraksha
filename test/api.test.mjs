@@ -368,3 +368,18 @@ test("Quick Check recognises trading-app names", async () => {
   const real = (await c.get("/api/check?q=Groww")).body;
   assert.equal(real.app.verdict, "genuine");
 });
+
+
+test("community reports are anonymised after 12 months", async () => {
+  const { applyRetention } = await import("../src/retention.js");
+  const old = { id: "rep_old", createdAt: new Date(Date.now() - 400 * 86_400_000).toISOString(), reporterId: "u1", supporters: ["u2"], ocrText: "x", evidence: null, status: "verified" };
+  const fresh = { id: "rep_new", createdAt: new Date().toISOString(), reporterId: "u1", supporters: [], ocrText: "y", evidence: null, status: "pending" };
+  ctx.store.data.reports.push(old, fresh);
+  assert.equal(applyRetention(ctx.store), 1);
+  assert.equal(old.reporterId, null);
+  assert.equal(old.ocrText, "");
+  assert.ok(old.anonymisedAt);
+  assert.equal(fresh.reporterId, "u1", "recent reports untouched");
+  assert.equal(applyRetention(ctx.store), 0, "runs once per report");
+  ctx.store.data.reports = ctx.store.data.reports.filter((r) => r !== old && r !== fresh);
+});

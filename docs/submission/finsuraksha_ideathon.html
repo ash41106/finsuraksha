@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>FinSuraksha Ideathon Entry</title>
+<style>
+@page{size:A4;margin:10mm 11mm}
+*{box-sizing:border-box}
+body{font-family:"Segoe UI",Arial,sans-serif;font-size:10.5pt;line-height:1.24;color:#222;margin:0;background:#fff}
+h1{font-size:19pt;color:#8a4a2b;margin:0}
+.tag{font-size:11pt;color:#555;margin:0 0 2px}
+.meta{font-size:9pt;color:#555;margin-bottom:4px}
+h2{font-size:12.5pt;color:#fff;background:#8a4a2b;padding:2px 7px;margin:7px 0 3px;break-after:avoid}
+h3{font-size:10.8pt;color:#8a4a2b;margin:5px 0 2px;border-bottom:1px solid #e4cfc3;break-after:avoid}
+p{margin:2px 0}
+ul{margin:1px 0 2px;padding-left:15px}li{margin:0}
+.bluf{border:2px solid #8a4a2b;background:#fbf4ef;padding:4px 8px;margin:3px 0}
+.bluf b.h{color:#8a4a2b}
+table{border-collapse:collapse;width:100%;margin:2px 0 3px;font-size:10pt;break-inside:avoid}
+th{background:#f1e2d8;color:#5a2f1a;text-align:left}
+th,td{border:1px solid #d9c2b4;padding:1.5px 4px;vertical-align:top}
+.f{color:#8a4a2b;font-weight:600}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:3px 0;break-inside:avoid}
+.shots figure{margin:0;border:1px solid #d9c2b4;background:#faf6f3;padding:3px}
+.shots img{width:100%;height:37mm;object-fit:contain;object-position:center;background:#f5f0ea;display:block}
+.shots figcaption{font-size:8.8pt;color:#5a2f1a;margin-top:2px}
+.refs{font-size:8.5pt;padding-left:16px;margin:2px 0}.refs li{word-break:normal;overflow-wrap:normal}
+sup{font-size:7pt;color:#8a4a2b}
+</style></head><body>
+
+<h1>FinSuraksha: Check Before You Trust</h1>
+<div class="tag">An explain-first scam checker plus a community takedown portal for first-time investors, students and seniors.</div>
+<div class="meta">CDSL "Reimagine" Ideathon · <b>Team:</b> Ashpreet Singh Saini · ashpreet41106@gmail.com · github.com/ash41106/finsuraksha · working prototype, runs with <code>npm start</code>, no API keys</div>
+
+<div class="bluf"><b class="h">Bottom line up front.</b> Clone trading apps accounted for <b>20,043 cases and ₹1,420 crore of losses</b> (as cited by CDSL IPF<sup>[1]</sup>). Each official safeguard covers one channel and still expects the investor to check. <b>FinSuraksha does the check and explains why</b>: paste a tip, link, UPI (Unified Payments Interface) ID, SEBI number, screenshot or QR code, or speak, and get a risk score and each red flag in plain words. <b>English and Hindi built in; 10 Indian languages in AI mode.</b> <b>Unlike existing tools, it verifies SEBI registration and @valid UPI for you, tells you what to do at your current scam stage, in your language, and feeds verified community reports back into the next check.</b> <b>It is built and working</b>; the ask is a pilot through CDSL/SEBI investor-awareness programmes.</div>
+
+<h2>1. About the idea</h2>
+<h3>Idea Title</h3>
+<p><b>FinSuraksha: Suraksha-Dost scam checker + FinScam Hunter takedown portal</b></p>
+
+<h3>Summary of the Idea</h3>
+<table>
+<tr><th style="width:19%">Module (built)</th><th>What the investor gets</th></tr>
+<tr><td class="f">Suraksha-Dost chat</td><td>Text, link, UPI ID, screenshot, QR or voice → risk score, explained flags, spoken summary</td></tr>
+<tr><td class="f">Automatic checks</td><td>SEBI register, SEBI <code>@valid</code> UPI handle, link reputation, clone-app names, community reports</td></tr>
+<tr><td class="f">Scam-stage meter</td><td>The 5 scam steps (lure, trust, install app, pay, trapped) and what to do at your stage</td></tr>
+<tr><td class="f">Quick Check</td><td>Clone-app detector, payment-QR scanner, Return Reality Calculator, "opportunity or trap?" quiz</td></tr>
+<tr><td class="f">FinScam Hunter</td><td>Report scam apps; 3 matching votes verify onto a public Alert Wall; certificates</td></tr>
+<tr><td class="f">Learn &amp; Get Help</td><td>10 guides, Spot the Scam game, 1930 helpline card, recovery checklist, complaint-draft builder</td></tr>
+</table>
+
+<div class="shots">
+<figure><img src="img/dost.png" alt="Chat verdict"><figcaption><b>1. Chat verdict:</b> score 100/100, plain-language reasons, and the stage meter at "Pay".</figcaption></figure>
+<figure><img src="img/home.png" alt="Live checker"><figcaption><b>2. Home page:</b> try it now with no sign-up; one-tap sample scams.</figcaption></figure>
+<figure><img src="img/clone.png" alt="Clone app check"><figcaption><b>3. Clone-app detector:</b> "Zerodha Pro" flagged; the official apps and websites shown instead.</figcaption></figure>
+<figure><img src="img/calc.png" alt="Return calculator"><figcaption><b>4. Return Reality Calculator:</b> "3% a day" is 1,000,000%+ a year, compared with a bank fixed deposit (FD) and an equity index.</figcaption></figure>
+</div>
+
+<h3>How does your idea empower investors, promote inclusion, and build trust in the securities market?</h3>
+<ul>
+<li><b>Empower:</b> replaces "go verify on SEBI's site" with an answer, e.g. "✓ Verified by FinSuraksha: abc.brk@validhdfc is a SEBI @valid UPI ID (Stock broker, HDFC Bank)". Knowing <i>why</i> carries over to the next scam.</li>
+<li><b>Include:</b> voice in and out; English and Hindi built in, 10 Indian languages in AI mode; no install, any phone browser; lightweight: ~300 KB of app code (~80 KB compressed), works on slow mobile connections. <b>Built accessibility:</b> ARIA labels, keyboard focus styles, reduced-motion support, text size, high contrast, dark mode.</li>
+<li><b>Trust:</b> routes people to registered entities and @valid handles; turns return promises into arithmetic: ~9 in 10 (91%) individual equity-derivatives (futures and options, F&amp;O) traders made a net loss in FY25<sup>[4]</sup>, so "guaranteed 3% a day" is false.</li>
+</ul>
+
+<h3>Has this been done before? If yes, which geography, industry, and how?</h3>
+<table>
+<tr><th style="width:23%">Existing (geography, sector)</th><th style="width:37%">What it does</th><th>What FinSuraksha adds</th></tr>
+<tr><td>Bitdefender Scamio<sup>[6]</sup> (global, cybersecurity)</td><td>AI verdict on texts, links, screenshots</td><td><b>Indian languages + SEBI / @valid UPI / clone-broker checks</b>; every flag explained</td></tr>
+<tr><td>FCA Warning List<sup>[7]</sup> (UK, regulator)</td><td>Unauthorised-firm list; self-checks</td><td>Same self-test, plus chat checker and community-verified alerts</td></tr>
+<tr><td>SEBI Check on Saarthi<sup>[3]</sup> (India, regulator)</td><td>Verifies intermediaries' UPI IDs, QR codes</td><td>Same check inside chat, plus message, link and app analysis</td></tr>
+<tr><td>Sanchar Saathi Chakshu<sup>[8]</sup> (India, telecom)</td><td>Report fraud calls, SMS, WhatsApp</td><td>Pre-filled complaint text; reports flow back into future checks</td></tr>
+<tr><td>RBI Sachet<sup>[9]</sup> (India, banking)</td><td>Report illegal deposit schemes</td><td>Securities focus; RBI Alert List names flagged in messages</td></tr>
+</table>
+<p><b>Gap:</b> no tool combines detection, explanation, stage-specific action and a crowd feedback loop in securities.</p>
+
+<h3>Are there any unique aspects of your idea. If yes, what?</h3>
+<ul>
+<li><b>Explain-first, not verdict-only</b>, with audio; <b>the system verifies</b> SEBI numbers and @valid UPI IDs so the user doesn't have to.</li>
+<li><b>Stage-aware advice:</b> different action if you are being lured, asked to install an app, or asked to pay.</li>
+<li><b>Covers the Play-label gap:</b> the "Verified" label applies, to start with, on Google Play<sup>[2]</sup>, not to APKs (Android app files sent as links), websites or iOS; the clone-app detector and APK-link flag cover those.</li>
+<li><b>Bounded AI and student volunteers:</b> AI only explains masked text and <b>cannot lower a critical rule-based score</b>; students earn verifiable certificates for reporting.</li>
+
+</ul>
+
+<h3>How do you envisage the implementation of your idea?</h3>
+<p><b>Architecture (built):</b> one Node.js server, plain-JavaScript front end; OCR/QR <b>on the device</b> → rule engine (35+ patterns) + SEBI register + @valid UPI + community reports → PII masking → optional AI → verdict. Hashed passwords, request-forgery protection, rate limits; <b>30 automated tests</b>.</p>
+<p><b>SEBI register (honest status):</b> the current snapshot holds 884 Investment Adviser / Research Analyst (IA/RA) entries. Full IA/RA lists and stock brokers load in Phase 1 with the importer already built. Unmatched numbers show "could not verify", never "safe".</p>
+<table>
+<tr><th style="width:17%">Phase</th><th>Scope</th><th style="width:30%">Partners (proposed)</th></tr>
+<tr><td class="f">0. Done</td><td>Working prototype, all modules; demo data marked "Sample"</td><td>—</td></tr>
+<tr><td class="f">1. Pilot, 0–3 mo</td><td>Load full register; hosted deployment; grievance officer; WCAG 2.1 AA audit (NVDA/TalkBack); usability tests; built-in quiz as pre/post measure (all planned)</td><td>CDSL Investor Protection Fund (IPF) / SEBI awareness programmes; 3–5 colleges</td></tr>
+<tr><td class="f">2. Scale, 3–12 mo <i>(roadmap)</i></td><td>Move JSON store to Postgres; the analysis engine is stateless, so it can be replicated behind a load balancer; more UI languages; moderator network</td><td>NGOs, senior-citizen groups, broker / Depository Participant (DP) sessions</td></tr>
+<tr><td class="f">3. Ecosystem <i>(roadmap)</i></td><td>Share verified Alert Wall data with regulators; test the broker/DP widget with 2 brokers; SMS/IVR for feature phones</td><td>Depositories, brokers, CERT-In (national cyber-emergency team)</td></tr>
+</table>
+<p><b>Who pays:</b> free for investors, always. <b>Pilot budget (estimate):</b> 3 months, 3–5 colleges, ≈ ₹1.5–2 lakh: hosting ≈ ₹3,000/month (2-vCPU VM), part-time moderation, outreach materials. Proposed grant partners: depository and exchange investor-protection funds (IPFs), which fund investor-awareness programmes. Grant funding is primary; a broker/DP white-label widget is a revenue hypothesis tested in Phase 3.</p>
+<div style="break-inside:avoid"><p><b>Privacy by design (Digital Personal Data Protection Act, DPDP 2023<sup>[10]</sup>):</b></p>
+<ul>
+<li><b>Minimisation:</b> FinSuraksha stores no chat, only anonymous counters; screenshots and QR codes are read on the device; image location data stripped.</li>
+<li><b>AI mode is off by default (built):</b> the user switches it on per chat with a toggle labelled "sends masked text to AI"; only then does PII-masked text (phone, email, Aadhaar, PAN, OTP, account numbers) go to the provider (Groq, US-based). Screenshots go to AI only with a separate per-image consent tick. No chat is stored.</li>
+<li><b>Consent and rights:</b> explicit 18+ consent (no child data); data export and account deletion are built; accounts kept until the user deletes them; reports moderated with a right of reply. <b>Retention (built):</b> a daily job anonymises reports after 12 months, removing the reporter link, supporters, OCR text and screenshot; only entity, category, status and votes stay on the Alert Wall.</li>
+</ul></div>
+
+<h2>2. Challenges, Risks, &amp; Assumptions</h2>
+<h3>Potential roadblocks and hurdles</h3>
+<table>
+<tr><th style="width:30%">Roadblock</th><th>Mitigation</th></tr>
+<tr><td>No live SEBI lookup (firewall and captcha on SEBI's tools)</td><td>Load the full public register with the built importer; plug in an official feed when offered (one function). We never bypass SEBI's protections.</td></tr>
+<tr><td>False positives / negatives</td><td>Reasons shown, not a bare verdict; "could not verify" means "check further"; minimum scores for critical signs; analyzer accuracy tests.</td></tr>
+<tr><td>Abuse of community reports</td><td>3 independent matching votes, moderator review, right of reply, rate limits.</td></tr>
+<tr><td>Scammers change scripts</td><td>Patterns and the genuine-app list are data files; community reports surface new tactics quickly.</td></tr>
+<tr><td>AI errors / prompt injection</td><td>AI optional, rule-grounded; cannot lower critical scores; rules-only fallback.</td></tr>
+<tr><td>Low digital literacy</td><td>Voice, Hindi, large text; assisted use in awareness camps and colleges.</td></tr>
+</table>
+
+<h3>Why will this idea work?</h3>
+<ul>
+
+<li><b>Prebunking (inoculation):</b> practising against weakened scam tactics builds resistance; the "Bad News" game cut perceived reliability of fake headlines in a 15,000-player pre/post study<sup>[5]</sup>. Spot the Scam applies this to investment fraud.</li>
+<li><b>Action over warnings:</b> a design principle. A UK online payment-fraud experiment found that redesigned calls-to-action reduced fraudulent payments more than standard warnings, though the effect faded with repetition<sup>[11]</sup>. FinSuraksha's next step changes with the scam stage, and the pilot will test this.</li>
+<li><b>It already runs</b>, complements regulators (routes to SEBI, @valid, 1930, Chakshu) and self-reinforces. The pilot's pre/post quiz will produce the first FinSuraksha-specific evidence.</li>
+</ul>
+
+<h2>3. Impact</h2>
+<h3>Who will benefit the most from this</h3>
+<ul>
+<li><b>First-time investors</b> lured by tip groups, clone apps and "guaranteed" returns, including <b>dabba trading</b> (illegal off-exchange betting on share prices).</li>
+<li><b>Senior citizens:</b> one-tap share of the verdict with a family member (WhatsApp etc.), audio summaries, large text, voice input. <b>Students:</b> learners via the game, volunteers via FinScam Hunter.</li>
+<li><b>Regulators and depositories:</b> a crowd-sourced early-warning feed of new scam tactics.</li>
+</ul>
+
+<h3>What are the expected outcomes and benefits of your idea</h3>
+<table>
+<tr><th style="width:24%">Outcome</th><th style="width:27%">Mechanism</th><th>Pilot target (3 months; goals, not results)</th></tr>
+<tr><td class="f">Financial literacy</td><td>Explained flags, guides, Return Reality Calculator</td><td>+25 percentage-point pre/post quiz gain, n ≥ 500</td></tr>
+<tr><td class="f">Informed participation</td><td>Automatic SEBI/@valid checks</td><td>≥ 60% of high-risk checks end in a "won't pay" choice</td></tr>
+<tr><td class="f">Cyber-safety practices</td><td>Stage meter, Spot the Scam, 1930 card</td><td>≥ 70% finish game; ≥ 80% would pause and verify</td></tr>
+<tr><td class="f">Broader participation</td><td>Voice; English/Hindi; 10 languages in AI mode</td><td>≥ 40% of checks in Hindi or other non-English languages; ≥&nbsp;15% of users aged 60+</td></tr>
+<tr><td class="f">Trust in the market</td><td>Verified Alert Wall; routing to registered entities</td><td>≥ 50 verified reports a month; median verification &lt;72&nbsp;h</td></tr>
+</table>
+
+<h3>References</h3>
+<ol class="refs">
+<li>CDSL IPF, Fake trading apps: https://www.cdslipf.com/<wbr>fake-apps.html</li>
+<li>SEBI PR 20/2026, Verified app label on Google Play: https://www.sebi.gov.in/<wbr>sebi_data/<wbr>attachdocs/<wbr>mar-2026/<wbr>1774448914437.pdf</li>
+<li>SEBI PR 64/2025, Validated UPI handles and SEBI Check: https://www.sebi.gov.in/<wbr>media-and-notifications/<wbr>press-releases/<wbr>oct-2025/<wbr>sebi-rolls-out-validated-upi-handles-and-sebi-check-for-secure-investor-payments_97020.html</li>
+<li>SEBI PR 39/2025, F&amp;O study FY25: https://www.sebi.gov.in/<wbr>sebi_data/<wbr>attachdocs/<wbr>jul-2025/<wbr>1751900802566.pdf</li>
+<li>Roozenbeek &amp; van der Linden (2019), Palgrave Communications 5:65: https://doi.org/<wbr>10.1057/<wbr>s41599-019-0279-9</li>
+<li>Bitdefender Scamio: https://www.bitdefender.com/<wbr>en-us/<wbr>consumer/<wbr>scamio</li>
+<li>FCA Warning List: https://www.fca.org.uk/<wbr>scamsmart/<wbr>warning-list</li>
+<li>Sanchar Saathi Chakshu: https://sancharsaathi.gov.in/<wbr>sfc/<wbr></li>
+<li>RBI Sachet: https://sachet.rbi.org.in/<wbr></li>
+<li>DPDP Act 2023 (MeitY): https://www.meity.gov.in/<wbr>data-protection-framework</li>
+<li>Akesson, Gathergood &amp; Quispe-Torreblanca (2023), Preventing Payments Fraud in the FinTech Era: New Evidence from a Behavioural Experiment, CeDEx DP 2023-08: https://www.nottingham.ac.uk/<wbr>cedex/<wbr>documents/<wbr>papers/<wbr>cedex-discussion-paper-2023-08.pdf</li>
+</ol>
+</body></html>

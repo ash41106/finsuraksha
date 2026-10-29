@@ -34,7 +34,7 @@ Open **http://localhost:3000**. The console also prints a "same Wi-Fi" address t
 On the first run the console prints a **moderator login**, which is also saved to `data/FIRST_RUN_CREDENTIALS.txt`. Sample hunters and reports are loaded so the Alert Wall, leaderboard and charts aren't empty. The UI labels all of them **"Sample"**. To start with an empty site, set `SEED_DEMO=false` before the first run, or delete the `data/` folder.
 
 ```bash
-npm test     # 20 automated tests: API, security, analyzer accuracy, AI request format, game content
+npm test     # 30 automated tests: API, security, analyzer accuracy, SEBI register and lookup service, clone-app detection, AI opt-in, report retention, AI request format, game content
 ```
 
 ### Do I need any API keys?

@@ -7,6 +7,7 @@ import { attachUser, pruneSessions } from "./auth.js";
 import { createAi } from "./ai.js";
 import { seedIfEmpty } from "./seed.js";
 import { setRegisterExtras } from "./sebi.js";
+import { scheduleRetention } from "./retention.js";
 import { authRoutes } from "./routes/auth.js";
 import { dostRoutes } from "./routes/dost.js";
 import { checkRoutes } from "./routes/check.js";
@@ -20,6 +21,7 @@ export async function createApp(overrides = {}) {
   const seeded = cfg.seedDemo ? await seedIfEmpty(store, cfg) : null;
   pruneSessions(store);
   setRegisterExtras(store.data.registerAdditions);
+  scheduleRetention(store);
   const ai = createAi(cfg, { fetch: overrides.aiFetch });
   const limit = createRateLimiter(cfg);
   const ctx = { store, cfg, ai, limit };

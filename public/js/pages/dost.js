@@ -27,7 +27,15 @@ export async function render(root, { query } = {}) {
   let busy = false;
   let rec = null;
   const langInfo = () => CHAT_LANGS.find((l) => l.code === state.chatLang) || CHAT_LANGS[0];
-  const aiOn = Boolean(state.config.aiEnabled);
+  const aiAvailable = Boolean(state.config.aiEnabled);
+  // AI mode is opt-in: off until the user switches it on (remembered on this device only).
+  let aiChoice = false;
+  try {
+    aiChoice = localStorage.getItem("fs_use_ai") === "1";
+  } catch {
+    /* storage blocked */
+  }
+  let aiOn = aiAvailable && aiChoice;
 
   mount(
     root,
@@ -42,7 +50,8 @@ export async function render(root, { query } = {}) {
         <div class="chat-shell" id="shell" style="position:relative">
           <div class="chat-head">
             <div class="bot-avatar">${icon("shieldCheck")}</div>
-            <div><div class="name">${t("dost.titleA")}</div><div class="xs muted"><span class="status-dot"></span>${t("dost.online")} · ${aiOn ? t("dost.modeAi") : t("dost.modeRules")}</div></div>
+            <div><div class="name">${t("dost.titleA")}</div><div class="xs muted"><span class="status-dot"></span>${t("dost.online")} · <span id="mode-label">${aiOn ? t("dost.modeAi") : t("dost.modeRules")}</span></div>
+              ${aiAvailable ? html`<label class="check ai-optin" title="${state.lang === "hi" ? "चालू करने पर सिर्फ़ मास्क किया गया टेक्स्ट AI सेवा को भेजा जाता है। कुछ भी सेव नहीं होता।" : "When on, only the masked text is sent to the AI service. Nothing is stored."}"><input type="checkbox" id="ai-optin" ${aiOn ? "checked" : ""} /> <span class="xs">${state.lang === "hi" ? "AI मोड (10 भाषाएँ) — मास्क किया गया टेक्स्ट AI को जाएगा" : "AI mode (10 languages) — sends masked text to AI"}</span></label>` : ""}</div>
             <span class="spacer"></span>
             <label class="sr-only" for="chat-lang">${t("dost.lang")}</label>
             <select class="select" id="chat-lang" style="width:auto;border-radius:999px;padding:8px 12px">${CHAT_LANGS.map((l) => html`<option value="${l.code}" ${l.code === state.chatLang ? "selected" : ""}>${l.name}</option>`)}</select>
@@ -255,7 +264,7 @@ export async function render(root, { query } = {}) {
     renderAttachment();
     const tnode = typing();
     try {
-      const result = await api.post("/api/dost/analyze", payload);
+      const result = await api.post("/api/dost/analyze", { ...payload, useAi: aiOn });
       tnode.remove();
       addMessage({ role: "assistant", text: result.reply, result });
       if (state.autoSpeak) speakFor(log.lastElementChild);
@@ -495,6 +504,15 @@ export async function render(root, { query } = {}) {
   } catch {
     /* nothing saved */
   }
+  $("#ai-optin", root)?.addEventListener("change", (e) => {
+    aiOn = aiAvailable && e.target.checked;
+    try {
+      localStorage.setItem("fs_use_ai", aiOn ? "1" : "0");
+    } catch {
+      /* storage blocked */
+    }
+    $("#mode-label", root).textContent = aiOn ? t("dost.modeAi") : t("dost.modeRules");
+  });
   // Deep link: #/dost?q=<text> opens the chat with that message already checked.
   const preset = query?.get("q");
   if (preset) send(preset.slice(0, 6000));

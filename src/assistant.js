@@ -133,7 +133,7 @@ function recordStats(store, mode, level, flags) {
   store.save();
 }
 
-export async function runAssistant({ message, history, lang, image, store, cfg, ai }) {
+export async function runAssistant({ message, history, lang, image, store, cfg, ai, useAi = true }) {
   const L = lang === "hi" ? "hi" : "en";
   const uiLang = LANGS[lang] ? lang : "en";
   const analysis = await analyzeMessage(message, { store, cfg, lang: L });
@@ -155,15 +155,15 @@ export async function runAssistant({ message, history, lang, image, store, cfg, 
     lang: L,
     replyLang: L,
     redactions: red.counts,
-    ai: { used: false, available: Boolean(ai?.enabled) },
+    ai: { used: false, available: Boolean(ai?.enabled), optedIn: Boolean(ai?.enabled && useAi) },
   };
   if (mode === "check") base.headline = VERDICT_TEXT[analysis.level][L].headline;
   if (mode === "support") base.headline = L === "hi" ? "चिंता न करें — अभी ये क़दम उठाएँ।" : "Stay calm — take these steps right now.";
   if (mode === "question") base.headline = null;
-  if (uiLang !== L && !ai?.enabled) base.note = "Rule-based mode answers in English or Hindi. Add an AI key to reply in other Indian languages.";
+  if (uiLang !== L && !(ai?.enabled && useAi)) base.note = "Rule-based mode answers in English or Hindi. Add an AI key to reply in other Indian languages.";
 
   let result = base;
-  if (ai?.enabled) {
+  if (ai?.enabled && useAi) {
     try {
       const r = await ai.analyze({ message: red.text, history, lang: uiLang, analysis, mode, image });
       if (r?.refused) {

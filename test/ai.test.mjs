@@ -51,7 +51,7 @@ after(() => {
 });
 
 const post = async (body) => {
-  const r = await fetch(`${base}/api/dost/analyze`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+  const r = await fetch(`${base}/api/dost/analyze`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ useAi: true, ...body }) });
   return { status: r.status, body: await r.json() };
 };
 
@@ -110,4 +110,12 @@ test("screenshots are not sent to the AI (Groq mode has no vision)", async () =>
   const png = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
   const r = await post({ lang: "en", message: "check this", image: png, imageConsent: true });
   assert.equal(r.status, 400);
+});
+
+test("AI is opt-in per chat: without useAi nothing reaches the AI", async () => {
+  const before = seen.length;
+  const r = await post({ message: "Join VIP group for guaranteed 30% monthly returns", useAi: false });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.ai.used, false);
+  assert.equal(seen.length, before, "no AI request was made");
 });
