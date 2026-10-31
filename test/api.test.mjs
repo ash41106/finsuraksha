@@ -314,7 +314,7 @@ test("rate limiter returns 429 when enabled", async () => {
   const s2 = app2.app.listen(0);
   const url = `http://127.0.0.1:${s2.address().port}/api/check?q=INA000017523`;
   let status = 200;
-  for (let i = 0; i < 62 && status !== 429; i++) status = (await fetch(url)).status;
+  for (let i = 0; i < 152 && status !== 429; i++) status = (await fetch(url)).status;
   s2.close();
   app2.store.flush();
   fs.rmSync(dir2, { recursive: true, force: true });
@@ -382,4 +382,58 @@ test("community reports are anonymised after 12 months", async () => {
   assert.equal(fresh.reporterId, "u1", "recent reports untouched");
   assert.equal(applyRetention(ctx.store), 0, "runs once per report");
   ctx.store.data.reports = ctx.store.data.reports.filter((r) => r !== old && r !== fresh);
+});
+
+test("hardening: signup race, missing files, list clamp, body size, moderator reset", async () => {
+  const racers = await Promise.all([0, 1, 2, 3].map(() => client().post("/api/auth/signup", signupBody(60))));
+  assert.deepEqual(racers.map((r) => r.status).sort(), [201, 409, 409, 409], "one account per email, even at the same moment");
+  assert.equal(ctx.store.data.users.filter((u) => u.email === "t60@test.local").length, 1);
+
+  assert.equal((await fetch(`${base}/js/does-not-exist.js`)).status, 404, "missing asset is a 404, not the page");
+  assert.equal((await fetch(`${base}/some/deep/link`)).status, 200, "deep links still load the app");
+
+  const wall = await client().get("/api/hunt/reports?limit=-5");
+  assert.equal(wall.status, 200);
+  assert.ok(wall.body.reports.length <= 60);
+
+  const big = await client().post("/api/auth/login", { email: "x@test.local", password: "a".repeat(200_000) });
+  assert.equal(big.status, 413, "only screenshot endpoints accept large bodies");
+
+  const modA = client();
+  await modA.post("/api/auth/signup", signupBody(61, { email: "mod@test.local" }));
+  await modA.post("/api/auth/login", { email: "mod@test.local", password: "Passw0rd!" });
+  ctx.store.data.users.find((u) => u.email === "t62@test.local") || (await newUser(62));
+  ctx.store.data.users.find((u) => u.email === "t62@test.local").isModerator = true;
+  assert.equal((await modA.post("/api/auth/reset", { email: "t62@test.local" })).status, 403, "a moderator can't reset another moderator");
+});
+
+test("stranger's wrong guesses don't lock out the account owner", async () => {
+  const dir2 = fs.mkdtempSync(path.join(os.tmpdir(), "finsuraksha-lock-"));
+  const app2 = await createApp({ dataDir: dir2, seedDemo: false, rateLimits: false, quiet: true, aiEnabled: false, trustProxy: 1 });
+  const s2 = app2.app.listen(0);
+  const url = `http://127.0.0.1:${s2.address().port}/api/auth/login`;
+  const post = (body, ip) => fetch(url, { method: "POST", headers: { "content-type": "application/json", "x-forwarded-for": ip }, body: JSON.stringify(body) });
+  await fetch(url.replace("login", "signup"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(signupBody(70)) });
+  for (let i = 0; i < 6; i++) await post({ email: "t70@test.local", password: "wrong-pass1" }, "203.0.113.9");
+  assert.equal((await post({ email: "t70@test.local", password: "Passw0rd!" }, "203.0.113.9")).status, 429);
+  assert.equal((await post({ email: "t70@test.local", password: "Passw0rd!" }, "198.51.100.4")).status, 200, "owner on another address still gets in");
+  s2.close();
+  app2.store.flush();
+  fs.rmSync(dir2, { recursive: true, force: true });
+});
+
+test("behind a reverse proxy: forwarded host passes the origin check; admin bootstrap", async () => {
+  const dir2 = fs.mkdtempSync(path.join(os.tmpdir(), "finsuraksha-proxy-"));
+  const app2 = await createApp({ dataDir: dir2, seedDemo: false, rateLimits: false, quiet: true, aiEnabled: false, trustProxy: 1, adminEmail: "admin@test.local", adminPassword: "Adm1nPassw0rd" });
+  const s2 = app2.app.listen(0);
+  const res = await fetch(`http://127.0.0.1:${s2.address().port}/api/auth/login`, {
+    method: "POST",
+    headers: { "content-type": "application/json", origin: "https://finsuraksha.example", "x-forwarded-host": "finsuraksha.example" },
+    body: JSON.stringify({ email: "admin@test.local", password: "Adm1nPassw0rd" }),
+  });
+  assert.equal(res.status, 200);
+  assert.equal((await res.json()).user.isModerator, true);
+  s2.close();
+  app2.store.flush();
+  fs.rmSync(dir2, { recursive: true, force: true });
 });

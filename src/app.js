@@ -3,7 +3,8 @@ import path from "node:path";
 import { buildConfig } from "./config.js";
 import { createStore } from "./db.js";
 import { securityHeaders, apiGuard, createRateLimiter } from "./security.js";
-import { attachUser, pruneSessions } from "./auth.js";
+import { attachUser, pruneSessions, hashPassword } from "./auth.js";
+import { checkPassword } from "./validate.js";
 import { createAi } from "./ai.js";
 import { seedIfEmpty } from "./seed.js";
 import { setRegisterExtras } from "./sebi.js";
@@ -20,6 +21,8 @@ export async function createApp(overrides = {}) {
   const store = createStore(cfg.dataDir);
   const seeded = cfg.seedDemo ? await seedIfEmpty(store, cfg) : null;
   pruneSessions(store);
+  setInterval(() => pruneSessions(store), 60 * 60_000).unref();
+  await ensureAdmin(store, cfg);
   setRegisterExtras(store.data.registerAdditions);
   scheduleRetention(store);
   const ai = createAi(cfg, { fetch: overrides.aiFetch });
@@ -28,12 +31,33 @@ export async function createApp(overrides = {}) {
 
   const app = express();
   app.disable("x-powered-by");
-  if (cfg.trustProxy) app.set("trust proxy", 1);
+  if (cfg.trustProxy) app.set("trust proxy", cfg.trustProxy);
   app.use(securityHeaders(cfg));
-  app.use(express.json({ limit: "4mb" }));
+  // Only the two endpoints that accept a screenshot need a large body.
+  const bigJson = express.json({ limit: "4mb" });
+  const smallJson = express.json({ limit: "100kb" });
+  const BIG = new Set(["/api/hunt/reports", "/api/dost/analyze"]);
+  app.use((req, res, next) => (req.method === "POST" && BIG.has(req.path) ? bigJson : smallJson)(req, res, next));
+  if (cfg.logRequests) {
+    app.use((req, res, next) => {
+      const t = Date.now();
+      res.on("finish", () => console.log(`${req.method} ${req.originalUrl.split("?")[0]} ${res.statusCode} ${Date.now() - t}ms`));
+      next();
+    });
+  }
+  if (!cfg.trustProxy && !cfg.quiet) {
+    let warned = false;
+    app.use((req, _res, next) => {
+      if (!warned && req.headers["x-forwarded-for"]) {
+        warned = true;
+        console.warn("Requests arrive through a proxy but TRUST_PROXY is not set: rate limits will treat every visitor as one. Set TRUST_PROXY=1.");
+      }
+      next();
+    });
+  }
   app.use(attachUser(store));
 
-  app.use("/api", apiGuard);
+  app.use("/api", apiGuard(cfg));
   app.use("/api", publicRoutes(ctx));
   app.use("/api/auth", authRoutes(ctx));
   app.use("/api/dost", dostRoutes(ctx));
@@ -51,6 +75,8 @@ export async function createApp(overrides = {}) {
       setHeaders: (res) => res.setHeader("Cache-Control", "no-cache"),
     }),
   );
+  // A missing file (anything with an extension) is a real 404, not the page.
+  app.get(/\.[a-z0-9]{1,8}$/i, (_req, res) => res.status(404).type("text").send("Not found"));
   // SPA fallback (hash routing makes this rare, but keep deep links working).
   app.get("*", (_req, res) => res.sendFile(path.join(pub, "index.html")));
 
@@ -65,4 +91,45 @@ export async function createApp(overrides = {}) {
   });
 
   return { app, store, cfg, ai, seeded };
+}
+
+// First moderator for a fresh deployment, from ADMIN_EMAIL / ADMIN_PASSWORD.
+// An existing account is promoted, never has its password changed.
+async function ensureAdmin(store, cfg) {
+  if (!cfg.adminEmail) return;
+  const existing = store.data.users.find((u) => u.email === cfg.adminEmail);
+  if (existing) {
+    if (!existing.isModerator) {
+      existing.isModerator = true;
+      store.save();
+    }
+    return;
+  }
+  if (!cfg.adminPassword) return console.warn("ADMIN_EMAIL is set but ADMIN_PASSWORD is not; no admin account created.");
+  try {
+    checkPassword(cfg.adminPassword);
+  } catch (e) {
+    return console.warn(`ADMIN_PASSWORD rejected: ${e.message}`);
+  }
+  const now = new Date().toISOString();
+  store.data.users.push({
+    id: store.id("usr"),
+    name: "Admin",
+    email: cfg.adminEmail,
+    passHash: await hashPassword(cfg.adminPassword),
+    role: "other",
+    college: "",
+    collegeKey: "",
+    leaderboard: false,
+    isModerator: true,
+    points: 0,
+    badges: [],
+    learned: [],
+    quiz: { best: 0, lastDay: null, attempts: 0 },
+    consentAt: now,
+    createdAt: now,
+    lastLoginAt: now,
+  });
+  store.save();
+  if (!cfg.quiet) console.log(`Admin account created for ${cfg.adminEmail}.`);
 }

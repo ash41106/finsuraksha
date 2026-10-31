@@ -25,6 +25,16 @@ export function applyRetention(store, now = Date.now()) {
     rep.anonymisedAt = new Date(now).toISOString();
     changed++;
   }
+  // Appeals hold a name and contact detail; keep only the outcome.
+  for (const a of store.data.appeals || []) {
+    if (a.anonymisedAt || now - Date.parse(a.createdAt) < REPORT_RETENTION_DAYS * DAY) continue;
+    a.name = "";
+    a.contact = "";
+    a.message = "";
+    if (a.status === "open") a.status = "closed";
+    a.anonymisedAt = new Date(now).toISOString();
+    changed++;
+  }
   if (changed) store.save();
   return changed;
 }

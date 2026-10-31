@@ -106,6 +106,26 @@ FinSuraksha is a financial-security awareness website for students, first-time i
 
 **Checked in a real browser (headless Edge):** home, Quick Check (clone-app result and calculator) and chat (stage meter) all render correctly at desktop width.
 
+### 2.8 Pre-launch hardening, part A: server security and correctness — 1 Nov 2026
+A senior-tester pass (API probe of about 160 checks, a crawl of every route in 4 display modes, and 20 browser journeys) found these server bugs. All are fixed and covered by tests.
+
+| Bug found | Fix |
+|---|---|
+| Two sign-ups at the same moment created two accounts for one email | The email is reserved while the password is hashed (`src/routes/auth.js`) |
+| 5 wrong guesses by a stranger locked the real owner out for 15 min | Lockout is per email+address (5); a looser per-account cap (25) slows distributed attacks |
+| Behind nginx/Caddy every write returned 403 (Host ≠ Origin) | `apiGuard(cfg)` also accepts `X-Forwarded-Host` (with `TRUST_PROXY`), `PUBLIC_URL` and `ALLOWED_ORIGINS` |
+| A moderator could reset another moderator's password and take over the account | Reset returns 403 for other moderators |
+| Two identical reports at the same moment were both stored | Re-check for an existing report after the async analysis (`src/routes/hunt.js`) |
+| Per-IP limits blocked whole colleges or mobile networks sharing one address | Limits key on account when signed in; login counts failures only and sign-up counts successes only; caps raised; `RATE_LIMIT_SCALE`; separate `dost-ai` bucket for paid AI calls |
+| `?limit=-5` bypassed the 60-item cap | Clamped to 1–60 |
+| Every endpoint accepted 4 MB bodies | 100 kB by default; 4 MB only for the two screenshot endpoints |
+| A missing `.js`/`.png` returned the HTML page with status 200 | Real 404 for paths with a file extension |
+| Appeals kept names and contact details forever | Anonymised after 12 months, like reports |
+| No way to create the first moderator on a fresh server | `ADMIN_EMAIL` + `ADMIN_PASSWORD` create (or promote) one at start-up |
+| Expired sessions piled up until restart | Pruned hourly |
+
+Also: `TRUST_PROXY` accepts a hop count or address list, there is a one-time warning when proxy headers arrive without it, and `LOG_REQUESTS=true` logs requests. Tests: 33, all passing.
+
 ---
 
 ## 3. How to run and test
@@ -113,7 +133,7 @@ FinSuraksha is a financial-security awareness website for students, first-time i
 ```bash
 npm install
 npm start        # http://localhost:3000  (Windows: double-click run.bat)
-npm test         # 28 tests, all passing as of 26 Oct 2026
+npm test         # 33 tests, all passing as of 1 Nov 2026
 ```
 
 - The first run prints a moderator login and saves it to `data/FIRST_RUN_CREDENTIALS.txt`.

@@ -22,6 +22,30 @@ loadDotEnv(path.join(ROOT, ".env"));
 
 const env = process.env;
 const bool = (v, d = false) => (v === undefined || v === "" ? d : /^(1|true|yes|on)$/i.test(v));
+const list = (v) =>
+  String(v || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+// TRUST_PROXY: false (default), true (= one proxy hop), a hop count, or a list
+// of proxy addresses / CIDRs, exactly as Express's "trust proxy" setting.
+function trustProxySetting(v) {
+  if (v === undefined || v === "" || /^(0|false|no|off)$/i.test(v)) return false;
+  if (/^(1|true|yes|on)$/i.test(v)) return 1;
+  if (/^\d+$/.test(v)) return Number(v);
+  return v;
+}
+
+// Public address of the site, e.g. https://finsuraksha.in (no trailing slash).
+function publicUrl(v) {
+  try {
+    const u = new URL(v);
+    return `${u.protocol}//${u.host}`;
+  } catch {
+    return "";
+  }
+}
 
 export function buildConfig(overrides = {}) {
   const cfg = {
@@ -47,7 +71,19 @@ export function buildConfig(overrides = {}) {
     verifyThreshold: Math.max(2, Number(env.VERIFY_THRESHOLD) || 3),
     seedDemo: bool(env.SEED_DEMO, true),
     cookieSecure: bool(env.COOKIE_SECURE, false),
-    trustProxy: bool(env.TRUST_PROXY, false),
+    trustProxy: trustProxySetting(env.TRUST_PROXY),
+    publicUrl: publicUrl(env.PUBLIC_URL),
+    // Extra origins allowed to call the API (besides the site's own host).
+    allowedOrigins: list(env.ALLOWED_ORIGINS).map(publicUrl).filter(Boolean),
+    // First moderator for a fresh deployment (created at start-up if missing).
+    adminEmail: (env.ADMIN_EMAIL || "").trim().toLowerCase(),
+    adminPassword: env.ADMIN_PASSWORD || "",
+    // Grievance / contact address shown on the privacy and terms pages.
+    contactEmail: (env.CONTACT_EMAIL || "").trim(),
+    // Multiplies every rate limit, e.g. 3 for a campus event behind one IP.
+    rateLimitScale: Math.max(0.1, Number(env.RATE_LIMIT_SCALE) || 1),
+    logRequests: bool(env.LOG_REQUESTS, false),
+    production: env.NODE_ENV === "production",
     rateLimits: true,
     quiet: false,
     ...overrides,

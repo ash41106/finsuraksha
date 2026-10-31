@@ -2,6 +2,7 @@ import express from "express";
 import { analyzeMessage, analyzeLink, displayEntity } from "../analyzer.js";
 import { verifyRegNo, validateRegNo, searchRegister, analyzeUpi, registerInfo, setRegisterExtras, SEBI_LINKS } from "../sebi.js";
 import { requireModerator } from "../auth.js";
+import { byUserOrIp } from "../security.js";
 import { checkApp } from "../apps.js";
 import { str, asyncRoute, HttpError } from "../validate.js";
 
@@ -22,7 +23,7 @@ export function checkRoutes({ store, cfg, limit }) {
 
   r.get(
     "/check",
-    limit("check", 60, 10 * 60_000),
+    limit("check", 150, 10 * 60_000, byUserOrIp),
     asyncRoute(async (req, res) => {
       const q = str(req.query.q, { field: "Search", min: 2, max: 300, required: true });
       const type = detectType(q);
@@ -51,7 +52,7 @@ export function checkRoutes({ store, cfg, limit }) {
     }),
   );
 
-  r.get("/sebi/search", limit("sebi", 60, 10 * 60_000), (req, res) => {
+  r.get("/sebi/search", limit("sebi", 120, 10 * 60_000, byUserOrIp), (req, res) => {
     const q = str(req.query.q, { field: "Search", min: 2, max: 120, required: true });
     res.json({ results: searchRegister(q, 12), register: registerInfo() });
   });

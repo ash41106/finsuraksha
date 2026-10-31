@@ -2,13 +2,20 @@ import express from "express";
 import { runAssistant } from "../assistant.js";
 import { str, oneOf, parseImage, HttpError, asyncRoute } from "../validate.js";
 import { CHAT_LANGS } from "../constants.js";
+import { byUserOrIp } from "../security.js";
 
 export function dostRoutes({ store, cfg, ai, limit }) {
   const r = express.Router();
+  // The rule-based check is cheap, so the general limit is generous (many
+  // people can share one college or mobile-network address). Requests that
+  // go to the AI provider cost money, so they get their own, tighter limit.
+  const aiLimit = limit("dost-ai", 40, 10 * 60_000, byUserOrIp);
+  const aiGate = (req, res, next) => (ai.enabled && req.body?.useAi === true ? aiLimit(req, res, next) : next());
 
   r.post(
     "/analyze",
-    limit("dost", 40, 10 * 60_000),
+    limit("dost", 150, 10 * 60_000, byUserOrIp),
+    aiGate,
     asyncRoute(async (req, res) => {
       const b = req.body || {};
       const message = str(b.message, { field: "Message", max: 6000 });

@@ -2,6 +2,7 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import { requireAuth, requireModerator } from "../auth.js";
+import { byUserOrIp } from "../security.js";
 import { analyzeMessage, entityKeys, displayEntity } from "../analyzer.js";
 import { redact } from "../redact.js";
 import { POINTS, award, grantBadges, levelFor } from "../gamify.js";
@@ -70,7 +71,7 @@ export function huntRoutes({ store, cfg, limit }) {
   // ---- Auto-check before submitting --------------------------------------
   r.post(
     "/precheck",
-    limit("precheck", 40, 10 * 60_000),
+    limit("precheck", 80, 10 * 60_000, byUserOrIp),
     asyncRoute(async (req, res) => {
       const b = req.body || {};
       const text = [str(b.entityValue, { max: 300 }), str(b.link, { max: 500 }), str(b.description, { max: 4000 }), str(b.ocrText, { max: 6000 })].filter(Boolean).join("\n");
@@ -88,7 +89,7 @@ export function huntRoutes({ store, cfg, limit }) {
   r.post(
     "/reports",
     requireAuth,
-    limit("report", 15, 60 * 60_000),
+    limit("report", 15, 60 * 60_000, byUserOrIp),
     asyncRoute(async (req, res) => {
       const b = req.body || {};
       const category = oneOf(b.category, CATEGORIES, "category");
@@ -105,20 +106,26 @@ export function huntRoutes({ store, cfg, limit }) {
       if (recent >= 10) throw new HttpError(429, "You've filed 10 reports today. Please come back tomorrow.");
 
       const matchKeys = entityKeys(entityType, entityValue, link);
-      const existing = store.data.reports.find((x) => x.status !== "rejected" && x.matchKeys.some((k) => matchKeys.includes(k)));
-      if (existing) {
-        if (existing.reporterId === req.user.id || existing.supporters.includes(req.user.id)) {
+      const findExisting = () => store.data.reports.find((x) => x.status !== "rejected" && (x.matchKeys || []).some((k) => matchKeys.includes(k)));
+      const merge = (existing) => {
+        const supporters = (existing.supporters = existing.supporters || []);
+        if (existing.reporterId === req.user.id || supporters.includes(req.user.id)) {
           return res.json({ merged: true, id: existing.id, message: "You've already reported this one. Thanks!" });
         }
-        existing.supporters.push(req.user.id);
+        supporters.push(req.user.id);
         existing.notes = [...(existing.notes || []), { at: new Date().toISOString(), text: redact(description).text.slice(0, 400) }].slice(-20);
         store.save();
         return res.json({ merged: true, id: existing.id, message: "Someone already reported this. Your report was added as supporting evidence." });
-      }
+      };
+      const existing = findExisting();
+      if (existing) return merge(existing);
 
       const cleanDesc = redact(description).text;
       const cleanOcr = redact(ocrText).text;
       const a = await analyzeMessage([entityValue, link, cleanDesc, cleanOcr].filter(Boolean).join("\n"), { store: null, cfg, lang: "en" });
+      // The analysis is async: someone may have filed the same entity meanwhile.
+      const raced = findExisting();
+      if (raced) return merge(raced);
       const report = {
         id: store.id("rep"),
         createdAt: new Date().toISOString(),
@@ -166,7 +173,7 @@ export function huntRoutes({ store, cfg, limit }) {
     if (plat) list = list.filter((x) => x.platform === plat);
     if (q) list = list.filter((x) => `${x.entityValue} ${x.description} ${x.link}`.toLowerCase().includes(q));
     list = [...list].sort((a, b) => Date.parse(b.resolvedAt || b.createdAt) - Date.parse(a.resolvedAt || a.createdAt));
-    const limitN = Math.min(60, Number(req.query.limit) || 30);
+    const limitN = Math.max(1, Math.min(60, parseInt(req.query.limit, 10) || 30));
     res.json({ total: list.length, reports: list.slice(0, limitN).map((x) => publicReport(x, req.user)) });
   });
 
@@ -210,12 +217,12 @@ export function huntRoutes({ store, cfg, limit }) {
   r.post(
     "/reports/:id/vote",
     requireAuth,
-    limit("vote", 60, 60 * 60_000),
+    limit("vote", 60, 60 * 60_000, byUserOrIp),
     asyncRoute(async (req, res) => {
       const rep = store.data.reports.find((x) => x.id === req.params.id);
       if (!rep) throw new HttpError(404, "Report not found.");
       if (rep.status !== "pending") throw new HttpError(409, "Voting is closed for this report.");
-      if (rep.reporterId === req.user.id || rep.supporters.includes(req.user.id)) throw new HttpError(403, "You can't vote on a report you filed or supported.");
+      if (rep.reporterId === req.user.id || (rep.supporters || []).includes(req.user.id)) throw new HttpError(403, "You can't vote on a report you filed or supported.");
       if (store.data.votes.some((v) => v.reportId === rep.id && v.userId === req.user.id)) throw new HttpError(409, "You've already voted on this report.");
       const vote = oneOf(req.body?.vote, ["confirm", "legit", "info"], "vote");
       const reason = redact(str(req.body?.reason, { field: "Reason", max: 300 })).text;
