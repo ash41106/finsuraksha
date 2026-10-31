@@ -309,9 +309,9 @@ async function board(body) {
       </div>
       ${mode === "people"
         ? html`<div class="podium">${order.map((u) => html`<div class="pod ${u === top[0] ? "first" : ""}"><div class="medal">${["🥇", "🥈", "🥉"][u.rank - 1]}</div><div class="pname">${u.name}</div><div class="small muted">${u.college || "—"}</div><div class="ppts">${u.points}</div><div class="small muted">${u.level} · ${u.verified} ${t("hunt.verifiedCol")}</div></div>`)}</div>
-          <div class="card table-wrap"><table class="lb-table"><thead><tr><th>${t("hunt.rank")}</th><th>${t("hunt.name")}</th><th>${t("hunt.college")}</th><th>${t("hunt.level")}</th><th class="num">${t("hunt.verifiedCol")}</th><th class="num">${t("hunt.points")}</th></tr></thead>
+          <div class="card table-wrap" tabindex="0" role="region" aria-label="${t("hunt.tabBoard") || "Leaderboard"}"><table class="lb-table"><thead><tr><th>${t("hunt.rank")}</th><th>${t("hunt.name")}</th><th>${t("hunt.college")}</th><th>${t("hunt.level")}</th><th class="num">${t("hunt.verifiedCol")}</th><th class="num">${t("hunt.points")}</th></tr></thead>
           <tbody>${data.users.map((u) => html`<tr class="${u.me ? "me" : ""}"><td>#${u.rank}</td><td><b>${u.name}</b> ${u.sample ? html`<span class="chip sample">${t("common.sample")}</span>` : ""}</td><td>${u.college || "—"}</td><td>${u.level}</td><td class="num">${u.verified}</td><td class="num"><b>${u.points}</b></td></tr>`)}</tbody></table></div>`
-        : html`<div class="card table-wrap"><table class="lb-table"><thead><tr><th>${t("hunt.rank")}</th><th>${t("hunt.college")}</th><th class="num">${t("hunt.members")}</th><th class="num">${t("hunt.verifiedCol")}</th><th class="num">${t("hunt.points")}</th></tr></thead>
+        : html`<div class="card table-wrap" tabindex="0" role="region" aria-label="${t("hunt.tabBoard") || "Leaderboard"}"><table class="lb-table"><thead><tr><th>${t("hunt.rank")}</th><th>${t("hunt.college")}</th><th class="num">${t("hunt.members")}</th><th class="num">${t("hunt.verifiedCol")}</th><th class="num">${t("hunt.points")}</th></tr></thead>
           <tbody>${data.colleges.map((c) => html`<tr><td>#${c.rank}</td><td><b>${c.name}</b></td><td class="num">${c.members}</td><td class="num">${c.verified}</td><td class="num"><b>${c.points}</b></td></tr>`)}</tbody></table></div>`}`,
     );
     $$("[data-mode]", body).forEach((b) =>

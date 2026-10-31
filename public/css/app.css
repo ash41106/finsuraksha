@@ -11,8 +11,8 @@
   --surface-3: #f1e6dc;
   --ink: #1f1511;
   --ink-2: #4b3a31;
-  --muted: #8f7b6e;
-  --muted-2: #bba89b;
+  --muted: #725e52;
+  --muted-2: #85715f;
   --line: #eadcd1;
   --line-2: #dfcdbf;
   --brand: #8a4a2b;
@@ -26,11 +26,11 @@
   --brown-card-2: #7b3f23;
   --on-brown: #fbefe6;
   --on-brown-muted: #e3c6b3;
-  --risk-high: #a8382a;
+  --risk-high: #922c20;
   --risk-medium: #cf8a2a;
-  --risk-low: #13875c;
+  --risk-low: #0b6b47;
   --risk-unknown: #8f8580;
-  --ok: #13875c;
+  --ok: #0b6b47;
   --danger: #a8382a;
   --grid: #ece1d8;
   --axis: #d9c8bb;
@@ -59,7 +59,7 @@
     --ink: #f4ebe3;
     --ink-2: #dccbbf;
     --muted: #a8968a;
-    --muted-2: #7c6b60;
+    --muted-2: #958274;
     --line: #34271f;
     --line-2: #423229;
     --brand: #d79b74;
@@ -73,12 +73,12 @@
     --brown-card-2: #4e2917;
     --on-brown: #fbefe6;
     --on-brown-muted: #d9b7a1;
-    --risk-high: #db4f6a;
+    --risk-high: #f27d92;
     --risk-medium: #b98d2f;
-    --risk-low: #2e9d73;
+    --risk-low: #4fc495;
     --risk-unknown: #8f8580;
-    --ok: #2e9d73;
-    --danger: #db4f6a;
+    --ok: #4fc495;
+    --danger: #f27d92;
     --grid: #30241d;
     --axis: #45352b;
     --focus: #f0a173;
@@ -96,7 +96,7 @@
   --ink: #f4ebe3;
   --ink-2: #dccbbf;
   --muted: #a8968a;
-  --muted-2: #7c6b60;
+  --muted-2: #958274;
   --line: #34271f;
   --line-2: #423229;
   --brand: #d79b74;
@@ -110,12 +110,12 @@
   --brown-card-2: #4e2917;
   --on-brown: #fbefe6;
   --on-brown-muted: #d9b7a1;
-  --risk-high: #db4f6a;
+  --risk-high: #f27d92;
   --risk-medium: #b98d2f;
-  --risk-low: #2e9d73;
+  --risk-low: #4fc495;
   --risk-unknown: #8f8580;
-  --ok: #2e9d73;
-  --danger: #db4f6a;
+  --ok: #4fc495;
+  --danger: #f27d92;
   --grid: #30241d;
   --axis: #45352b;
   --focus: #f0a173;
@@ -126,6 +126,8 @@
   --ink: #000;
   --ink-2: #1a0f0a;
   --muted: #4b3a31;
+  --risk-low: #0b6b47;
+  --ok: #0b6b47;
   --muted-2: #6b5446;
   --line: #a8907f;
   --line-2: #8f7563;
@@ -280,7 +282,7 @@ hr.sep { border: 0; border-top: 1px solid var(--line); margin: 18px 0; }
 .chip.outline { background: transparent; border-color: var(--line-2); }
 .chip.sample { background: transparent; border: 1px dashed var(--muted-2); color: var(--muted); }
 .chip.ok { background: color-mix(in srgb, var(--risk-low) 14%, transparent); color: var(--risk-low); }
-.chip.warn { background: color-mix(in srgb, var(--risk-medium) 16%, transparent); color: color-mix(in srgb, var(--risk-medium) 80%, var(--ink)); }
+.chip.warn { background: color-mix(in srgb, var(--risk-medium) 16%, transparent); color: color-mix(in srgb, var(--risk-medium) 55%, var(--ink)); }
 .chip.bad { background: color-mix(in srgb, var(--risk-high) 13%, transparent); color: var(--risk-high); }
 button.chip { cursor: pointer; border-color: var(--line); background: var(--surface); min-height: 40px; padding: 8px 14px; font-size: 0.85rem; }
 button.chip:hover { background: var(--surface-3); }
@@ -340,7 +342,7 @@ h1, h2, h3, h4 { font-family: var(--display); color: var(--ink); letter-spacing:
 .avatars span { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--surface); margin-left: -7px; display: grid; place-items: center; font-size: 0.62rem; font-weight: 700; color: #fff; }
 .avatars span:first-child { margin-left: 0; }
 .avatars span:nth-child(1) { background: #8a4a2b; }
-.avatars span:nth-child(2) { background: #b06b45; }
+.avatars span:nth-child(2) { background: #9a5734; }
 .avatars span:nth-child(3) { background: #5d3a2a; }
 .cta-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 .hero-visual { position: relative; width: min(680px, 94vw); height: 330px; margin-top: 8px; }
@@ -490,7 +492,7 @@ h1, h2, h3, h4 { font-family: var(--display); color: var(--ink); letter-spacing:
 .level-pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; border-radius: var(--pill); font-weight: 700; font-size: 0.8rem; }
 .level-pill svg { width: 15px; height: 15px; }
 .level-high { background: color-mix(in srgb, var(--risk-high) 14%, transparent); color: var(--risk-high); }
-.level-medium { background: color-mix(in srgb, var(--risk-medium) 18%, transparent); color: color-mix(in srgb, var(--risk-medium) 70%, var(--ink)); }
+.level-medium { background: color-mix(in srgb, var(--risk-medium) 18%, transparent); color: color-mix(in srgb, var(--risk-medium) 50%, var(--ink)); }
 .level-low { background: color-mix(in srgb, var(--risk-low) 14%, transparent); color: var(--risk-low); }
 .level-unknown, .level-info { background: var(--surface-3); color: var(--ink-2); }
 
@@ -702,7 +704,7 @@ details.checks .cbody { padding: 0 12px 12px; display: grid; gap: 8px; font-size
 .qg-dots i.ok { background: var(--risk-low); }
 .qg-dots i.bad { background: var(--risk-high); }
 .qg-stats { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-left: auto; }
-.qg-streak { padding: 6px 12px; border-radius: var(--pill); background: color-mix(in srgb, var(--risk-medium) 18%, var(--surface)); color: color-mix(in srgb, var(--risk-medium) 70%, var(--ink)); font-weight: 700; font-size: 0.82rem; animation: pop 0.35s ease-out; }
+.qg-streak { padding: 6px 12px; border-radius: var(--pill); background: color-mix(in srgb, var(--risk-medium) 18%, var(--surface)); color: color-mix(in srgb, var(--risk-medium) 50%, var(--ink)); font-weight: 700; font-size: 0.82rem; animation: pop 0.35s ease-out; }
 .qg-lives { display: inline-flex; gap: 2px; font-size: 1.05rem; }
 .qg-lives .lost { opacity: 0.45; }
 .qg-timer { position: relative; display: inline-grid; place-items: center; width: 36px; height: 36px; color: var(--brand); }
@@ -1036,7 +1038,7 @@ pre.draft { white-space: pre-wrap; background: var(--surface-2); border: 1px sol
 .skeleton { background: linear-gradient(90deg, var(--surface-2), var(--surface-3), var(--surface-2)); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 12px; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 .fade-in { animation: rise 0.3s ease-out; }
-.prose h3 { margin: 22px 0 8px; font-size: 1.2rem; }
+.prose h3, .prose h2.h3 { margin: 22px 0 8px; font-size: 1.2rem; }
 .prose p, .prose li { color: var(--ink-2); }
 .prose ul { padding-left: 20px; }
 main:focus { outline: none; }
@@ -1200,3 +1202,5 @@ main:focus { outline: none; }
 
 /* The hero now ends with the live demo, so the dashboard sits below it. */
 .hero .live-demo ~ * , .hero-inner:has(.live-demo) + .container .dash-row { margin-top: 36px; }
+@media print { .reveal { opacity: 1 !important; transform: none !important; } }
+h1.h2 { font-size: 1.5rem; }

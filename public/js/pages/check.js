@@ -36,7 +36,7 @@ export async function render(root, { query }) {
       <div class="card pad-lg calc-card" id="calc-card"></div>
       <div class="card pad-lg">
         <h3 style="font-size:1.3rem;margin-bottom:12px">${icon("book")} ${t("check.guideTitle")}</h3>
-        <div class="table-wrap"><table class="lb-table"><thead><tr><th>${t("check.prefix")}</th><th>${t("check.who")}</th><th>${t("check.whereVerify")}</th></tr></thead>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="${t("check.prefix")}"><table class="lb-table"><thead><tr><th>${t("check.prefix")}</th><th>${t("check.who")}</th><th>${t("check.whereVerify")}</th></tr></thead>
         <tbody>${SEBI_GUIDE.map((g) => html`<tr><td><span class="kbd">${g.p}</span> + 9 digits</td><td>${L(g.who)}</td><td><a href="${g.url}" target="_blank" rel="noopener noreferrer">sebi.gov.in ${icon("external")}</a></td></tr>`)}
           <tr><td><span class="kbd">…@valid…</span></td><td>${state.lang === "hi" ? "रजिस्टर्ड संस्था की UPI ID (जैसे abc.brk@validhdfc)" : "UPI ID of a registered intermediary (e.g. abc.brk@validhdfc)"}</td><td><a href="https://siportal.sebi.gov.in/intermediary/sebi-check" target="_blank" rel="noopener noreferrer">SEBI Check ${icon("external")}</a></td></tr></tbody></table></div>
       </div>

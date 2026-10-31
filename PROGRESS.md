@@ -135,6 +135,24 @@ Also: `TRUST_PROXY` accepts a hop count or address list, there is a one-time war
 - `server.js`: on a crash it saves data and exits, so the process manager restarts it. Start-up warnings for production without `COOKIE_SECURE`, without `PUBLIC_URL`, or with sample data loaded.
 - `.env.example` documents every new setting. Version 1.1.0.
 
+### 2.10 Pre-launch hardening, part B: frontend, accessibility, legal pages — 1 Nov 2026
+| Bug found | Fix |
+|---|---|
+| After a session expired, the header still showed the member as signed in | `api.js` emits `fs:unauth` on any 401; `main.js` signs the header out with a toast |
+| Opening a page while the server was down showed "Failed to fetch dynamically imported module" | Shown as the normal "server not reachable" banner and message |
+| "Skip to content" set the hash to `#app` and routed to "Page not found" | It now focuses `<main>` without changing the hash |
+| Every tab was titled the same | Per-route `document.title` |
+| Colour contrast failed WCAG AA in many places (muted text 3.5:1, level pills, dark-mode red and green, high-contrast green, avatars) | Retuned tokens in `app.css`; axe now reports **0 issues** on every route in 4 display modes |
+| `aria-live` on `<main>` re-read whole pages; no `h1` on certificate pages; tables not keyboard-scrollable | Removed; `h1` added; table wrappers focusable with a label |
+| Reveal-on-scroll content was invisible when printed | Print style forces it visible |
+| The Privacy page was half English in Hindi mode and out of date (no AI opt-in, no retention) | Rewritten fully bilingual, current, with a grievance contact (`CONTACT_EMAIL`, sent in `/api/config`) |
+| No terms of use | New `#/terms` page (bilingual); linked in the footer |
+| "Answers in 10 languages" claimed even with AI off | Wording says English and Hindi, plus 10 languages in AI mode |
+| Moderator "Clear 'under review'" button untranslated | Translated |
+| `/api/me/quiz` accepted `"5"` (a string) as a score | Only real integers are accepted |
+
+**Regression run (1 Nov 2026):** 33/33 unit and API tests, 20/20 browser journeys, API probe clean, crawl of 23 routes × 4 display modes with 0 axe/overflow/JS errors.
+
 ---
 
 ## 3. How to run and test
@@ -159,7 +177,8 @@ npm test         # 33 tests, all passing as of 1 Nov 2026
 - [ ] Optional: let a member's right-of-reply submission (with certificate) feed straight into the moderator "add to register" form.
 - [ ] Keep `VALID_BANKS` in `src/sebi.js` up to date as more banks issue @valid handles. An unknown bank still verifies; it just shows no bank name.
 - [ ] Verified replies in AI mode are in English or Hindi only. If the reply language is another Indian language, the "Verified by FinSuraksha" line stays in English.
-- [ ] Password reset depends on a moderator. An email or OTP reset would need a mail or SMS service.
+- [ ] Password reset depends on a moderator (or `scripts/set-password.mjs` on the server). An email or OTP reset would need a mail or SMS service.
+- [ ] For more than a few thousand active users, move from the JSON file store to SQLite/Postgres (`src/db.js` is the only module to change).
 
 ---
 

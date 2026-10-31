@@ -23,6 +23,7 @@ export function publicRoutes({ store, cfg, ai }) {
       aiVision: Boolean(ai.vision),
       safeBrowsing: Boolean(cfg.safeBrowsingKey),
       verifyThreshold: cfg.verifyThreshold,
+      contactEmail: cfg.contactEmail || null,
       register: registerInfo(),
     });
   });

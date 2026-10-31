@@ -105,7 +105,7 @@ export async function openReportModal(id, { onChange } = {}) {
         <div><button class="btn btn-outline btn-sm" type="submit">${t("hunt.appealSend")}</button></div>
       </form></div></details>
     ${state.user?.isModerator && r.status === "pending" ? html`<div class="row"><button class="btn btn-primary btn-sm" data-mod="verify">${t("hunt.modVerify")}</button><button class="btn btn-outline btn-sm" data-mod="reject">${t("hunt.modReject")}</button></div>` : ""}
-    ${state.user?.isModerator && r.underReview ? html`<div><button class="btn btn-ghost btn-sm" data-mod="clear_review">Clear 'under review'</button></div>` : ""}
+    ${state.user?.isModerator && r.underReview ? html`<div><button class="btn btn-ghost btn-sm" data-mod="clear_review">${state.lang === "hi" ? "“समीक्षा में” हटाएँ" : "Clear “under review”"}</button></div>` : ""}
   </div>`);
   const m = modal({ title: t("hunt.details"), body });
 

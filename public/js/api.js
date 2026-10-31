@@ -59,6 +59,8 @@ async function request(method, url, body) {
     throw new ApiError(0, null, kind);
   }
   const data = await res.json().catch(() => null);
+  // The session expired or was signed out elsewhere: let the page update.
+  if (res.status === 401 && !url.startsWith("/api/auth/")) emit("fs:unauth");
   if (!res.ok) throw new ApiError(res.status, data);
   return data;
 }

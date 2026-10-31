@@ -15,7 +15,16 @@ const routes = {
   certificate: () => import("./pages/cert.js"),
   verify: () => import("./pages/cert.js"),
   privacy: () => import("./pages/privacy.js"),
+  terms: () => import("./pages/privacy.js"),
 };
+
+// Tab titles per route (the page's own name, then the brand).
+const TITLES = { dost: "nav.dost", hunt: "nav.hunt", check: "nav.check", learn: "nav.learn", help: "nav.help", me: "nav.profile", login: "nav.signin", privacy: "footer.privacy", terms: "footer.terms", certificate: "cert.title", verify: "cert.title" };
+function setTitle(route) {
+  const key = TITLES[route];
+  const label = key ? t(key) : "";
+  document.title = label && label !== key ? `${label} — FinSuraksha` : "FinSuraksha — Check before you trust";
+}
 
 const NAV = [
   ["", "nav.home", "home"],
@@ -128,7 +137,7 @@ function renderFooter() {
         <div>
           <a class="logo" href="#/"><span class="mark">${icon("shieldCheck")}</span>FinSuraksha<span class="dot">.</span></a>
           <p class="muted small" style="max-width:360px">${t("footer.about")}</p>
-          <a class="small" href="#/privacy">${t("footer.privacy")}</a>
+          <a class="small" href="#/privacy">${t("footer.privacy")}</a> · <a class="small" href="#/terms">${t("footer.terms")}</a>
         </div>
         <div><h5>${t("footer.product")}</h5><ul>
           <li><a href="#/dost">${t("nav.dost")}</a></li><li><a href="#/hunt">${t("nav.hunt")}</a></li>
@@ -163,8 +172,10 @@ async function navigate() {
     cleanup = null;
   }
   renderHeader();
+  setTitle(parts[0] || "");
   const loader = routes[parts[0] || ""];
   if (!loader) {
+    document.title = `${t("notfound.title")} — FinSuraksha`;
     mount(app, html`<section class="container page-hero"><h1 class="page-title">${t("notfound.title")}</h1><p class="lead">${t("notfound.text")}</p><a class="btn btn-primary" href="#/">${t("nav.home")}</a></section>`);
     return;
   }
@@ -181,7 +192,12 @@ async function navigate() {
     cleanup = typeof result === "function" ? result : null;
   } catch (err) {
     console.error(err);
-    mount(app, html`<section class="container page-hero"><h1 class="page-title">${t("common.error")}</h1><p class="lead">${err.message || ""}</p><button class="btn btn-primary" id="retry">${t("common.retry")}</button></section>`);
+    // A page's script couldn't be downloaded: the server is down or the
+    // connection dropped, not a bug the visitor can do anything about.
+    const loadFailed = err instanceof TypeError && /import|module|fetch/i.test(err.message || "");
+    if (loadFailed) emit("fs:net-down");
+    const msg = loadFailed ? networkMessage() : err.message || "";
+    mount(app, html`<section class="container page-hero"><h1 class="page-title">${t("common.error")}</h1><p class="lead">${msg}</p><button class="btn btn-primary" id="retry">${t("common.retry")}</button></section>`);
     $("#retry")?.addEventListener("click", navigate);
   } finally {
     app.removeAttribute("aria-busy");
@@ -231,9 +247,21 @@ async function checkServer(manual = false) {
   }
 }
 document.addEventListener("fs:net-down", showNetBanner);
+document.addEventListener("fs:unauth", () => {
+  if (!state.user) return;
+  state.user = null;
+  renderHeader();
+  toast(t("common.sessionEnded"), "err");
+});
 window.addEventListener("online", () => checkServer());
 
 document.addEventListener("click", (e) => {
+  // "Skip to content" must not change the hash (that would route to #app).
+  if (e.target.closest(".skip-link")) {
+    e.preventDefault();
+    $("#app").focus();
+    return;
+  }
   if (!e.target.closest(".menu")) {
     $$(".menu-panel").forEach((p) => p.classList.add("hidden"));
     $$("[aria-haspopup]").forEach((b) => b.setAttribute("aria-expanded", "false"));

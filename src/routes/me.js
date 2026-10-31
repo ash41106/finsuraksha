@@ -86,8 +86,7 @@ export function meRoutes({ store, cfg, limit }) {
   );
 
   r.post("/quiz", limit("quiz", 30, 60 * 60_000), (req, res) => {
-    const score = Number(req.body?.score);
-    const total = Number(req.body?.total);
+    const { score, total } = req.body || {};
     if (!Number.isInteger(score) || !Number.isInteger(total) || total < 5 || total > 30 || score < 0 || score > total) {
       return res.status(400).json({ error: "Invalid quiz result." });
     }

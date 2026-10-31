@@ -10,7 +10,7 @@ export async function render(root, { parts }) {
     mount(
       root,
       html`<section class="container page-hero"><form class="card pad-lg" id="cert-form" style="max-width:560px;margin:0 auto">
-        <h2 style="margin-top:0">${t("cert.enterTitle")}</h2><p class="muted">${t("cert.enterText")}</p>
+        <h1 class="h2" style="margin-top:0">${t("cert.enterTitle")}</h1><p class="muted">${t("cert.enterText")}</p>
         <div class="row nowrap"><input class="input" id="cert-id" aria-label="${t("cert.enterTitle")}" placeholder="FS-XXXXXXXX" autocomplete="off" maxlength="40" style="flex:1" /><button class="btn btn-primary" type="submit">${t("cert.check")}</button></div>
         <p class="small" style="margin-bottom:0"><a href="#/me">${t("nav.profile")}</a> · <a href="#/hunt">${t("nav.hunt")}</a></p></form></section>`,
     );
@@ -28,7 +28,7 @@ export async function render(root, { parts }) {
     /* invalid */
   }
   if (!cert) {
-    mount(root, html`<section class="container page-hero"><div class="card pad-lg center" style="max-width:560px;margin:0 auto"><div style="font-size:2.4rem">❌</div><h2>${t("cert.invalid")}</h2><p class="muted"><span class="kbd">${id}</span></p></div></section>`);
+    mount(root, html`<section class="container page-hero"><div class="card pad-lg center" style="max-width:560px;margin:0 auto"><div style="font-size:2.4rem">❌</div><h1 class="h2">${t("cert.invalid")}</h1><p class="muted"><span class="kbd">${id}</span></p></div></section>`);
     return;
   }
   const verifyUrl = `${location.origin}/#/verify/${cert.id}`;
@@ -37,7 +37,7 @@ export async function render(root, { parts }) {
       root,
       html`<section class="container page-hero"><div class="card pad-lg raised" style="max-width:640px;margin:0 auto">
         <span class="level-pill level-low">${icon("check")}${t("cert.valid")}</span>
-        <h2 style="margin:14px 0 4px;font-size:1.8rem">${cert.name}</h2>
+        <h1 style="margin:14px 0 4px;font-size:1.8rem">${cert.name}</h1>
         <p class="muted" style="margin:0">${t("cert.title")}${cert.college ? ` · ${cert.college}` : ""}</p>
         <div class="grid grid-3" style="margin-top:18px;gap:10px">
           <div class="stat-tile"><div class="lbl">${t("cert.points")}</div><div class="val">${cert.points}</div></div>
