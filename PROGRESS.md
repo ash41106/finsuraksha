@@ -126,6 +126,15 @@ A senior-tester pass (API probe of about 160 checks, a crawl of every route in 4
 
 Also: `TRUST_PROXY` accepts a hop count or address list, there is a one-time warning when proxy headers arrive without it, and `LOG_REQUESTS=true` logs requests. Tests: 33, all passing.
 
+### 2.9 Pre-launch hardening, part C: deployment — 1 Nov 2026
+- **DEPLOY.md** (new) covers a VPS with Caddy + systemd, Docker, and Render/Railway. It explains that the data folder needs a persistent disk and that only one instance can run.
+- **Dockerfile / .dockerignore**: Node 20 alpine, runs as a non-root user, `/data` volume, health check on `/api/health`.
+- **Daily backups**: a copy of `db.json` goes to `DATA_DIR/backups/db-YYYY-MM-DD.json`; the last 7 are kept (`store.backup()` in `src/db.js`).
+- **`scripts/set-password.mjs <email> [password]`**: the only way to reset a moderator's password. Stop the server first.
+- gzip compression (`compression` dependency); `robots.txt` (blocks `/api/`); `manifest.webmanifest`; Open Graph tags.
+- `server.js`: on a crash it saves data and exits, so the process manager restarts it. Start-up warnings for production without `COOKIE_SECURE`, without `PUBLIC_URL`, or with sample data loaded.
+- `.env.example` documents every new setting. Version 1.1.0.
+
 ---
 
 ## 3. How to run and test

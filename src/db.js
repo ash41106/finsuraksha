@@ -55,6 +55,20 @@ export function createStore(dataDir) {
     if (!timer) timer = setTimeout(flush, 150);
   }
 
+  // One copy of db.json per day in data/backups, keeping the last `keep`.
+  function backup(keep = 7) {
+    flush();
+    const dir = path.join(dataDir, "backups");
+    try {
+      fs.mkdirSync(dir, { recursive: true });
+      fs.copyFileSync(file, path.join(dir, `db-${new Date().toISOString().slice(0, 10)}.json`));
+      const old = fs.readdirSync(dir).filter((f) => /^db-\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort().slice(0, -keep);
+      for (const f of old) fs.unlinkSync(path.join(dir, f));
+    } catch (err) {
+      console.error(`[db] Backup failed: ${err.message}`);
+    }
+  }
+
   return {
     get data() {
       return data;
@@ -63,6 +77,7 @@ export function createStore(dataDir) {
     uploadsDir: path.join(dataDir, "uploads"),
     save,
     flush,
+    backup,
     id: (prefix) => `${prefix}_${crypto.randomBytes(8).toString("hex")}`,
   };
 }

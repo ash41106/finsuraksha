@@ -43,6 +43,7 @@ const url = `http://localhost:${port}`;
 // Claim the port first and only then open the data store, so a second copy
 // (run.bat double-clicked twice) never touches the data folder.
 let attach;
+let liveStore = null;
 const appReady = new Promise((resolve) => (attach = resolve));
 const server = http.createServer((req, res) => appReady.then((app) => app(req, res)));
 
@@ -60,6 +61,7 @@ server.on("error", async (err) => {
 
 server.listen(port, host, async () => {
   const { app, store, cfg, ai, seeded } = await createApp();
+  liveStore = store;
   attach(app);
   console.log(`\n  FinSuraksha is running at ${url}\n`);
   if (!host || host === "0.0.0.0" || host === "::") {
@@ -77,6 +79,9 @@ server.listen(port, host, async () => {
   }
   console.log("\n  Keep this window open while you use the site - closing it stops FinSuraksha.\n");
   if (OPEN) openBrowser(url);
+  if (cfg.production && !cfg.cookieSecure) console.warn("  !! NODE_ENV=production but COOKIE_SECURE is off. Serve over HTTPS and set COOKIE_SECURE=true.");
+  if (cfg.production && !cfg.publicUrl) console.warn("  !! Set PUBLIC_URL (e.g. https://finsuraksha.in) so the origin check and links use your domain.");
+  if (seeded && cfg.production) console.warn("  !! Sample data was loaded in production. Set SEED_DEMO=false for a real launch.");
 
   const shutdown = () => {
     store.flush();
@@ -91,3 +96,13 @@ server.listen(port, host, async () => {
 
 // Log stray async errors instead of letting one bad request stop the server.
 process.on("unhandledRejection", (err) => console.error("[unhandled]", err));
+// A synchronous crash leaves the process in an unknown state: save what we can
+// and exit, so the process manager (Docker, systemd, pm2) starts a fresh one.
+process.on("uncaughtException", (err) => {
+  console.error("[fatal]", err);
+  try {
+    liveStore?.flush();
+  } finally {
+    process.exit(1);
+  }
+});

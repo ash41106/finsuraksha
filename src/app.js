@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "compression";
 import path from "node:path";
 import { buildConfig } from "./config.js";
 import { createStore } from "./db.js";
@@ -23,6 +24,10 @@ export async function createApp(overrides = {}) {
   pruneSessions(store);
   setInterval(() => pruneSessions(store), 60 * 60_000).unref();
   await ensureAdmin(store, cfg);
+  if (!overrides.dataDir || cfg.backups) {
+    store.backup();
+    setInterval(() => store.backup(), 24 * 60 * 60_000).unref();
+  }
   setRegisterExtras(store.data.registerAdditions);
   scheduleRetention(store);
   const ai = createAi(cfg, { fetch: overrides.aiFetch });
@@ -32,6 +37,7 @@ export async function createApp(overrides = {}) {
   const app = express();
   app.disable("x-powered-by");
   if (cfg.trustProxy) app.set("trust proxy", cfg.trustProxy);
+  app.use(compression());
   app.use(securityHeaders(cfg));
   // Only the two endpoints that accept a screenshot need a large body.
   const bigJson = express.json({ limit: "4mb" });

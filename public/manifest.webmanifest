@@ -1,0 +1,10 @@
+{
+  "name": "FinSuraksha — Check before you trust",
+  "short_name": "FinSuraksha",
+  "description": "Check investment tips, links, UPI IDs and advisers, and report scams.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf7f2",
+  "theme_color": "#8a4a2b",
+  "icons": [{ "src": "/img/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
