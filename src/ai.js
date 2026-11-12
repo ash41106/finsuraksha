@@ -1,5 +1,6 @@
-// Suraksha-Dost AI mode (Groq). Only used when GROQ_API_KEY is configured;
-// otherwise the rule-based engine answers on its own.
+// Suraksha-Dost AI mode. Google Gemini (GEMINI_API_KEY) is the default
+// provider; Groq (GROQ_API_KEY) is a fallback. With no key, the rule-based
+// engine answers on its own.
 //
 // Privacy: the message is PII-redacted before it reaches this module, nothing
 // is stored, and the model is grounded in the rule-based findings.
@@ -7,6 +8,7 @@ import { LANGS, OFFICIAL, FLAG_TEXT } from "./knowledge.js";
 import { redact } from "./redact.js";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 // Models that support strict json_schema output on Groq; others use JSON mode.
 const STRICT_JSON = /^(openai\/gpt-oss-(20b|120b)|qwen\/qwen3)/;
 
@@ -80,6 +82,16 @@ const SCHEMA = {
   },
 };
 
+// Gemini's responseSchema takes an OpenAPI subset (no additionalProperties).
+const toGeminiSchema = (s) => {
+  const { additionalProperties, ...rest } = s;
+  if (rest.properties) rest.properties = Object.fromEntries(Object.entries(rest.properties).map(([k, v]) => [k, toGeminiSchema(v)]));
+  if (rest.items) rest.items = toGeminiSchema(rest.items);
+  if (rest.required) rest.propertyOrdering = rest.required;
+  return rest;
+};
+const GEMINI_SCHEMA = toGeminiSchema(SCHEMA);
+
 function findingsFor(analysis, mode) {
   return {
     rule_based_guess: { intent: mode, risk_score: analysis.score, level: analysis.level },
@@ -117,14 +129,61 @@ function toMessages(history) {
 
 export function createAi(cfg, { fetch: fetchImpl = globalThis.fetch } = {}) {
   if (!cfg.aiEnabled) return { enabled: false };
+  const gemini = cfg.aiProvider === "gemini";
 
-  async function analyze({ message, history, lang, analysis, mode }) {
+  async function post(url, headers, body) {
+    let res;
+    try {
+      res = await fetchImpl(url, {
+        method: "POST",
+        headers: { "content-type": "application/json", ...headers },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(60_000),
+      });
+    } catch (err) {
+      throw new AiError(err?.name === "TimeoutError" ? "timeout" : `connection failed: ${err?.message || err}`, err?.name === "TimeoutError" ? "timeout" : "connection");
+    }
+    const data = await res.json().catch(() => null);
+    if (!res.ok) throw new AiError(data?.error?.message || `HTTP ${res.status}`, res.status);
+    return data;
+  }
+
+  // Google Gemini (default provider): strict JSON via responseSchema, and
+  // screenshots can be read by the model when the user ticks the consent box.
+  async function analyzeGemini({ content, history, image }) {
+    const contents = toMessages(history).map((m) => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] }));
+    const parts = [{ text: content }];
+    if (image) parts.push({ inline_data: { mime_type: image.mediaType, data: image.data } });
+    contents.push({ role: "user", parts });
+    const generationConfig = { responseMimeType: "application/json", responseSchema: GEMINI_SCHEMA, maxOutputTokens: 4000, temperature: 0.3 };
+    // 2.5 Flash / Flash-Lite: no thinking at "low" effort keeps chat fast.
+    if (/flash/.test(cfg.aiModel)) generationConfig.thinkingConfig = { thinkingBudget: { low: 0, medium: 1024, high: 4096 }[cfg.aiEffort] ?? 0 };
+    const data = await post(
+      `${GEMINI_URL}/${encodeURIComponent(cfg.aiModel)}:generateContent`,
+      { "x-goog-api-key": cfg.geminiKey },
+      { systemInstruction: { parts: [{ text: SYSTEM }] }, contents, generationConfig },
+    );
+    const cand = data?.candidates?.[0];
+    const text = (cand?.content?.parts || []).map((p) => p.text || "").join("");
+    let parsed;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      throw new AiError(cand?.finishReason === "MAX_TOKENS" ? "AI answer was cut off" : "AI answer was not valid JSON", "format");
+    }
+    parsed.model = data.modelVersion || cfg.aiModel;
+    return parsed;
+  }
+
+  async function analyze({ message, history, lang, analysis, mode, image }) {
     const language = LANGS[lang] || LANGS.en;
     const content = [
       `Reply language: ${language}. Write every user-facing field in this language.`,
       `<automated_findings>\n${JSON.stringify(findingsFor(analysis, mode), null, 1)}\n</automated_findings>`,
       `<user_message>\n${message}\n</user_message>`,
     ].join("\n\n");
+
+    if (gemini) return analyzeGemini({ content, history, image });
 
     const strict = STRICT_JSON.test(cfg.aiModel);
     const body = {
@@ -137,20 +196,7 @@ export function createAi(cfg, { fetch: fetchImpl = globalThis.fetch } = {}) {
     };
     if (/^openai\/gpt-oss/.test(cfg.aiModel)) body.reasoning_effort = cfg.aiEffort;
 
-    let res;
-    try {
-      res = await fetchImpl(GROQ_URL, {
-        method: "POST",
-        headers: { "content-type": "application/json", authorization: `Bearer ${cfg.groqKey}` },
-        body: JSON.stringify(body),
-        signal: AbortSignal.timeout(60_000),
-      });
-    } catch (err) {
-      throw new AiError(err?.name === "TimeoutError" ? "timeout" : `connection failed: ${err?.message || err}`, err?.name === "TimeoutError" ? "timeout" : "connection");
-    }
-    const data = await res.json().catch(() => null);
-    if (!res.ok) throw new AiError(data?.error?.message || `HTTP ${res.status}`, res.status);
-
+    const data = await post(GROQ_URL, { authorization: `Bearer ${cfg.groqKey}` }, body);
     const choice = data?.choices?.[0];
     let parsed;
     try {
@@ -162,7 +208,7 @@ export function createAi(cfg, { fetch: fetchImpl = globalThis.fetch } = {}) {
     return parsed;
   }
 
-  return { enabled: true, model: cfg.aiModel, vision: false, analyze };
+  return { enabled: true, provider: gemini ? "gemini" : "groq", model: cfg.aiModel, vision: gemini, analyze };
 }
 
 // Turn API errors into a short note for the UI.

@@ -67,7 +67,7 @@ server.listen(port, host, async () => {
   if (!host || host === "0.0.0.0" || host === "::") {
     for (const u of lanUrls(port)) console.log(`  On the same Wi-Fi     : ${u}`);
   }
-  console.log(`  Suraksha-Dost AI mode : ${ai.enabled ? `ON (Groq: ${ai.model})` : "OFF - rule-based engine only (set GROQ_API_KEY to enable)"}`);
+  console.log(`  Suraksha-Dost AI mode : ${ai.enabled ? `ON (${ai.provider === "gemini" ? "Google Gemini" : "Groq"}: ${ai.model})` : "OFF - rule-based engine only (set GEMINI_API_KEY to enable)"}`);
   console.log(`  Safe Browsing checks  : ${cfg.safeBrowsingKey ? "ON" : "OFF (optional GOOGLE_SAFE_BROWSING_API_KEY)"}`);
   const reg = registerInfo();
   console.log(`  SEBI register         : ${reg.count} entries, as on ${reg.asOf || "unknown"} (${reg.complete ? "complete" : "partial - see PROGRESS.md to load the full list"})${cfg.sebiLookupUrl ? " + lookup service" : ""}`);

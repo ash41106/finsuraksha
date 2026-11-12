@@ -21,6 +21,8 @@ function loadDotEnv(file) {
 loadDotEnv(path.join(ROOT, ".env"));
 
 const env = process.env;
+// Set by `node --test`: the test suite never calls outside services.
+const underTest = Boolean(env.NODE_TEST_CONTEXT);
 const bool = (v, d = false) => (v === undefined || v === "" ? d : /^(1|true|yes|on)$/i.test(v));
 const list = (v) =>
   String(v || "")
@@ -54,16 +56,22 @@ export function buildConfig(overrides = {}) {
     host: env.HOST || undefined,
     port: Number(env.PORT) || 3000,
     dataDir: env.DATA_DIR ? path.resolve(env.DATA_DIR) : path.join(ROOT, "data"),
-    // AI mode (Groq) is on when GROQ_API_KEY is set. App settings use an FS_
-    // prefix so they never collide with other tools' variables.
+    // AI mode is on when GEMINI_API_KEY (preferred) or GROQ_API_KEY is set.
+    // App settings use an FS_ prefix so they never collide with other tools.
+    geminiKey: env.GEMINI_API_KEY || "",
     groqKey: env.GROQ_API_KEY || "",
-    aiEnabled: bool(env.FS_AI_ENABLED, Boolean(env.GROQ_API_KEY)),
-    aiModel: env.FS_AI_MODEL || "openai/gpt-oss-120b",
+    aiProvider: env.GEMINI_API_KEY ? "gemini" : "groq",
+    aiEnabled: bool(env.FS_AI_ENABLED, Boolean(env.GEMINI_API_KEY || env.GROQ_API_KEY)),
+    aiModel: env.FS_AI_MODEL || (env.GEMINI_API_KEY ? "gemini-2.5-flash" : "openai/gpt-oss-120b"),
     aiEffort: ["low", "medium", "high"].includes(env.FS_AI_EFFORT) ? env.FS_AI_EFFORT : "low",
     safeBrowsingKey: env.GOOGLE_SAFE_BROWSING_API_KEY || "",
     // Optional SEBI registration lookup service for numbers missing from the local register.
     sebiLookupUrl: env.SEBI_LOOKUP_URL || "",
     sebiLookupKey: env.SEBI_LOOKUP_KEY || "",
+    // Check numbers missing from the local copy on SEBI's own website.
+    sebiLive: bool(env.SEBI_LIVE_CHECK, !underTest),
+    // Re-download SEBI's lists once a day into DATA_DIR/sebi_register.json.
+    sebiSync: bool(env.SEBI_SYNC, !underTest),
     moderatorEmails: (env.MODERATOR_EMAILS || "")
       .split(",")
       .map((s) => s.trim().toLowerCase())

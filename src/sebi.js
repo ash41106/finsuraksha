@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT } from "./config.js";
+import { lookupSebiLive } from "./sebi-sync.js";
 
 export const SEBI_LINKS = {
   ia: "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&intmId=13",
@@ -25,7 +26,9 @@ const byReg = new Map();
 // after the last import). Kept in the app database, merged on top of the file.
 let extras = [];
 
-export function loadRegister(file = path.join(ROOT, "seed", "sebi_register_snapshot.json")) {
+export const SEED_REGISTER = path.join(ROOT, "seed", "sebi_register_snapshot.json");
+
+export function loadRegister(file = SEED_REGISTER) {
   try {
     snapshot = JSON.parse(fs.readFileSync(file, "utf8"));
   } catch {
@@ -45,6 +48,17 @@ export function setRegisterExtras(list = []) {
   providerCache.clear();
 }
 
+// "Not found" means "not registered" only for categories whose whole list we
+// hold. Older snapshots have a single `partial` flag for everything.
+export function isComplete(prefix) {
+  if (snapshot.completeTypes) return snapshot.completeTypes[prefix] === true;
+  return snapshot.partial === false;
+}
+
+export function currentSnapshot() {
+  return snapshot;
+}
+
 const STALE_DAYS = 14;
 export function registerInfo() {
   const t = Date.parse(snapshot.asOf || "");
@@ -53,8 +67,10 @@ export function registerInfo() {
     asOf: snapshot.asOf,
     count: byReg.size,
     // A complete register means "not found" really is "not registered".
-    complete: snapshot.partial === false,
-    partial: snapshot.partial !== false,
+    complete: Object.keys(PREFIXES).every(isComplete),
+    partial: !Object.keys(PREFIXES).every(isComplete),
+    completeTypes: Object.fromEntries(Object.keys(PREFIXES).map((p) => [p, isComplete(p)])),
+    syncedAt: snapshot.syncedAt || null,
     ageDays,
     stale: ageDays === null || ageDays > STALE_DAYS,
     sourceUrls: snapshot.sourceUrls || [],
@@ -96,7 +112,7 @@ export function validateRegNo(raw) {
 export function lookupRegNo(raw) {
   const check = validateRegNo(raw);
   const hit = check.valid ? byReg.get(check.normalized) : null;
-  const complete = snapshot.partial === false;
+  const complete = check.valid && isComplete(check.prefix);
   return {
     ...check,
     found: Boolean(hit),
@@ -105,6 +121,7 @@ export function lookupRegNo(raw) {
     verifiedBy: hit ? "SEBI register" : null,
     notRegistered: check.valid && !hit && complete,
     name: hit?.name || null,
+    validity: hit?.validity || null,
     asOf: snapshot.asOf,
     partialSnapshot: !complete,
   };
@@ -138,9 +155,36 @@ async function askProvider(regNo, cfg, fetchImpl) {
   return value;
 }
 
+// Built-in live check: asks SEBI's own search about one number. One request at
+// a time, at least a second apart, answers cached for a day.
+const liveCache = new Map();
+let liveQueue = Promise.resolve();
+function askSebiLive(regNo, fetchImpl) {
+  const cached = liveCache.get(regNo);
+  if (cached && Date.now() - cached.at < CACHE_MS) return Promise.resolve(cached.value);
+  const run = liveQueue.then(async () => {
+    const again = liveCache.get(regNo);
+    if (again && Date.now() - again.at < CACHE_MS) return again.value;
+    const value = await lookupSebiLive(regNo, { fetch: fetchImpl });
+    if (value) liveCache.set(regNo, { at: Date.now(), value });
+    await new Promise((r) => setTimeout(r, 1000));
+    return value;
+  });
+  liveQueue = run.catch(() => null);
+  // Don't keep the visitor waiting behind a long queue.
+  return Promise.race([run, new Promise((r) => setTimeout(() => r(null), 12_000))]);
+}
+
 export async function verifyRegNo(raw, cfg = {}, { fetch: fetchImpl = globalThis.fetch } = {}) {
   const local = lookupRegNo(raw);
-  if (!local.valid || local.found || !cfg.sebiLookupUrl) return local;
+  if (!local.valid || local.found) return local;
+  if (!cfg.sebiLookupUrl) {
+    if (!cfg.sebiLive) return local;
+    const live = await askSebiLive(local.normalized, fetchImpl);
+    if (!live) return local;
+    if (live.found) return { ...local, found: true, verified: true, verifiedBy: "SEBI website (live check)", notRegistered: false, name: live.name, validity: live.validity };
+    return { ...local, notRegistered: true, verifiedBy: "SEBI website (live check)" };
+  }
   const p = await askProvider(local.normalized, cfg, fetchImpl);
   if (!p) return local;
   if (p.found) return { ...local, found: true, verified: true, verifiedBy: "SEBI lookup service", notRegistered: false, name: p.name, type: p.type || local.type };

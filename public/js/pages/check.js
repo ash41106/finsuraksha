@@ -129,7 +129,8 @@ function resultView(d) {
       ${s.found ? html`<h3 style="margin:14px 0 4px;font-size:1.4rem">${s.name}</h3><p class="small muted" style="margin:0">${state.lang === "hi" ? "✓ FinSuraksha ने SEBI रजिस्टर में सत्यापित किया। देखें कि आपसे संपर्क करने वाला यही नाम है — ठग असली नंबर चुराते हैं।" : "✓ Verified by FinSuraksha against SEBI's register. Make sure this is the name of whoever contacted you — scammers copy real numbers."}</p>` : ""}
       ${!s.valid && s.reason ? html`<p class="small" style="color:var(--risk-high)">${s.reason}</p>` : ""}
       ${s.valid && !s.found ? html`<p class="small" style="margin:14px 0 0">${t(s.notRegistered ? "check.notRegisteredText" : "check.notVerifiedText")}</p>` : ""}
-      ${s.valid ? html`<p class="xs muted">${t(reg.complete ? "check.registerNote" : "check.partialNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p>` : ""}
+      ${s.found && s.validity ? html`<p class="xs muted" style="margin:6px 0 0">${state.lang === "hi" ? "वैधता" : "Validity"}: ${s.validity}</p>` : ""}
+      ${s.valid ? html`<p class="xs muted">${/live/.test(s.verifiedBy || "") ? t("check.liveNote") : t(reg.completeTypes?.[s.prefix] ? "check.registerNote" : "check.partialNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p>` : ""}
 </div>`);
   }
   if (d.upi) parts.push(html`<div class="card pad-lg"><div class="card-title">${icon("rupee")} ${t("check.resUpi")}: <span class="kbd">${d.upi.vpa}</span></div>${upiBlock(d.upi)}</div>`);
@@ -142,8 +143,8 @@ function resultView(d) {
   }
   if (d.matches && (d.matches.length || !d.app)) {
     parts.push(html`<div class="card pad-lg"><div class="card-title">${icon("search")} ${t("check.resName")}</div>
-      ${d.matches.length ? html`<div class="stack">${d.matches.map((m) => html`<div class="check-row" style="align-items:center">${icon("check")}<b>${m.name}</b><span class="kbd">${m.regNo}</span><span class="chip">${m.type}</span></div>`)}</div>` : html`<p class="small muted">${t(reg.complete ? "check.nameNotRegistered" : "check.nameNotVerified")}</p>`}
-      <p class="xs muted">${t(reg.complete ? "check.registerNote" : "check.partialNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p></div>`);
+      ${d.matches.length ? html`<div class="stack">${d.matches.map((m) => html`<div class="check-row" style="align-items:center">${icon("check")}<b>${m.name}</b><span class="kbd">${m.regNo}</span><span class="chip">${m.type}</span></div>`)}</div>` : html`<p class="small muted">${t(reg.completeTypes?.INA && reg.completeTypes?.INH ? "check.nameNotRegistered" : "check.nameNotVerified")}</p>`}
+      <p class="xs muted">${t(reg.completeTypes?.INA && reg.completeTypes?.INH ? "check.registerNote" : "check.partialNote", { count: reg.count || 0, date: reg.asOf || "—" })}</p></div>`);
   }
   if (d.app) {
     const a = d.app;

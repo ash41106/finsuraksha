@@ -2,7 +2,7 @@
 
 This file is for whoever works on FinSuraksha next. It covers what has been built, how the pieces fit, what was changed and why, and what is still open. For setup and the feature tour, see [README.md](README.md).
 
-_Last updated: 25 Oct 2026_
+_Last updated: 12 Nov 2026_
 
 ---
 
@@ -154,6 +154,13 @@ Also: `TRUST_PROXY` accepts a hop count or address list, there is a one-time war
 **Regression run (1 Nov 2026):** 33/33 unit and API tests, 20/20 browser journeys, API probe clean, crawl of 23 routes × 4 display modes with 0 axe/overflow/JS errors.
 
 ---
+
+### 2.11 SEBI register daily sync, Gemini AI mode, Buildathon deck — 12 Nov 2026
+- **SEBI register sync:** `src/sebi-sync.js`, `src/register-sync.js` and `scripts/sync-register.mjs` re-download SEBI's lists daily into `DATA_DIR/sebi_register.json` (`SEBI_SYNC`); seed snapshot refreshed.
+- **Gemini is now the default AI provider** (`src/ai.js`): `GEMINI_API_KEY` turns on `gemini-2.5-flash` with a JSON response schema; thinking budget follows `FS_AI_EFFORT` (low = 0). Screenshots go to Gemini only with the separate consent tick (`ai.vision` is true for Gemini). Groq remains the fallback when no Gemini key is set.
+- New tests: `test/ai-gemini.test.mjs` (request shape, PII masking, consent-gated vision, error/cut-off fallback). 36 tests pass.
+- **Not yet verified against the live Gemini API** (no key on the dev machine): add a key and try one text and one screenshot check.
+- Startup Buildathon (Google) idea deck: `docs/submission/FinSuraksha_Startup-Buildathon_Idea-Deck.pdf`.
 
 ## 3. How to run and test
 

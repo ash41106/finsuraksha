@@ -9,6 +9,7 @@ import { checkPassword } from "./validate.js";
 import { createAi } from "./ai.js";
 import { seedIfEmpty } from "./seed.js";
 import { setRegisterExtras } from "./sebi.js";
+import { scheduleRegisterSync } from "./register-sync.js";
 import { scheduleRetention } from "./retention.js";
 import { authRoutes } from "./routes/auth.js";
 import { dostRoutes } from "./routes/dost.js";
@@ -28,6 +29,7 @@ export async function createApp(overrides = {}) {
     store.backup();
     setInterval(() => store.backup(), 24 * 60 * 60_000).unref();
   }
+  scheduleRegisterSync(cfg);
   setRegisterExtras(store.data.registerAdditions);
   scheduleRetention(store);
   const ai = createAi(cfg, { fetch: overrides.aiFetch });

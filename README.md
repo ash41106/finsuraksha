@@ -34,7 +34,7 @@ Open **http://localhost:3000**. The console also prints a "same Wi-Fi" address t
 On the first run the console prints a **moderator login**, which is also saved to `data/FIRST_RUN_CREDENTIALS.txt`. Sample hunters and reports are loaded so the Alert Wall, leaderboard and charts aren't empty. The UI labels all of them **"Sample"**. To start with an empty site, set `SEED_DEMO=false` before the first run, or delete the `data/` folder.
 
 ```bash
-npm test     # 30 automated tests: API, security, analyzer accuracy, SEBI register and lookup service, clone-app detection, AI opt-in, report retention, AI request format, game content
+npm test     # 36 automated tests: API, security, analyzer accuracy, SEBI register and lookup service, clone-app detection, AI opt-in, report retention, AI request format, game content
 ```
 
 ### Do I need any API keys?
@@ -43,12 +43,13 @@ npm test     # 30 automated tests: API, security, analyzer accuracy, SEBI regist
 
 | Optional key | What it adds | Where to get it |
 |---|---|---|
-| `GROQ_API_KEY` | **AI mode** for Suraksha-Dost: replies in 10 Indian languages and more natural explanations. These are grounded in the rule-based findings. Screenshots are still read on the device (OCR), and only the masked text is sent. | Groq Console → API Keys: https://console.groq.com/keys (free tier with rate limits) |
+| `GEMINI_API_KEY` | **AI mode** for Suraksha-Dost with Google **Gemini 2.5 Flash**: replies in 10 Indian languages, more natural explanations grounded in the rule-based findings, and screenshot reading when the user ticks a separate consent box. Only PII-masked text is sent. | Google AI Studio → Get API key: https://aistudio.google.com/apikey (free tier with rate limits) |
+| `GROQ_API_KEY` | Fallback AI provider (`openai/gpt-oss-120b`), used only when no Gemini key is set. Text only. | https://console.groq.com/keys |
 | `GOOGLE_SAFE_BROWSING_API_KEY` | Live phishing/malware reputation for links | Google Cloud Console → enable "Safe Browsing API" → create an API key. The Lookup API v4 is for non-commercial use; use Google Web Risk for commercial use. |
 
 To use them, copy `.env.example` to `.env`, fill in the keys and restart. The console shows which modes are on.
 
-AI mode uses Groq's `openai/gpt-oss-120b` at reasoning effort `low` for fast chat. You can change this with `FS_AI_MODEL` / `FS_AI_EFFORT` (`low` | `medium` | `high`). Requests use strict JSON-schema output (JSON mode for other models). If the AI is unavailable, hits the free-tier limit, or the key is wrong, the chatbot quietly falls back to rule-based analysis.
+AI mode uses Google `gemini-2.5-flash` with thinking off at effort `low` for fast chat (`medium`/`high` give it a thinking budget). Change this with `FS_AI_MODEL` / `FS_AI_EFFORT`. Requests use Gemini's JSON response schema (Groq: strict JSON schema). If the AI is unavailable, hits the free-tier limit, or the key is wrong, the chatbot quietly falls back to rule-based analysis.
 
 ---
 
@@ -71,7 +72,7 @@ AI mode uses Groq's `openai/gpt-oss-120b` at reasoning effort `low` for fast cha
                     └──────────────┬───────────────┘  account numbers, UPI local part
                                    │
                     ┌──────────────▼───────────────┐
-                    │  AI mode (optional, Groq)    │  explains in the user's language;
+                    │  AI mode (optional, Gemini)  │  explains in the user's language;
                     │  src/ai.js                   │  cannot lower a critical rule-based
                     └──────────────┬───────────────┘  finding (prompt-injection safe)
                                    ▼
@@ -124,7 +125,7 @@ Nothing from a chat is stored. Only anonymous counters are kept, for example "on
 server.js              start-up
 src/app.js             Express app (routes, static files, error handling)
 src/analyzer.js        rule-based scam engine        src/knowledge.js  red flags, actions, FAQ (EN/HI)
-src/assistant.js       Suraksha-Dost orchestration    src/ai.js         Groq integration (optional)
+src/assistant.js       Suraksha-Dost orchestration    src/ai.js         Gemini / Groq integration (optional)
 src/sebi.js            SEBI numbers + @valid UPI      src/redact.js     PII masking
 src/routes/*.js        auth, dost, check, hunt, me, public
 src/db.js              JSON-file store (swap for SQLite/Postgres in production)

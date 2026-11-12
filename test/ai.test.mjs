@@ -39,7 +39,7 @@ function fakeFetch(url, init) {
 
 before(async () => {
   dir = fs.mkdtempSync(path.join(os.tmpdir(), "finsuraksha-ai-"));
-  ctx = await createApp({ dataDir: dir, seedDemo: false, rateLimits: false, quiet: true, aiEnabled: true, groqKey: "gsk_test", aiModel: "openai/gpt-oss-120b", aiEffort: "low", aiFetch: fakeFetch });
+  ctx = await createApp({ dataDir: dir, seedDemo: false, rateLimits: false, quiet: true, aiEnabled: true, aiProvider: "groq", groqKey: "gsk_test", aiModel: "openai/gpt-oss-120b", aiEffort: "low", aiFetch: fakeFetch });
   server = ctx.app.listen(0);
   base = `http://127.0.0.1:${server.address().port}`;
 });
